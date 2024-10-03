@@ -30,4 +30,12 @@ dependencies {
     implementation(libs.postgresql)
     testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.kotlin.test.junit)
+    
+    // Add these lines for authentication and JWT
+    implementation(libs.ktor.server.auth)
+    implementation(libs.ktor.server.auth.jwt)
+    implementation(libs.ktor.server.sessions)
+    
+    // BCrypt for password hashing
+    implementation("org.mindrot:jbcrypt:0.4")
 }

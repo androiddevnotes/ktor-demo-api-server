@@ -6,6 +6,8 @@ import com.example.repositories.*
 import com.example.routes.*
 import com.example.services.*
 import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 import io.ktor.server.netty.*
 import io.ktor.server.routing.*
 
@@ -17,13 +19,31 @@ fun Application.module() {
     DatabaseConfig.init(environment)
     val quoteRepository = QuoteRepository()
     val quoteService = QuoteService(quoteRepository)
+    val userRepository = UserRepository()
+    val userService = UserService(userRepository)
+
+    install(Authentication) {
+        jwt {
+            verifier(JwtConfig.verifier())
+            validate { credential ->
+                if (credential.payload.getClaim("username").asString() != "") {
+                    JWTPrincipal(credential.payload)
+                } else {
+                    null
+                }
+            }
+        }
+    }
 
     configureSerialization()
-    configureRouting(quoteService)
+    configureRouting(quoteService, userService)
 }
 
-fun Application.configureRouting(quoteService: QuoteService) {
+fun Application.configureRouting(quoteService: QuoteService, userService: UserService) {
     routing {
-        quoteRoutes(quoteService)
+        authRoutes(userService)
+        authenticate {
+            quoteRoutes(quoteService)
+        }
     }
 }

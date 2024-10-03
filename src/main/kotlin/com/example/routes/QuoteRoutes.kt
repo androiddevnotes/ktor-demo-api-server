@@ -4,19 +4,19 @@ import com.example.models.*
 import com.example.services.*
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Route.quoteRoutes(quoteService: QuoteService) {
     route("/quotes") {
-        post {
-            val quote = call.receive<Quote>()
-            val createdQuote = quoteService.createQuote(quote)
-            call.respond(HttpStatusCode.Created, createdQuote)
-        }
-
         get {
+            val principal = call.principal<JWTPrincipal>()
+            val username = principal!!.payload.getClaim("username").asString()
+            val role = principal.payload.getClaim("role").asString()
+
             val page = call.request.queryParameters["page"]?.toIntOrNull() ?: 1
             val pageSize = call.request.queryParameters["pageSize"]?.toIntOrNull() ?: 10
 
@@ -31,7 +31,9 @@ fun Route.quoteRoutes(quoteService: QuoteService) {
                     "page" to page,
                     "pageSize" to pageSize,
                     "totalQuotes" to totalQuotes,
-                    "totalPages" to totalPages
+                    "totalPages" to totalPages,
+                    "username" to username,
+                    "role" to role
                 )
             )
         }
@@ -51,7 +53,27 @@ fun Route.quoteRoutes(quoteService: QuoteService) {
             }
         }
 
+        post {
+            val principal = call.principal<JWTPrincipal>()
+            val role = principal!!.payload.getClaim("role").asString()
+            if (role != "ADMIN") {
+                call.respond(HttpStatusCode.Forbidden, "Only admins can create quotes")
+                return@post
+            }
+
+            val quote = call.receive<Quote>()
+            val createdQuote = quoteService.createQuote(quote)
+            call.respond(HttpStatusCode.Created, createdQuote)
+        }
+
         put("/{id}") {
+            val principal = call.principal<JWTPrincipal>()
+            val role = principal!!.payload.getClaim("role").asString()
+            if (role != "ADMIN") {
+                call.respond(HttpStatusCode.Forbidden, "Only admins can update quotes")
+                return@put
+            }
+
             val id = call.parameters["id"]?.toIntOrNull()
             if (id == null) {
                 call.respond(HttpStatusCode.BadRequest, "Invalid ID")
@@ -67,6 +89,13 @@ fun Route.quoteRoutes(quoteService: QuoteService) {
         }
 
         delete("/{id}") {
+            val principal = call.principal<JWTPrincipal>()
+            val role = principal!!.payload.getClaim("role").asString()
+            if (role != "ADMIN") {
+                call.respond(HttpStatusCode.Forbidden, "Only admins can delete quotes")
+                return@delete
+            }
+
             val id = call.parameters["id"]?.toIntOrNull()
             if (id == null) {
                 call.respond(HttpStatusCode.BadRequest, "Invalid ID")

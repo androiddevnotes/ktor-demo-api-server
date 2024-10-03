@@ -11,3 +11,9 @@ database:
   jdbcURL: "jdbc:postgresql://localhost:5432/quotes_app_db"
   user: "adn_user"
   password: "adn_password"
+
+jwt:
+  secret: "your-secret-key-here"
+  issuer: "quote-app"
+  audience: "quote-app-users"
+  realm: "Quote Application"
