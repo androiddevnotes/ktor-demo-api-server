@@ -15,6 +15,6 @@ fun Application.module() {
     configureDatabase()
     configureRouting()
     
-    // Start H2 Console
+    
     val server = Server.createWebServer("-web", "-webAllowOthers", "-webPort", "8082").start()
 }

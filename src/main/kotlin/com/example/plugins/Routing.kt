@@ -13,7 +13,7 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
 fun Application.configureRouting() {
     routing {
-        // Create a new quote
+        
         post("/quotes") {
             val quote = call.receive<Quote>()
             val id = transaction {
@@ -25,7 +25,7 @@ fun Application.configureRouting() {
             call.respond(HttpStatusCode.Created, Quote(id, quote.content, quote.author))
         }
 
-        // Read all quotes
+        
         get("/quotes") {
             val quotes = transaction {
                 Quotes.selectAll().map { Quote(it[Quotes.id], it[Quotes.content], it[Quotes.author]) }
@@ -33,7 +33,7 @@ fun Application.configureRouting() {
             call.respond(quotes)
         }
 
-        // Read a specific quote
+        
         get("/quotes/{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
             if (id == null) {
@@ -54,7 +54,7 @@ fun Application.configureRouting() {
             }
         }
 
-        // Update a quote
+        
         put("/quotes/{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
             if (id == null) {
@@ -77,7 +77,7 @@ fun Application.configureRouting() {
             }
         }
 
-        // Delete a quote
+        
         delete("/quotes/{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
             if (id == null) {
@@ -96,7 +96,7 @@ fun Application.configureRouting() {
             }
         }
 
-        // Fetch database content
+        
         get("/db-content") {
             val content = transaction {
                 Quotes.selectAll().map { 
