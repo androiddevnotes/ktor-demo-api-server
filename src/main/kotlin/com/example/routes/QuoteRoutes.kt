@@ -32,22 +32,24 @@ fun Route.quoteRoutes(quoteService: QuoteService) {
             )
         }
 
-        authenticate {
-            get("/{id}") {
+        get("/{id}") {
 
-                val id = call.parameters["id"]?.toIntOrNull()
-                if (id == null) {
-                    call.respond(HttpStatusCode.BadRequest, "Invalid ID")
-                    return@get
-                }
-
-                val quote = quoteService.getQuoteById(id)
-                if (quote != null) {
-                    call.respond(quote)
-                } else {
-                    call.respond(HttpStatusCode.NotFound, "Quote not found")
-                }
+            val id = call.parameters["id"]?.toIntOrNull()
+            if (id == null) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid ID")
+                return@get
             }
+
+            val quote = quoteService.getQuoteById(id)
+            if (quote != null) {
+                call.respond(quote)
+            } else {
+                call.respond(HttpStatusCode.NotFound, "Quote not found")
+            }
+        }
+
+        authenticate {
+
 
             post {
                 val principal = call.principal<JWTPrincipal>()
