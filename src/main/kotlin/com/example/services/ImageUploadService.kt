@@ -4,7 +4,7 @@ import java.io.File
 import java.util.UUID
 import io.ktor.http.content.*
 import io.ktor.http.*
-import com.example.exceptions.BadRequestException
+import io.ktor.server.plugins.*
 
 class ImageUploadService(private val uploadDir: String) {
     private val allowedExtensions = listOf("jpg", "jpeg", "png", "gif")

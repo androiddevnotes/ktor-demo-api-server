@@ -12,7 +12,8 @@ import io.ktor.server.routing.*
 import io.ktor.http.content.*
 import com.example.utils.respondError
 import com.example.exceptions.*
-import com.example.exceptions.BadRequestException
+import com.example.exceptions.NotFoundException
+import io.ktor.server.plugins.*
 
 fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploadService) {
     authenticate {
