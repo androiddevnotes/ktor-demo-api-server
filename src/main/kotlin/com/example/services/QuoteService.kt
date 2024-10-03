@@ -9,4 +9,7 @@ class QuoteService(private val repository: QuoteRepository) {
     fun getQuoteById(id: Int): Quote? = repository.getById(id)
     fun updateQuote(id: Int, quote: Quote): Boolean = repository.update(id, quote)
     fun deleteQuote(id: Int): Boolean = repository.delete(id)
+    
+    fun getAllQuotes(page: Int, pageSize: Int): List<Quote> = repository.getAll(page, pageSize)
+    fun getTotalQuotes(): Long = repository.count()
 }

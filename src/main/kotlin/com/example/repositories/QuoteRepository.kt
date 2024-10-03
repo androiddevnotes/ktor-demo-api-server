@@ -14,6 +14,17 @@ class QuoteRepository {
         quote.copy(id = id)
     }
 
+    fun getAll(page: Int, pageSize: Int): List<Quote> = transaction {
+        Quotes.selectAll()
+            .orderBy(Quotes.id)
+            .limit(pageSize, offset = ((page - 1) * pageSize).toLong())
+            .map { toQuote(it) }
+    }
+
+    fun count(): Long = transaction {
+        Quotes.selectAll().count()
+    }
+
     fun getAll(): List<Quote> = transaction {
         Quotes.selectAll().map { toQuote(it) }
     }

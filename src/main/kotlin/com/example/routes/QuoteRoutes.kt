@@ -17,8 +17,23 @@ fun Route.quoteRoutes(quoteService: QuoteService) {
         }
 
         get {
-            val quotes = quoteService.getAllQuotes()
-            call.respond(quotes)
+            val page = call.request.queryParameters["page"]?.toIntOrNull() ?: 1
+            val pageSize = call.request.queryParameters["pageSize"]?.toIntOrNull() ?: 10
+
+            val quotes = quoteService.getAllQuotes(page, pageSize)
+            val totalQuotes = quoteService.getTotalQuotes()
+            val totalPages = (totalQuotes + pageSize - 1) / pageSize
+
+            call.respond(
+                HttpStatusCode.OK,
+                mapOf(
+                    "quotes" to quotes,
+                    "page" to page,
+                    "pageSize" to pageSize,
+                    "totalQuotes" to totalQuotes,
+                    "totalPages" to totalPages
+                )
+            )
         }
 
         get("/{id}") {
