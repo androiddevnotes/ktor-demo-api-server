@@ -3,5 +3,11 @@ ktor:
         modules:
             - com.example.ApplicationKt.module
     deployment:
-        port: 8080  
+        port: 8080
     development: true
+
+database:
+    driverClassName: "org.postgresql.Driver"
+    jdbcURL: "jdbc:postgresql://localhost:5432/quotes_app_db"
+    user: "adn_user"
+    password: "adn_password"
