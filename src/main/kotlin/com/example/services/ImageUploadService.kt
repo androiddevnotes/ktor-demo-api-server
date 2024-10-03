@@ -3,15 +3,33 @@ package com.example.services
 import java.io.File
 import java.util.UUID
 import io.ktor.http.content.*
+import io.ktor.http.*
+import com.example.exceptions.BadRequestException
 
 class ImageUploadService(private val uploadDir: String) {
+    private val allowedExtensions = listOf("jpg", "jpeg", "png", "gif")
+    private val allowedContentTypes = listOf(
+        ContentType.Image.JPEG,
+        ContentType.Image.PNG,
+        ContentType.Image.GIF
+    )
+
     init {
         File(uploadDir).mkdirs()
     }
 
     fun saveImage(part: PartData.FileItem): String {
-        val originalFileName = part.originalFileName ?: "unnamed"
-        val fileExtension = originalFileName.substringAfterLast('.', "jpg")
+        val originalFileName = part.originalFileName ?: throw BadRequestException("Original file name is missing")
+        val fileExtension = originalFileName.substringAfterLast('.', "").toLowerCase()
+
+        if (fileExtension !in allowedExtensions) {
+            throw BadRequestException("File type not allowed. Allowed types are: ${allowedExtensions.joinToString(", ")}")
+        }
+
+        if (part.contentType !in allowedContentTypes) {
+            throw BadRequestException("Content type not allowed. Allowed types are: ${allowedContentTypes.joinToString(", ")}")
+        }
+
         val sanitizedFileName = sanitizeFileName(originalFileName.substringBeforeLast('.'))
         val uniqueId = UUID.randomUUID().toString().take(8)
         val fileName = "${sanitizedFileName}_${uniqueId}.$fileExtension"

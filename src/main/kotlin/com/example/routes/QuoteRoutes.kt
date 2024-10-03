@@ -12,41 +12,50 @@ import io.ktor.server.routing.*
 import io.ktor.http.content.*
 import com.example.utils.respondError
 import com.example.exceptions.*
+import com.example.exceptions.BadRequestException
 
 fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploadService) {
     authenticate {
         post("/quotes") {
-            val multipart = call.receiveMultipart()
-            var content: String? = null
-            var author: String? = null
-            var imageUrl: String? = null
+            try {
+                val multipart = call.receiveMultipart()
+                var content: String? = null
+                var author: String? = null
+                var imageUrl: String? = null
 
-            multipart.forEachPart { part ->
-                when (part) {
-                    is PartData.FormItem -> {
-                        when (part.name) {
-                            "content" -> content = part.value
-                            "author" -> author = part.value
+                multipart.forEachPart { part ->
+                    when (part) {
+                        is PartData.FormItem -> {
+                            when (part.name) {
+                                "content" -> content = part.value
+                                "author" -> author = part.value
+                            }
                         }
+                        is PartData.FileItem -> {
+                            imageUrl = imageUploadService.saveImage(part)
+                        }
+                        else -> {}
                     }
-                    is PartData.FileItem -> {
-                        imageUrl = imageUploadService.saveImage(part)
-                    }
-                    else -> {}
+                    part.dispose()
                 }
-                part.dispose()
-            }
 
-            if (content != null && author != null) {
-                val quote = Quote(0, content!!, author!!, imageUrl)
-                val createdQuote = quoteService.createQuote(quote)
-                call.respond(HttpStatusCode.Created, createdQuote)
-            } else {
+                if (content != null && author != null) {
+                    val quote = Quote(0, content!!, author!!, imageUrl)
+                    val createdQuote = quoteService.createQuote(quote)
+                    call.respond(HttpStatusCode.Created, createdQuote)
+                } else {
+                    call.respondError(
+                        HttpStatusCode.BadRequest,
+                        "Missing content or author",
+                        "INVALID_INPUT",
+                        mapOf("content" to (content ?: "missing"), "author" to (author ?: "missing"))
+                    )
+                }
+            } catch (e: BadRequestException) {
                 call.respondError(
                     HttpStatusCode.BadRequest,
-                    "Missing content or author",
-                    "INVALID_INPUT",
-                    mapOf("content" to (content ?: "missing"), "author" to (author ?: "missing"))
+                    e.message ?: "Invalid file",
+                    "INVALID_FILE"
                 )
             }
         }
