@@ -4,6 +4,7 @@ import com.example.models.*
 import io.ktor.server.application.*
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.*
+import kotlin.random.Random
 
 object DatabaseConfig {
     fun init(environment: ApplicationEnvironment) {
@@ -15,6 +16,23 @@ object DatabaseConfig {
 
         transaction(database) {
             SchemaUtils.create(Quotes)
+            if (Quotes.selectAll().count() == 0L) {
+                seedDatabase()
+            }
         }
+    }
+
+    private fun seedDatabase() {
+        val authors = listOf("Albert Einstein", "Isaac Newton", "Nikola Tesla", "Marie Curie", "Stephen Hawking")
+        val contentPrefixes = listOf("The secret of", "I believe in", "The most important aspect of", "Never underestimate", "The key to success is")
+        val contentSuffixes = listOf("is perseverance", "lies in curiosity", "can be found in simplicity", "requires dedication", "is continuous learning")
+
+        repeat(1000) { 
+            Quotes.insert {
+                it[content] = "${contentPrefixes.random()} ${contentSuffixes.random()}"
+                it[author] = authors.random()
+            }
+        }
+        println("Database seeded with 1000 dummy quotes.")
     }
 }
