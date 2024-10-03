@@ -1,13 +1,13 @@
 package com.example.config
 
-import com.auth0.jwt.JWT
-import com.auth0.jwt.algorithms.Algorithm
+import com.auth0.jwt.*
+import com.auth0.jwt.algorithms.*
 import java.util.*
 
 object JwtConfig {
-    private const val SECRET = "your-secret-key" // In a real application, this should be stored securely
+    private const val SECRET = "your-secret-key"
     private const val ISSUER = "quote-app"
-    private const val VALIDITY_IN_MS = 36_000_00 * 10 // 10 hours
+    private const val VALIDITY_IN_MS = 36_000_00 * 10
 
     fun makeToken(user: com.example.models.User): String = JWT.create()
         .withSubject("Authentication")

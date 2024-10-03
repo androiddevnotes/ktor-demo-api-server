@@ -34,9 +34,6 @@ fun Route.quoteRoutes(quoteService: QuoteService) {
 
         authenticate {
             get("/{id}") {
-                val principal = call.principal<JWTPrincipal>()
-                val username = principal!!.payload.getClaim("username").asString()
-                val role = principal.payload.getClaim("role").asString()
 
                 val id = call.parameters["id"]?.toIntOrNull()
                 if (id == null) {

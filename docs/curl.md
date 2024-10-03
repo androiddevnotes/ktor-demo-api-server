@@ -20,9 +20,6 @@ curl -X POST http://localhost:8080/login \
 
 ## JWT Token
 
-curl -X GET http://localhost:8080/quotes \
- -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwMTY3NDB9.TdGQjAL87iQwZ7j1Yyko9JMGFR7RwRB2N3NeMzshz98"
-
 ## Create Quote
 
 creating a quote (this should fail for a regular user):
@@ -34,6 +31,21 @@ curl -X POST http://localhost:8080/quotes \
 "content": "This is a test quote",
 "author": "Test Author"
 }'
+
+## Get Quotes
+c
+curl -X GET http://localhost:8080/quotes
+
+# Get Quotes with pagination
+
+curl -X GET "http://localhost:8080/quotes?page=1&pageSize=10"
+
+## Get Quote by ID
+
+Requires auth:
+
+curl -X GET http://localhost:8080/quotes/2008 \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwMTY3NDB9.TdGQjAL87iQwZ7j1Yyko9JMGFR7RwRB2N3NeMzshz98"
 
 ## Login as an admin user
 
