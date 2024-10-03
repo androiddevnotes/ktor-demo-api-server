@@ -1,3 +1,7 @@
+# Postgres
+
+## Install
+
 brew services start postgresql
 
 createdb quotes_app_db
@@ -14,3 +18,22 @@ GRANT ALL PRIVILEGES ON DATABASE quotes_app_db TO adn_user;
 
 exit
 
+## PgAdmin
+
+brew install --cask pgadmin4
+
+Open PgAdmin
+
+In the "Create - Server" dialog that appears, fill in the following information:
+
+General tab:
+
+- Name: Give your server a name (e.g., "Local Quotes App")
+
+Connection tab:
+
+- Host name/address: localhost (if your PostgreSQL server is on the same machine)
+- Port: 5432 (default PostgreSQL port)
+- Maintenance database: postgres (default database)
+- Username: adn_user (the user you created for your application)
+- Password: adn_password (the password you set for adn_user)
