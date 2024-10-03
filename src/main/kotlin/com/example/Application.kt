@@ -17,6 +17,10 @@ import io.ktor.server.plugins.statuspages.*
 import com.example.utils.respondError
 import io.ktor.http.*
 import com.example.exceptions.*
+import io.ktor.server.plugins.BadRequestException
+import io.ktor.server.auth.jwt.JWTPrincipal
+import io.ktor.server.auth.jwt.jwt
+import com.auth0.jwt.exceptions.JWTVerificationException
 
 fun main(args: Array<String>) {
     EngineMain.main(args)
@@ -36,11 +40,18 @@ fun Application.module() {
         jwt {
             verifier(JwtConfig.verifier())
             validate { credential ->
-                if (credential.payload.getClaim("username").asString() != "") {
-                    JWTPrincipal(credential.payload)
-                } else {
-                    null
+                try {
+                    if (credential.payload.getClaim("username").asString() != "") {
+                        JWTPrincipal(credential.payload)
+                    } else {
+                        throw AuthenticationFailureException("Invalid username claim")
+                    }
+                } catch (e: JWTVerificationException) {
+                    throw UnauthorizedException("Invalid token")
                 }
+            }
+            challenge { _, _ ->
+                throw AuthenticationFailureException("Authentication failed")
             }
         }
     }
@@ -48,7 +59,8 @@ fun Application.module() {
     install(StatusPages) {
         exception<Throwable> { call, cause ->
             when (cause) {
-                is IllegalArgumentException -> call.respondError(
+                is IllegalArgumentException,
+                is BadRequestException -> call.respondError(
                     HttpStatusCode.BadRequest,
                     cause.message ?: "Bad Request",
                     "BAD_REQUEST"
@@ -58,7 +70,9 @@ fun Application.module() {
                     cause.message ?: "Resource not found",
                     "NOT_FOUND"
                 )
-                is UnauthorizedException -> call.respondError(
+                is UnauthorizedException,
+                is JWTVerificationException,
+                is AuthenticationFailureException -> call.respondError(
                     HttpStatusCode.Unauthorized,
                     cause.message ?: "Unauthorized",
                     "UNAUTHORIZED"
@@ -90,11 +104,25 @@ fun Application.module() {
                 "NOT_FOUND"
             )
         }
+        status(HttpStatusCode.Unauthorized) { call, _ ->
+            call.respondError(
+                HttpStatusCode.Unauthorized,
+                "Authentication required",
+                "UNAUTHORIZED"
+            )
+        }
         status(HttpStatusCode.MethodNotAllowed) { call, _ ->
             call.respondError(
                 HttpStatusCode.MethodNotAllowed,
                 "The method is not allowed for the requested URL",
                 "METHOD_NOT_ALLOWED"
+            )
+        }
+        status(HttpStatusCode.UnsupportedMediaType) { call, _ ->
+            call.respondError(
+                HttpStatusCode.UnsupportedMediaType,
+                "The server does not support the media type transmitted in the request",
+                "UNSUPPORTED_MEDIA_TYPE"
             )
         }
     }
