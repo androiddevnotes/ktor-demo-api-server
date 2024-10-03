@@ -11,6 +11,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.http.content.*
 import com.example.utils.respondError
+import com.example.exceptions.*
 
 fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploadService) {
     authenticate {
@@ -74,27 +75,12 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
 
         get("/{id}") {
             val id = call.parameters["id"]?.toIntOrNull()
-            if (id == null) {
-                call.respondError(
-                    HttpStatusCode.BadRequest,
-                    "Invalid ID format",
-                    "INVALID_ID_FORMAT",
-                    mapOf("id" to (call.parameters["id"] ?: "missing"))
-                )
-                return@get
-            }
+                ?: throw IllegalArgumentException("Invalid ID format")
 
             val quote = quoteService.getQuoteById(id)
-            if (quote != null) {
-                call.respond(quote)
-            } else {
-                call.respondError(
-                    HttpStatusCode.NotFound,
-                    "Quote not found",
-                    "QUOTE_NOT_FOUND",
-                    mapOf("id" to id)
-                )
-            }
+                ?: throw NotFoundException("Quote not found")
+
+            call.respond(quote)
         }
 
         authenticate {
@@ -102,12 +88,7 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
                 val principal = call.principal<JWTPrincipal>()
                 val role = principal!!.payload.getClaim("role").asString()
                 if (role != "ADMIN") {
-                    call.respondError(
-                        HttpStatusCode.Forbidden,
-                        "Only admins can create quotes",
-                        "INSUFFICIENT_PERMISSIONS"
-                    )
-                    return@post
+                    throw ForbiddenException("Only admins can create quotes")
                 }
 
                 val quote = call.receive<Quote>()

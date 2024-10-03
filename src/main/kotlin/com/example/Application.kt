@@ -16,6 +16,7 @@ import java.io.File
 import io.ktor.server.plugins.statuspages.*
 import com.example.utils.respondError
 import io.ktor.http.*
+import com.example.exceptions.*
 
 fun main(args: Array<String>) {
     EngineMain.main(args)
@@ -52,12 +53,49 @@ fun Application.module() {
                     cause.message ?: "Bad Request",
                     "BAD_REQUEST"
                 )
-                else -> call.respondError(
-                    HttpStatusCode.InternalServerError,
-                    "An internal error occurred",
-                    "INTERNAL_SERVER_ERROR"
+                is NotFoundException -> call.respondError(
+                    HttpStatusCode.NotFound,
+                    cause.message ?: "Resource not found",
+                    "NOT_FOUND"
                 )
+                is UnauthorizedException -> call.respondError(
+                    HttpStatusCode.Unauthorized,
+                    cause.message ?: "Unauthorized",
+                    "UNAUTHORIZED"
+                )
+                is ForbiddenException -> call.respondError(
+                    HttpStatusCode.Forbidden,
+                    cause.message ?: "Forbidden",
+                    "FORBIDDEN"
+                )
+                is ConflictException -> call.respondError(
+                    HttpStatusCode.Conflict,
+                    cause.message ?: "Conflict",
+                    "CONFLICT"
+                )
+                else -> {
+                    call.application.log.error("Unhandled exception", cause)
+                    call.respondError(
+                        HttpStatusCode.InternalServerError,
+                        "An internal error occurred",
+                        "INTERNAL_SERVER_ERROR"
+                    )
+                }
             }
+        }
+        status(HttpStatusCode.NotFound) { call, _ ->
+            call.respondError(
+                HttpStatusCode.NotFound,
+                "The requested resource was not found",
+                "NOT_FOUND"
+            )
+        }
+        status(HttpStatusCode.MethodNotAllowed) { call, _ ->
+            call.respondError(
+                HttpStatusCode.MethodNotAllowed,
+                "The method is not allowed for the requested URL",
+                "METHOD_NOT_ALLOWED"
+            )
         }
     }
 
