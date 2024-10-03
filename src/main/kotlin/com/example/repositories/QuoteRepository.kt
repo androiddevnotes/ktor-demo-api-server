@@ -19,7 +19,7 @@ class QuoteRepository {
     }
 
     fun getById(id: Int): Quote? = transaction {
-        Quotes.select { Quotes.id eq id }
+        Quotes.selectAll().where { Quotes.id eq id }
             .map { toQuote(it) }
             .singleOrNull()
     }
