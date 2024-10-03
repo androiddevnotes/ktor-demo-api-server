@@ -1,6 +1,6 @@
 package com.example.models
 
-import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.*
 
 object Quotes : Table() {
     val id = integer("id").autoIncrement()

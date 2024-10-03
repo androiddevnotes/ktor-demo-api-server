@@ -1,7 +1,7 @@
 package com.example.services
 
-import com.example.models.Quote
-import com.example.repositories.QuoteRepository
+import com.example.models.*
+import com.example.repositories.*
 
 class QuoteService(private val repository: QuoteRepository) {
     fun createQuote(quote: Quote): Quote = repository.create(quote)

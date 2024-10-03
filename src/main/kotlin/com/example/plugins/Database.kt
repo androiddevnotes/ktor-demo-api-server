@@ -1,10 +1,9 @@
 package com.example.plugins
 
-import com.example.models.Quotes
+import com.example.models.*
 import io.ktor.server.application.*
-import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.SchemaUtils
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.transactions.*
 
 fun Application.configureDatabase() {
     val driverClassName = environment.config.property("database.driverClassName").getString()
@@ -16,7 +15,7 @@ fun Application.configureDatabase() {
     // Log the development port
     val port = environment.config.property("ktor.deployment.port").getString()
     log.info("Development port LOGGING: $port")
-    
+
     transaction(database) {
         SchemaUtils.create(Quotes)
     }

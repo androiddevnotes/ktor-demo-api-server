@@ -1,10 +1,9 @@
 package com.example.repositories
 
-import com.example.models.Quote
-import com.example.models.Quotes
+import com.example.models.*
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.transactions.*
 
 class QuoteRepository {
     fun create(quote: Quote): Quote = transaction {

@@ -1,14 +1,13 @@
 package com.example
 
-import com.example.config.DatabaseConfig
-import com.example.repositories.QuoteRepository
-import com.example.routes.quoteRoutes
-import com.example.services.QuoteService
+import com.example.config.*
+import com.example.plugins.*
+import com.example.repositories.*
+import com.example.routes.*
+import com.example.services.*
 import io.ktor.server.application.*
-import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.server.routing.*
-import com.example.plugins.*
 
 fun main(args: Array<String>) {
     EngineMain.main(args)

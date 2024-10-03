@@ -1,7 +1,7 @@
 package com.example.routes
 
-import com.example.models.Quote
-import com.example.services.QuoteService
+import com.example.models.*
+import com.example.services.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -27,7 +27,7 @@ fun Route.quoteRoutes(quoteService: QuoteService) {
                 call.respond(HttpStatusCode.BadRequest, "Invalid ID")
                 return@get
             }
-            
+
             val quote = quoteService.getQuoteById(id)
             if (quote != null) {
                 call.respond(quote)
@@ -42,7 +42,7 @@ fun Route.quoteRoutes(quoteService: QuoteService) {
                 call.respond(HttpStatusCode.BadRequest, "Invalid ID")
                 return@put
             }
-            
+
             val updatedQuote = call.receive<Quote>()
             if (quoteService.updateQuote(id, updatedQuote)) {
                 call.respond(HttpStatusCode.OK, "Quote updated successfully")
@@ -57,7 +57,7 @@ fun Route.quoteRoutes(quoteService: QuoteService) {
                 call.respond(HttpStatusCode.BadRequest, "Invalid ID")
                 return@delete
             }
-            
+
             if (quoteService.deleteQuote(id)) {
                 call.respond(HttpStatusCode.OK, "Quote deleted successfully")
             } else {
