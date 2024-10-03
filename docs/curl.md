@@ -41,6 +41,16 @@ curl -X POST http://localhost:8080/quotes \
 -F "author=Test Author" \
 -F "image=@/Users/ask/PROJECTS/ASSETS/IMAGE/image.jpg"
 
+## Update Quote
+
+curl -X PUT http://localhost:8080/quotes/32007 \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwMTY3NDB9.TdGQjAL87iQwZ7j1Yyko9JMGFR7RwRB2N3NeMzshz98" \
+-H "Content-Type: application/json" \
+-d '{
+"content": "This is an updated test quote",
+"author": "Updated Test Author"
+}'
+
 ## Get Quotes
 c
 curl -X GET http://localhost:8080/quotes
