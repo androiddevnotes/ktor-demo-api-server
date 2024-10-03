@@ -30,4 +30,5 @@ dependencies {
     implementation(libs.h2database)
     testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.kotlin.test.junit)
+    implementation("com.h2database:h2:2.3.232")
 }

@@ -95,5 +95,15 @@ fun Application.configureRouting() {
                 call.respond(HttpStatusCode.NotFound, "Quote not found")
             }
         }
+
+        // Fetch database content
+        get("/db-content") {
+            val content = transaction {
+                Quotes.selectAll().map { 
+                    "ID: ${it[Quotes.id]}, Content: ${it[Quotes.content]}, Author: ${it[Quotes.author]}"
+                }
+            }
+            call.respondText(content.joinToString("\n"))
+        }
     }
 }
