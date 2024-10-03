@@ -42,8 +42,6 @@ fun Application.module() {
 fun Application.configureRouting(quoteService: QuoteService, userService: UserService) {
     routing {
         authRoutes(userService)
-        authenticate {
-            quoteRoutes(quoteService)
-        }
+        quoteRoutes(quoteService)
     }
 }

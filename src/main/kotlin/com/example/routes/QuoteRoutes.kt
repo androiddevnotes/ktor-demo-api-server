@@ -13,10 +13,6 @@ import io.ktor.server.routing.*
 fun Route.quoteRoutes(quoteService: QuoteService) {
     route("/quotes") {
         get {
-            val principal = call.principal<JWTPrincipal>()
-            val username = principal!!.payload.getClaim("username").asString()
-            val role = principal.payload.getClaim("role").asString()
-
             val page = call.request.queryParameters["page"]?.toIntOrNull() ?: 1
             val pageSize = call.request.queryParameters["pageSize"]?.toIntOrNull() ?: 10
 
@@ -31,81 +27,85 @@ fun Route.quoteRoutes(quoteService: QuoteService) {
                     "page" to page,
                     "pageSize" to pageSize,
                     "totalQuotes" to totalQuotes,
-                    "totalPages" to totalPages,
-                    "username" to username,
-                    "role" to role
+                    "totalPages" to totalPages
                 )
             )
         }
 
-        get("/{id}") {
-            val id = call.parameters["id"]?.toIntOrNull()
-            if (id == null) {
-                call.respond(HttpStatusCode.BadRequest, "Invalid ID")
-                return@get
+        authenticate {
+            get("/{id}") {
+                val principal = call.principal<JWTPrincipal>()
+                val username = principal!!.payload.getClaim("username").asString()
+                val role = principal.payload.getClaim("role").asString()
+
+                val id = call.parameters["id"]?.toIntOrNull()
+                if (id == null) {
+                    call.respond(HttpStatusCode.BadRequest, "Invalid ID")
+                    return@get
+                }
+
+                val quote = quoteService.getQuoteById(id)
+                if (quote != null) {
+                    call.respond(quote)
+                } else {
+                    call.respond(HttpStatusCode.NotFound, "Quote not found")
+                }
             }
 
-            val quote = quoteService.getQuoteById(id)
-            if (quote != null) {
-                call.respond(quote)
-            } else {
-                call.respond(HttpStatusCode.NotFound, "Quote not found")
-            }
-        }
+            post {
+                val principal = call.principal<JWTPrincipal>()
+                val role = principal!!.payload.getClaim("role").asString()
+                if (role != "ADMIN") {
+                    call.respond(HttpStatusCode.Forbidden, "Only admins can create quotes")
+                    return@post
+                }
 
-        post {
-            val principal = call.principal<JWTPrincipal>()
-            val role = principal!!.payload.getClaim("role").asString()
-            if (role != "ADMIN") {
-                call.respond(HttpStatusCode.Forbidden, "Only admins can create quotes")
-                return@post
+                val quote = call.receive<Quote>()
+                val createdQuote = quoteService.createQuote(quote)
+                call.respond(HttpStatusCode.Created, createdQuote)
             }
 
-            val quote = call.receive<Quote>()
-            val createdQuote = quoteService.createQuote(quote)
-            call.respond(HttpStatusCode.Created, createdQuote)
-        }
+            put("/{id}") {
+                val principal = call.principal<JWTPrincipal>()
+                val role = principal!!.payload.getClaim("role").asString()
+                if (role != "ADMIN") {
+                    call.respond(HttpStatusCode.Forbidden, "Only admins can update quotes")
+                    return@put
+                }
 
-        put("/{id}") {
-            val principal = call.principal<JWTPrincipal>()
-            val role = principal!!.payload.getClaim("role").asString()
-            if (role != "ADMIN") {
-                call.respond(HttpStatusCode.Forbidden, "Only admins can update quotes")
-                return@put
+                val id = call.parameters["id"]?.toIntOrNull()
+                if (id == null) {
+                    call.respond(HttpStatusCode.BadRequest, "Invalid ID")
+                    return@put
+                }
+
+                val updatedQuote = call.receive<Quote>()
+                if (quoteService.updateQuote(id, updatedQuote)) {
+                    call.respond(HttpStatusCode.OK, "Quote updated successfully")
+                } else {
+                    call.respond(HttpStatusCode.NotFound, "Quote not found")
+                }
             }
 
-            val id = call.parameters["id"]?.toIntOrNull()
-            if (id == null) {
-                call.respond(HttpStatusCode.BadRequest, "Invalid ID")
-                return@put
-            }
+            delete("/{id}") {
+                val principal = call.principal<JWTPrincipal>()
+                val role = principal!!.payload.getClaim("role").asString()
+                if (role != "ADMIN") {
+                    call.respond(HttpStatusCode.Forbidden, "Only admins can delete quotes")
+                    return@delete
+                }
 
-            val updatedQuote = call.receive<Quote>()
-            if (quoteService.updateQuote(id, updatedQuote)) {
-                call.respond(HttpStatusCode.OK, "Quote updated successfully")
-            } else {
-                call.respond(HttpStatusCode.NotFound, "Quote not found")
-            }
-        }
+                val id = call.parameters["id"]?.toIntOrNull()
+                if (id == null) {
+                    call.respond(HttpStatusCode.BadRequest, "Invalid ID")
+                    return@delete
+                }
 
-        delete("/{id}") {
-            val principal = call.principal<JWTPrincipal>()
-            val role = principal!!.payload.getClaim("role").asString()
-            if (role != "ADMIN") {
-                call.respond(HttpStatusCode.Forbidden, "Only admins can delete quotes")
-                return@delete
-            }
-
-            val id = call.parameters["id"]?.toIntOrNull()
-            if (id == null) {
-                call.respond(HttpStatusCode.BadRequest, "Invalid ID")
-                return@delete
-            }
-
-            if (quoteService.deleteQuote(id)) {
-                call.respond(HttpStatusCode.OK, "Quote deleted successfully")
-            } else {
-                call.respond(HttpStatusCode.NotFound, "Quote not found")
+                if (quoteService.deleteQuote(id)) {
+                    call.respond(HttpStatusCode.OK, "Quote deleted successfully")
+                } else {
+                    call.respond(HttpStatusCode.NotFound, "Quote not found")
+                }
             }
         }
     }
