@@ -10,6 +10,7 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.http.content.*
+import com.example.utils.respondError
 
 fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploadService) {
     authenticate {
@@ -40,7 +41,12 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
                 val createdQuote = quoteService.createQuote(quote)
                 call.respond(HttpStatusCode.Created, createdQuote)
             } else {
-                call.respond(HttpStatusCode.BadRequest, "Missing content or author")
+                call.respondError(
+                    HttpStatusCode.BadRequest,
+                    "Missing content or author",
+                    "INVALID_INPUT",
+                    mapOf("content" to (content ?: "missing"), "author" to (author ?: "missing"))
+                )
             }
         }
     }
@@ -67,10 +73,14 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
         }
 
         get("/{id}") {
-
             val id = call.parameters["id"]?.toIntOrNull()
             if (id == null) {
-                call.respond(HttpStatusCode.BadRequest, "Invalid ID")
+                call.respondError(
+                    HttpStatusCode.BadRequest,
+                    "Invalid ID format",
+                    "INVALID_ID_FORMAT",
+                    mapOf("id" to (call.parameters["id"] ?: "missing"))
+                )
                 return@get
             }
 
@@ -78,7 +88,12 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
             if (quote != null) {
                 call.respond(quote)
             } else {
-                call.respond(HttpStatusCode.NotFound, "Quote not found")
+                call.respondError(
+                    HttpStatusCode.NotFound,
+                    "Quote not found",
+                    "QUOTE_NOT_FOUND",
+                    mapOf("id" to id)
+                )
             }
         }
 
@@ -87,7 +102,11 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
                 val principal = call.principal<JWTPrincipal>()
                 val role = principal!!.payload.getClaim("role").asString()
                 if (role != "ADMIN") {
-                    call.respond(HttpStatusCode.Forbidden, "Only admins can create quotes")
+                    call.respondError(
+                        HttpStatusCode.Forbidden,
+                        "Only admins can create quotes",
+                        "INSUFFICIENT_PERMISSIONS"
+                    )
                     return@post
                 }
 
@@ -100,13 +119,22 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
                 val principal = call.principal<JWTPrincipal>()
                 val role = principal!!.payload.getClaim("role").asString()
                 if (role != "ADMIN") {
-                    call.respond(HttpStatusCode.Forbidden, "Only admins can update quotes")
+                    call.respondError(
+                        HttpStatusCode.Forbidden,
+                        "Only admins can update quotes",
+                        "INSUFFICIENT_PERMISSIONS"
+                    )
                     return@put
                 }
 
                 val id = call.parameters["id"]?.toIntOrNull()
                 if (id == null) {
-                    call.respond(HttpStatusCode.BadRequest, "Invalid ID")
+                    call.respondError(
+                        HttpStatusCode.BadRequest,
+                        "Invalid ID format",
+                        "INVALID_ID_FORMAT",
+                        mapOf("id" to (call.parameters["id"] ?: "missing"))
+                    )
                     return@put
                 }
 
@@ -114,7 +142,12 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
                 if (quoteService.updateQuote(id, updatedQuote)) {
                     call.respond(HttpStatusCode.OK, "Quote updated successfully")
                 } else {
-                    call.respond(HttpStatusCode.NotFound, "Quote not found")
+                    call.respondError(
+                        HttpStatusCode.NotFound,
+                        "Quote not found",
+                        "QUOTE_NOT_FOUND",
+                        mapOf("id" to id)
+                    )
                 }
             }
 
@@ -122,20 +155,34 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
                 val principal = call.principal<JWTPrincipal>()
                 val role = principal!!.payload.getClaim("role").asString()
                 if (role != "ADMIN") {
-                    call.respond(HttpStatusCode.Forbidden, "Only admins can delete quotes")
+                    call.respondError(
+                        HttpStatusCode.Forbidden,
+                        "Only admins can delete quotes",
+                        "INSUFFICIENT_PERMISSIONS"
+                    )
                     return@delete
                 }
 
                 val id = call.parameters["id"]?.toIntOrNull()
                 if (id == null) {
-                    call.respond(HttpStatusCode.BadRequest, "Invalid ID")
+                    call.respondError(
+                        HttpStatusCode.BadRequest,
+                        "Invalid ID format",
+                        "INVALID_ID_FORMAT",
+                        mapOf("id" to (call.parameters["id"] ?: "missing"))
+                    )
                     return@delete
                 }
 
                 if (quoteService.deleteQuote(id)) {
                     call.respond(HttpStatusCode.OK, "Quote deleted successfully")
                 } else {
-                    call.respond(HttpStatusCode.NotFound, "Quote not found")
+                    call.respondError(
+                        HttpStatusCode.NotFound,
+                        "Quote not found",
+                        "QUOTE_NOT_FOUND",
+                        mapOf("id" to id)
+                    )
                 }
             }
         }

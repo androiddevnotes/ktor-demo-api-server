@@ -8,6 +8,7 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import com.example.utils.respondError
 
 fun Route.authRoutes(userService: UserService) {
     post("/register") {
@@ -23,7 +24,11 @@ fun Route.authRoutes(userService: UserService) {
             val token = JwtConfig.makeToken(validatedUser)
             call.respond(hashMapOf("token" to token))
         } else {
-            call.respond(HttpStatusCode.Unauthorized, "Invalid credentials")
+            call.respondError(
+                HttpStatusCode.Unauthorized,
+                "Invalid credentials",
+                "INVALID_CREDENTIALS"
+            )
         }
     }
 }

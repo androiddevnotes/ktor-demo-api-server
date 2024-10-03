@@ -36,6 +36,9 @@ dependencies {
     implementation(libs.ktor.server.auth.jwt)
     implementation(libs.ktor.server.sessions)
     
+    // Add this line for StatusPages
+    implementation(libs.ktor.server.status.pages)
+    
     // BCrypt for password hashing
     implementation("org.mindrot:jbcrypt:0.4")
 }

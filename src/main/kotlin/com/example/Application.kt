@@ -13,6 +13,9 @@ import io.ktor.server.routing.*
 import com.example.services.ImageUploadService
 import io.ktor.server.http.content.*
 import java.io.File
+import io.ktor.server.plugins.statuspages.*
+import com.example.utils.respondError
+import io.ktor.http.*
 
 fun main(args: Array<String>) {
     EngineMain.main(args)
@@ -41,8 +44,25 @@ fun Application.module() {
         }
     }
 
+    install(StatusPages) {
+        exception<Throwable> { call, cause ->
+            when (cause) {
+                is IllegalArgumentException -> call.respondError(
+                    HttpStatusCode.BadRequest,
+                    cause.message ?: "Bad Request",
+                    "BAD_REQUEST"
+                )
+                else -> call.respondError(
+                    HttpStatusCode.InternalServerError,
+                    "An internal error occurred",
+                    "INTERNAL_SERVER_ERROR"
+                )
+            }
+        }
+    }
+
     configureSerialization()
-    configureRouting(quoteService, imageUploadService)
+    configureRouting(quoteService, userService, imageUploadService)
 }
 
 fun Application.configureRouting(quoteService: QuoteService, userService: UserService, imageUploadService: ImageUploadService) {
