@@ -10,6 +10,7 @@ class QuoteRepository {
         val id = Quotes.insert {
             it[content] = quote.content
             it[author] = quote.author
+            it[imageUrl] = quote.imageUrl
         } get Quotes.id
         quote.copy(id = id)
     }
@@ -39,6 +40,7 @@ class QuoteRepository {
         val rowsUpdated = Quotes.update({ Quotes.id eq id }) {
             it[content] = quote.content
             it[author] = quote.author
+            it[imageUrl] = quote.imageUrl  // Add this line
         }
         rowsUpdated > 0
     }
@@ -49,5 +51,5 @@ class QuoteRepository {
     }
 
     private fun toQuote(row: ResultRow): Quote =
-        Quote(row[Quotes.id], row[Quotes.content], row[Quotes.author])
+        Quote(row[Quotes.id], row[Quotes.content], row[Quotes.author], row[Quotes.imageUrl])
 }

@@ -32,6 +32,15 @@ curl -X POST http://localhost:8080/quotes \
 "author": "Test Author"
 }'
 
+## Create Quote with Image
+path: /Users/ask/PROJECTS/ASSETS/IMAGE/image.jpg
+curl -X POST http://localhost:8080/quotes \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwMTY3NDB9.TdGQjAL87iQwZ7j1Yyko9JMGFR7RwRB2N3NeMzshz98" \
+-H "Content-Type: multipart/form-data" \
+-F "content=This is a test quote" \
+-F "author=Test Author" \
+-F "image=@/Users/ask/PROJECTS/ASSETS/IMAGE/image.jpg"
+
 ## Get Quotes
 c
 curl -X GET http://localhost:8080/quotes
@@ -65,3 +74,4 @@ curl -X POST http://localhost:8080/quotes \
 "content": "This is an admin quote",
 "author": "Admin"
 }'
+

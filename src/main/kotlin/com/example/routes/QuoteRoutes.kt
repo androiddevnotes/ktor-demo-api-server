@@ -9,8 +9,42 @@ import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.http.content.*
 
-fun Route.quoteRoutes(quoteService: QuoteService) {
+fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploadService) {
+    authenticate {
+        post("/quotes") {
+            val multipart = call.receiveMultipart()
+            var content: String? = null
+            var author: String? = null
+            var imageUrl: String? = null
+
+            multipart.forEachPart { part ->
+                when (part) {
+                    is PartData.FormItem -> {
+                        when (part.name) {
+                            "content" -> content = part.value
+                            "author" -> author = part.value
+                        }
+                    }
+                    is PartData.FileItem -> {
+                        imageUrl = imageUploadService.saveImage(part)
+                    }
+                    else -> {}
+                }
+                part.dispose()
+            }
+
+            if (content != null && author != null) {
+                val quote = Quote(0, content!!, author!!, imageUrl)
+                val createdQuote = quoteService.createQuote(quote)
+                call.respond(HttpStatusCode.Created, createdQuote)
+            } else {
+                call.respond(HttpStatusCode.BadRequest, "Missing content or author")
+            }
+        }
+    }
+
     route("/quotes") {
         get {
             val page = call.request.queryParameters["page"]?.toIntOrNull() ?: 1
@@ -49,8 +83,6 @@ fun Route.quoteRoutes(quoteService: QuoteService) {
         }
 
         authenticate {
-
-
             post {
                 val principal = call.principal<JWTPrincipal>()
                 val role = principal!!.payload.getClaim("role").asString()

@@ -17,3 +17,6 @@ jwt:
   issuer: "quote-app"
   audience: "quote-app-users"
   realm: "Quote Application"
+
+upload:
+  dir: "uploads"
