@@ -270,3 +270,7 @@ obj/
 !/gradle/wrapper/gradle-wrapper.jar
 
 # End of https://www.toptal.com/developers/gitignore/api/kotlin,androidstudio,intellij+all
+
+# Ignore all files in the upload directory, but keep the directory itself
+uploads/*
+
