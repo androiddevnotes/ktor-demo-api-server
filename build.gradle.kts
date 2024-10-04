@@ -20,29 +20,14 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.ktor.server.core)
-    implementation(libs.ktor.server.netty)
-    implementation(libs.logback.classic)
-    implementation(libs.jansi)
-    implementation(libs.ktor.server.config.yaml)
-    implementation(libs.ktor.server.content.negotiation)
-    implementation(libs.ktor.serialization.kotlinx.json)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.exposed.core)
-    implementation(libs.exposed.dao)
-    implementation(libs.exposed.jdbc)
+    implementation(libs.bundles.ktor)
+    implementation(libs.bundles.exposed)
+    implementation(libs.bundles.logging)
+    implementation(libs.bundles.serialization)
     implementation(libs.postgresql)
-    testImplementation(libs.ktor.server.test.host)
-    testImplementation(libs.kotlin.test.junit)
-    implementation(libs.ktor.server.auth)
-    implementation(libs.ktor.server.auth.jwt)
-    implementation(libs.ktor.server.sessions)
-    implementation(libs.ktor.server.status.pages)
-    dokkaHtmlPlugin(libs.dokka.html.plugin)
-    implementation(libs.ktor.swagger.ui)
-    implementation(libs.ktor.server.call.logging)
-    implementation(libs.exposed.java.time)
     implementation(libs.jbcrypt)
+    testImplementation(libs.bundles.testing)
+    dokkaHtmlPlugin(libs.dokka.html.plugin)
 }
 
 tasks.dokkaHtml {
