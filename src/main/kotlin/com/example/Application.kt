@@ -176,16 +176,14 @@ fun Application.module() {
 
 fun Application.configureRouting(quoteService: QuoteService, userService: UserService, imageUploadService: ImageUploadService) {
     routing {
-         route("swagger") {
+        route("swagger") {
             swaggerUI("/api.json")
         }
-           route("api.json") {
+        route("api.json") {
             openApiSpec()
         }
         authRoutes(userService)
         quoteRoutes(quoteService, imageUploadService)
-        static("/images") {
-            files(File(environment?.config?.property("upload.dir")?.getString() ?: ""))
-        }
+        staticFiles("/images", File(environment?.config?.property("upload.dir")?.getString() ?: ""))
     }
 }

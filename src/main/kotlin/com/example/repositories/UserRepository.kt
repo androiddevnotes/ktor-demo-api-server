@@ -2,6 +2,7 @@ package com.example.repositories
 
 import com.example.models.*
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.mindrot.jbcrypt.BCrypt
 
@@ -16,7 +17,7 @@ class UserRepository {
     }
 
     fun findByUsername(username: String): User? = transaction {
-        Users.select { Users.username eq username }
+        Users.selectAll().where { Users.username eq username }
             .mapNotNull { toUser(it) }
             .singleOrNull()
     }
