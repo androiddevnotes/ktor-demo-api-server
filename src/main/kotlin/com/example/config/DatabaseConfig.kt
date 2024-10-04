@@ -19,12 +19,6 @@ object DatabaseConfig {
             SchemaUtils.create(Quotes, Users)
             
             
-            try {
-                exec("ALTER TABLE quotes ADD COLUMN IF NOT EXISTS image_url VARCHAR(255)")
-            } catch (e: Exception) {
-                println("Error adding image_url column: ${e.message}")
-            }
-
             if (Users.selectAll().count() == 0L) {
                 seedUsers()
             }

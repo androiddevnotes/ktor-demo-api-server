@@ -274,3 +274,4 @@ obj/
 # Ignore all files in the upload directory, but keep the directory itself
 uploads/*
 
+.kotlin/sessions/*
