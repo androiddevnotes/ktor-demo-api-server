@@ -149,7 +149,7 @@ curl -X GET "http://localhost:8080/api/v1/dictionary/1"
 
 ## Search Dictionary Entries
 
-curl -X GET "http://localhost:8080/api/v1/dictionary/search?q=variable"
+curl -X GET "http://localhost:8080/api/v1/dictionary/search?q=algorithm"
 
 ## Create Dictionary Entry (requires authentication)
 

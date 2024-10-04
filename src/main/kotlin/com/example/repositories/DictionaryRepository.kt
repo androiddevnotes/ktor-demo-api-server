@@ -56,9 +56,9 @@ class DictionaryRepository {
     fun search(query: String): List<DictionaryEntry> = transaction {
         DictionaryEntries.selectAll().where {
             (DictionaryEntries.name like "%$query%") or
-                    (DictionaryEntries.definition like "%$query%") or
-                    (DictionaryEntries.tags like "%$query%") or
-                    (DictionaryEntries.category like "%$query%")
+            (DictionaryEntries.definition like "%$query%") or
+            (DictionaryEntries.tags like "%$query%") or
+            (DictionaryEntries.category like "%$query%")
         }.map { toDictionaryEntry(it) }
     }
 
