@@ -147,9 +147,9 @@ curl -X GET "http://localhost:8080/api/v1/dictionary"
 
 curl -X GET "http://localhost:8080/api/v1/dictionary/1"
 
-## Search Dictionary Entries
+## Search Dictionary Entries (case-insensitive)
 
-curl -X GET "http://localhost:8080/api/v1/dictionary/search?q=algorithm"
+curl -X GET "http://localhost:8080/api/v1/dictionary/search?q=ALGORITHM"
 
 ## Create Dictionary Entry (requires authentication)
 

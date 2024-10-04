@@ -54,11 +54,12 @@ class DictionaryRepository {
     }
 
     fun search(query: String): List<DictionaryEntry> = transaction {
+        val lowercaseQuery = query.lowercase()
         DictionaryEntries.selectAll().where {
-            (DictionaryEntries.name like "%$query%") or
-            (DictionaryEntries.definition like "%$query%") or
-            (DictionaryEntries.tags like "%$query%") or
-            (DictionaryEntries.category like "%$query%")
+            (DictionaryEntries.name.lowerCase() like "%$lowercaseQuery%") or
+            (DictionaryEntries.definition.lowerCase() like "%$lowercaseQuery%") or
+            (DictionaryEntries.tags.lowerCase() like "%$lowercaseQuery%") or
+            (DictionaryEntries.category.lowerCase() like "%$lowercaseQuery%")
         }.map { toDictionaryEntry(it) }
     }
 
