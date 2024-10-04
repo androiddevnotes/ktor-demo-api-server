@@ -38,6 +38,7 @@ dependencies {
     implementation("org.mindrot:jbcrypt:0.4")
     dokkaHtmlPlugin(libs.dokka.html.plugin)
     implementation(libs.ktor.swagger.ui)
+    implementation(libs.ktor.server.call.logging)
 }
 
 tasks.dokkaHtml {

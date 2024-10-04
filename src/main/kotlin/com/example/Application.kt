@@ -23,6 +23,9 @@ import io.ktor.server.auth.jwt.jwt
 import com.auth0.jwt.exceptions.JWTVerificationException
 import io.github.smiley4.ktorswaggerui.*
 import io.github.smiley4.ktorswaggerui.routing.*
+import io.ktor.server.plugins.callloging.*
+import org.slf4j.event.*
+import io.ktor.server.request.*
 
 fun main(args: Array<String>) {
     EngineMain.main(args)
@@ -129,7 +132,17 @@ fun Application.module() {
         }
     }
 
-   
+    install(CallLogging) {
+        level = Level.INFO
+        filter { call -> call.request.path().startsWith("/") }
+        format { call ->
+            val status = call.response.status()
+            val httpMethod = call.request.httpMethod.value
+            val userAgent = call.request.headers["User-Agent"]
+            "BROOO: $status, HTTP method: $httpMethod, User agent: $userAgent"
+        }
+    }
+
     install(SwaggerUI)
 
     configureSerialization()
