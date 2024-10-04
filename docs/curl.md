@@ -25,7 +25,7 @@ curl -X POST http://localhost:8080/login \
 creating a quote (this should fail for a regular user):
 
 curl -X POST http://localhost:8080/quotes \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwMTY3NDB9.TdGQjAL87iQwZ7j1Yyko9JMGFR7RwRB2N3NeMzshz98" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwODYxNTV9.XJtzxKHLXkYjydkfCouw-wxUC-8VstRb6dFcBB22FhU" \
 -H "Content-Type: application/json" \
 -d '{
 "content": "This is a test quote",
@@ -35,7 +35,7 @@ curl -X POST http://localhost:8080/quotes \
 ## Create Quote with Image
 path: /Users/ask/PROJECTS/ASSETS/IMAGE/image.jpg
 curl -X POST http://localhost:8080/quotes \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwMTY3NDB9.TdGQjAL87iQwZ7j1Yyko9JMGFR7RwRB2N3NeMzshz98" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwODYxNTV9.XJtzxKHLXkYjydkfCouw-wxUC-8VstRb6dFcBB22FhU" \
 -H "Content-Type: multipart/form-data" \
 -F "content=This is a test quote" \
 -F "author=Test Author" \
@@ -44,7 +44,7 @@ curl -X POST http://localhost:8080/quotes \
 ## Update Quote
 
 curl -X PUT http://localhost:8080/quotes/32007 \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwMTY3NDB9.TdGQjAL87iQwZ7j1Yyko9JMGFR7RwRB2N3NeMzshz98" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwODYxNTV9.XJtzxKHLXkYjydkfCouw-wxUC-8VstRb6dFcBB22FhU" \
 -H "Content-Type: application/json" \
 -d '{
 "content": "This is an updated test quote",
@@ -64,7 +64,7 @@ curl -X GET "http://localhost:8080/quotes?page=1&pageSize=10"
 Requires auth:
 
 curl -X GET http://localhost:8080/quotes/2008 \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwMTY3NDB9.TdGQjAL87iQwZ7j1Yyko9JMGFR7RwRB2N3NeMzshz98"
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwODYxNTV9.XJtzxKHLXkYjydkfCouw-wxUC-8VstRb6dFcBB22FhU"
 
 ## Login as an admin user
 
@@ -73,6 +73,15 @@ curl -X POST http://localhost:8080/login \
  -d '{
 "username": "admin",
 "password": "admin123"
+}'
+
+## Login as a user
+
+curl -X POST http://localhost:8080/login \
+ -H "Content-Type: application/json" \
+ -d '{
+"username": "testuser",
+"password": "testpassword"
 }'
 
 ## Create Quote as an admin user
@@ -84,4 +93,47 @@ curl -X POST http://localhost:8080/quotes \
 "content": "This is an admin quote",
 "author": "Admin"
 }'
+
+## Get Quotes by Category
+
+curl -X GET "http://localhost:8080/category/Science?page=1&pageSize=10"
+
+## Create Quote with Category
+
+curl -X POST http://localhost:8080/quotes \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwODYxNTV9.XJtzxKHLXkYjydkfCouw-wxUC-8VstRb6dFcBB22FhU" \
+-H "Content-Type: multipart/form-data" \
+-F "content=E = mc^2" \
+-F "author=Albert Einstein" \
+-F "category=Science"
+
+## Update Quote with Category
+
+curl -X PUT http://localhost:8080/quotes/1 \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwODYxNTV9.XJtzxKHLXkYjydkfCouw-wxUC-8VstRb6dFcBB22FhU" \
+-H "Content-Type: application/json" \
+-d '{
+"content": "Updated quote content",
+"author": "Updated Author",
+"category": "Updated Category"
+}'
+
+## Get All Quotes (now including category)
+
+curl -X GET "http://localhost:8080/quotes?page=1&pageSize=10"
+
+## Get Quote by ID (now including category)
+
+curl -X GET http://localhost:8080/quotes/1 \
+-H "Authorization: Bearer YOUR_JWT_TOKEN"
+
+## Create Quote with Image and Category
+
+curl -X POST http://localhost:8080/quotes \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwODYxNTV9.XJtzxKHLXkYjydkfCouw-wxUC-8VstRb6dFcBB22FhU" \
+-H "Content-Type: multipart/form-data" \
+-F "content=A picture is worth a thousand words" \
+-F "author=Unknown" \
+-F "category=Photography" \
+-F "image=@/path/to/your/image.jpg"
 
