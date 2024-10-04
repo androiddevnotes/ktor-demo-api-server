@@ -21,6 +21,8 @@ import io.ktor.server.plugins.BadRequestException
 import io.ktor.server.auth.jwt.JWTPrincipal
 import io.ktor.server.auth.jwt.jwt
 import com.auth0.jwt.exceptions.JWTVerificationException
+import io.github.smiley4.ktorswaggerui.*
+import io.github.smiley4.ktorswaggerui.routing.*
 
 fun main(args: Array<String>) {
     EngineMain.main(args)
@@ -127,12 +129,21 @@ fun Application.module() {
         }
     }
 
+   // Install the "SwaggerUI"-Plugin and use the default configuration
+    install(SwaggerUI)
+
     configureSerialization()
     configureRouting(quoteService, userService, imageUploadService)
 }
 
 fun Application.configureRouting(quoteService: QuoteService, userService: UserService, imageUploadService: ImageUploadService) {
     routing {
+         route("swagger") {
+            swaggerUI("/api.json")
+        }
+           route("api.json") {
+            openApiSpec()
+        }
         authRoutes(userService)
         quoteRoutes(quoteService, imageUploadService)
         static("/images") {

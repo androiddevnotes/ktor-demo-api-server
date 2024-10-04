@@ -13,7 +13,12 @@ import io.ktor.http.content.*
 import com.example.utils.respondError
 import com.example.exceptions.*
 import com.example.exceptions.NotFoundException
+import io.github.smiley4.ktorswaggerui.dsl.routing.*
 import io.ktor.server.plugins.*
+import io.ktor.server.routing.delete
+import io.ktor.server.routing.get
+import io.ktor.server.routing.post
+import io.ktor.server.routing.put
 
 fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploadService) {
     authenticate {
@@ -63,7 +68,10 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
     }
 
     route("/quotes") {
-        get {
+        // Get all quotes with pagination
+        get({
+            description = "Get all quotes with pagination"
+        }) {
             val page = call.request.queryParameters["page"]?.toIntOrNull() ?: 1
             val pageSize = call.request.queryParameters["pageSize"]?.toIntOrNull() ?: 10
 
@@ -83,7 +91,10 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
             )
         }
 
-        get("/{id}") {
+        // Get a specific quote by ID
+        get("/{id}", {
+            description = "Get a specific quote by ID"
+        }) {
             val id = call.parameters["id"]?.toIntOrNull()
                 ?: throw IllegalArgumentException("Invalid ID format")
 
@@ -94,7 +105,10 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
         }
 
         authenticate {
-            post {
+            // Create a new quote (admin only)
+            post({
+                description = "Create a new quote (admin only)"
+            }) {
                 val principal = call.principal<JWTPrincipal>()
                 val role = principal!!.payload.getClaim("role").asString()
                 if (role != "ADMIN") {
@@ -106,7 +120,10 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
                 call.respond(HttpStatusCode.Created, createdQuote)
             }
 
-            put("/{id}") {
+            // Update an existing quote (admin only)
+            put("/{id}", {
+                description = "Update an existing quote (admin only)"
+            }) {
                 val principal = call.principal<JWTPrincipal>()
                 val role = principal!!.payload.getClaim("role").asString()
                 if (role != "ADMIN") {
@@ -142,7 +159,10 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
                 }
             }
 
-            delete("/{id}") {
+            // Delete a quote (admin only)
+            delete("/{id}", {
+                description = "Delete a quote (admin only)"
+            }) {
                 val principal = call.principal<JWTPrincipal>()
                 val role = principal!!.payload.getClaim("role").asString()
                 if (role != "ADMIN") {
@@ -178,4 +198,6 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
             }
         }
     }
+
+    
 }
