@@ -45,6 +45,6 @@ class ImageUploadService(private val uploadDir: String) {
 
     private fun sanitizeFileName(fileName: String): String {
         return fileName.replace(Regex("[^a-zA-Z0-9.-]"), "_")
-            .take(50) // Limit the length of the original filename
+            .take(50) 
     }
 }

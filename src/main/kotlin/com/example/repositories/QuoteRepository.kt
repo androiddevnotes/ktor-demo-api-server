@@ -40,7 +40,7 @@ class QuoteRepository {
         val rowsUpdated = Quotes.update({ Quotes.id eq id }) {
             it[content] = quote.content
             it[author] = quote.author
-            it[imageUrl] = quote.imageUrl  // Add this line
+            it[imageUrl] = quote.imageUrl  
         }
         rowsUpdated > 0
     }

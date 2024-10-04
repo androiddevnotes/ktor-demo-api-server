@@ -129,7 +129,7 @@ fun Application.module() {
         }
     }
 
-   // Install the "SwaggerUI"-Plugin and use the default configuration
+   
     install(SwaggerUI)
 
     configureSerialization()

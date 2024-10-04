@@ -10,7 +10,7 @@ class UserRepository {
         val id = Users.insert {
             it[username] = user.username
             it[password] = BCrypt.hashpw(user.password, BCrypt.gensalt())
-            it[role] = "USER" // Default role
+            it[role] = "USER" 
         } get Users.id
         User(id, user.username, "", "USER")
     }

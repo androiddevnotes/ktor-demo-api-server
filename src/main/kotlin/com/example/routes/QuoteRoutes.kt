@@ -68,7 +68,7 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
     }
 
     route("/quotes") {
-        // Get all quotes with pagination
+        
         get({
             description = "Get all quotes with pagination"
         }) {
@@ -91,7 +91,7 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
             )
         }
 
-        // Get a specific quote by ID
+        
         get("/{id}", {
             description = "Get a specific quote by ID"
         }) {
@@ -105,7 +105,7 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
         }
 
         authenticate {
-            // Create a new quote (admin only)
+            
             post({
                 description = "Create a new quote (admin only)"
             }) {
@@ -120,7 +120,7 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
                 call.respond(HttpStatusCode.Created, createdQuote)
             }
 
-            // Update an existing quote (admin only)
+            
             put("/{id}", {
                 description = "Update an existing quote (admin only)"
             }) {
@@ -159,7 +159,7 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
                 }
             }
 
-            // Delete a quote (admin only)
+            
             delete("/{id}", {
                 description = "Delete a quote (admin only)"
             }) {

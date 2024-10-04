@@ -6,7 +6,7 @@ object Quotes : Table() {
     val id = integer("id").autoIncrement()
     val content = varchar("content", 1000)
     val author = varchar("author", 100)
-    val imageUrl = varchar("image_url", 255).nullable() // Add this line
+    val imageUrl = varchar("image_url", 255).nullable() 
 
     override val primaryKey = PrimaryKey(id)
 }
