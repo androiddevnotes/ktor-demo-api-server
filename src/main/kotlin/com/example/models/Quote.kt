@@ -7,7 +7,7 @@ object Quotes : Table() {
     val content = varchar("content", 1000)
     val author = varchar("author", 100)
     val imageUrl = varchar("image_url", 255).nullable()
-    val category = varchar("category", 50).nullable() // Make category nullable
+    val category = varchar("category", 50).nullable() 
     
     override val primaryKey = PrimaryKey(id)
 }

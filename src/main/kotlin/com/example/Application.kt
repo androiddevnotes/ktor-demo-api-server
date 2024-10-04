@@ -146,12 +146,12 @@ fun Application.module() {
             val duration = call.processingTimeMillis()
             val remoteHost = call.request.origin.remoteHost
             val coloredStatus = when {
-                status == null -> "\u001B[33mUNKNOWN\u001B[0m" // Yellow for unknown status
-                status.value < 300 -> "\u001B[32m$status\u001B[0m" // Green for success
-                status.value < 400 -> "\u001B[33m$status\u001B[0m" // Yellow for redirection
-                else -> "\u001B[31m$status\u001B[0m" // Red for client/server errors
+                status == null -> "\u001B[33mUNKNOWN\u001B[0m" 
+                status.value < 300 -> "\u001B[32m$status\u001B[0m" 
+                status.value < 400 -> "\u001B[33m$status\u001B[0m" 
+                else -> "\u001B[31m$status\u001B[0m" 
             }
-            val coloredMethod = "\u001B[36m$httpMethod\u001B[0m" // Cyan for HTTP method
+            val coloredMethod = "\u001B[36m$httpMethod\u001B[0m" 
             """
             |
             |------------------------ Request Details ------------------------
