@@ -26,6 +26,7 @@ import io.github.smiley4.ktorswaggerui.routing.*
 import io.ktor.server.plugins.callloging.*
 import org.slf4j.event.*
 import io.ktor.server.request.*
+import io.ktor.util.pipeline.*
 
 fun main(args: Array<String>) {
     EngineMain.main(args)
@@ -139,7 +140,28 @@ fun Application.module() {
             val status = call.response.status()
             val httpMethod = call.request.httpMethod.value
             val userAgent = call.request.headers["User-Agent"]
-            "BROOO: $status, HTTP method: $httpMethod, User agent: $userAgent"
+            val path = call.request.path()
+            val queryParams = call.request.queryParameters.entries().joinToString(", ") { "${it.key}=${it.value}" }
+            val duration = call.processingTimeMillis()
+            val coloredStatus = when {
+                status == null -> "\u001B[33mUNKNOWN\u001B[0m" // Yellow for unknown status
+                status.value < 300 -> "\u001B[32m$status\u001B[0m" // Green for success
+                status.value < 400 -> "\u001B[33m$status\u001B[0m" // Yellow for redirection
+                else -> "\u001B[31m$status\u001B[0m" // Red for client/server errors
+            }
+            val coloredMethod = "\u001B[36m$httpMethod\u001B[0m" // Cyan for HTTP method
+            """
+            |
+            |------------------------ Request Details ------------------------
+            |Status: $coloredStatus
+            |Method: $coloredMethod
+            |Path: $path
+            |Query Params: $queryParams
+            |Duration: ${duration}ms
+            |User Agent: $userAgent
+            |------------------------------------------------------------------
+            |
+            """.trimMargin()
         }
     }
 
