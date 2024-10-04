@@ -39,3 +39,7 @@ dependencies {
     dokkaHtmlPlugin(libs.dokka.html.plugin)
     implementation(libs.ktor.swagger.ui)
 }
+
+tasks.dokkaHtml {
+    outputDirectory.set(layout.buildDirectory.dir("documentation/html"))
+}
