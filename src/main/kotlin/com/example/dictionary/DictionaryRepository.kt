@@ -1,10 +1,7 @@
-package com.example.repositories
+package com.example.dictionary
 
-import com.example.models.DictionaryEntries
-import com.example.models.DictionaryEntry
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.like
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.time.LocalDateTime
 

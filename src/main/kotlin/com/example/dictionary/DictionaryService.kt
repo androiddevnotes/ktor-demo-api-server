@@ -1,8 +1,4 @@
-package com.example.services
-
-import com.example.models.DictionaryEntry
-import com.example.models.DictionaryEntryDTO
-import com.example.repositories.DictionaryRepository
+package com.example.dictionary
 
 class DictionaryService(private val repository: DictionaryRepository) {
     fun createEntry(entryDTO: DictionaryEntryDTO): DictionaryEntry {

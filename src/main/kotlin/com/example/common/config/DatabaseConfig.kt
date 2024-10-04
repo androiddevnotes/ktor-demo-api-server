@@ -1,5 +1,6 @@
 package com.example.common.config
 
+import com.example.dictionary.*
 import com.example.models.*
 import com.example.quotes.*
 import io.ktor.server.application.*

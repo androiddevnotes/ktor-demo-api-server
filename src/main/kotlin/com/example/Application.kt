@@ -8,6 +8,7 @@ import com.example.repositories.*
 import com.example.routes.*
 import com.example.services.*
 import com.example.common.utils.*
+import com.example.dictionary.*
 import com.example.quotes.*
 import io.github.smiley4.ktorswaggerui.*
 import io.github.smiley4.ktorswaggerui.routing.*

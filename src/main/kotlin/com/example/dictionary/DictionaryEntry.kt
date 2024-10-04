@@ -1,4 +1,4 @@
-package com.example.models
+package com.example.dictionary
 
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*

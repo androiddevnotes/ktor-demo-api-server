@@ -1,7 +1,5 @@
-package com.example.routes
+package com.example.dictionary
 
-import com.example.models.DictionaryEntryDTO
-import com.example.services.DictionaryService
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
