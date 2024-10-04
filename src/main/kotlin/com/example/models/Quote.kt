@@ -1,5 +1,6 @@
 package com.example.models
 
+import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.sql.*
 
 object Quotes : Table() {
@@ -12,4 +13,5 @@ object Quotes : Table() {
     override val primaryKey = PrimaryKey(id)
 }
 
+@Serializable
 data class Quote(val id: Int, val content: String, val author: String, val imageUrl: String?, val category: String?)

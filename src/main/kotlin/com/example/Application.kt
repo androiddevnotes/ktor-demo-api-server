@@ -23,11 +23,14 @@ import com.auth0.jwt.exceptions.JWTVerificationException
 import com.example.exceptions.NotFoundException
 import io.github.smiley4.ktorswaggerui.*
 import io.github.smiley4.ktorswaggerui.routing.*
+import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.plugins.*
 import io.ktor.server.plugins.callloging.*
+import io.ktor.server.plugins.contentnegotiation.*
 import org.slf4j.event.*
 import io.ktor.server.request.*
 import io.ktor.util.pipeline.*
+import kotlinx.serialization.json.Json
 
 fun main(args: Array<String>) {
     EngineMain.main(args)
@@ -63,6 +66,13 @@ fun Application.module() {
                 throw AuthenticationFailureException("Authentication failed")
             }
         }
+    }
+
+    install(ContentNegotiation) {
+        json(Json {
+            prettyPrint = true
+            isLenient = true
+        })
     }
 
     install(StatusPages) {
@@ -172,7 +182,6 @@ fun Application.module() {
 
     install(SwaggerUI)
 
-    configureSerialization()
     configureRouting(quoteService, userService, imageUploadService, dictionaryService)
 }
 

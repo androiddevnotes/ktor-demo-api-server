@@ -1,5 +1,8 @@
 package com.example.models
 
+import kotlinx.serialization.*
+import kotlinx.serialization.descriptors.*
+import kotlinx.serialization.encoding.*
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.javatime.*
 import java.time.LocalDateTime
@@ -19,6 +22,7 @@ object DictionaryEntries : Table() {
     override val primaryKey = PrimaryKey(id)
 }
 
+@Serializable
 data class DictionaryEntry(
     val id: Int = 0,
     val name: String,
@@ -28,9 +32,26 @@ data class DictionaryEntry(
     val tags: List<String>,
     val category: String,
     val languages: List<String>,
+    @Serializable(with = LocalDateTimeAsStringSerializer::class)
     val createdAt: LocalDateTime = LocalDateTime.now(),
+    @Serializable(with = LocalDateTimeAsStringSerializer::class)
     val updatedAt: LocalDateTime = LocalDateTime.now()
 )
+
+object LocalDateTimeAsStringSerializer : KSerializer<LocalDateTime> {
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("LocalDateTime", PrimitiveKind.STRING)
+
+
+
+
+    override fun serialize(encoder: Encoder, value: LocalDateTime) {
+        encoder.encodeString(value.toString())
+    }
+
+    override fun deserialize(decoder: Decoder): LocalDateTime {
+        return LocalDateTime.parse(decoder.decodeString())
+    }
+}
 
 data class DictionaryEntryDTO(
     val name: String,
