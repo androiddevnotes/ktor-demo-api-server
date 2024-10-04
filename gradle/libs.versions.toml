@@ -8,6 +8,8 @@ dokka-version = "1.9.20"
 ktor-swagger-ui-version = "3.4.0"
 jansi-version = "2.4.1"
 kotlinx-serialization-version = "1.6.3"
+exposed-java-time-version = "0.55.0"
+jbcrypt-version = "0.4"
 
 [libraries]
 ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor-version" }
@@ -31,6 +33,8 @@ dokka-html-plugin = { module = "org.jetbrains.dokka:dokka-base", version.ref = "
 ktor-swagger-ui = { module = "io.github.smiley4:ktor-swagger-ui", version.ref = "ktor-swagger-ui-version" }
 ktor-server-call-logging = { module = "io.ktor:ktor-server-call-logging", version.ref = "ktor-version" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-version" }
+exposed-java-time = { module = "org.jetbrains.exposed:exposed-java-time", version.ref = "exposed-java-time-version" }
+jbcrypt = { module = "org.mindrot:jbcrypt", version.ref = "jbcrypt-version" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-version" }

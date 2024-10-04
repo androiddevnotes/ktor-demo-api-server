@@ -41,9 +41,8 @@ dependencies {
     dokkaHtmlPlugin(libs.dokka.html.plugin)
     implementation(libs.ktor.swagger.ui)
     implementation(libs.ktor.server.call.logging)
-    implementation("org.jetbrains.exposed:exposed-java-time:0.55.0")
-    implementation("org.mindrot:jbcrypt:0.4")
-    
+    implementation(libs.exposed.java.time)
+    implementation(libs.jbcrypt)
 }
 
 tasks.dokkaHtml {
