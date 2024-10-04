@@ -1,6 +1,5 @@
-package com.example.routes
+package com.example.quotes
 
-import com.example.models.*
 import com.example.services.*
 import io.ktor.http.*
 import io.ktor.server.application.*

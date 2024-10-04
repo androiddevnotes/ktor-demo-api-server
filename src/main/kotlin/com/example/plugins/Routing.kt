@@ -1,6 +1,6 @@
 package com.example.plugins
 
-import com.example.models.*
+import com.example.quotes.*
 import com.example.services.*
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -8,7 +8,6 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.*
 import io.ktor.http.content.*
 

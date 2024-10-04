@@ -1,6 +1,7 @@
 package com.example.common.config
 
 import com.example.models.*
+import com.example.quotes.*
 import io.ktor.server.application.*
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.*

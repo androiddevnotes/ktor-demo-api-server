@@ -1,6 +1,5 @@
-package com.example.repositories
+package com.example.quotes
 
-import com.example.models.*
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.*
@@ -58,7 +57,7 @@ class QuoteRepository {
             content = row[Quotes.content],
             author = row[Quotes.author],
             imageUrl = row[Quotes.imageUrl],
-            category = row[Quotes.category] 
+            category = row[Quotes.category]
         )
 
     

@@ -1,7 +1,4 @@
-package com.example.services
-
-import com.example.models.*
-import com.example.repositories.*
+package com.example.quotes
 
 class QuoteService(private val repository: QuoteRepository) {
     fun createQuote(quote: Quote): Quote = repository.create(quote.copy(category = quote.category ?: "Uncategorized"))
@@ -13,7 +10,7 @@ class QuoteService(private val repository: QuoteRepository) {
     fun getAllQuotes(page: Int, pageSize: Int): List<Quote> = repository.getAll(page, pageSize)
     fun getTotalQuotes(): Long = repository.count()
     
-    fun getQuotesByCategory(category: String, page: Int, pageSize: Int): List<Quote> = 
+    fun getQuotesByCategory(category: String, page: Int, pageSize: Int): List<Quote> =
         repository.getByCategory(category, page, pageSize)
 
     fun getTotalQuotesByCategory(category: String): Long = repository.countByCategory(category)
