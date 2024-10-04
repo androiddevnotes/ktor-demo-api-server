@@ -1,4 +1,4 @@
-package com.example.services
+package com.example.common.utils
 
 import java.io.File
 import java.util.UUID

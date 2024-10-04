@@ -1,6 +1,5 @@
 package com.example.quotes
 
-import com.example.services.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -9,9 +8,9 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.http.content.*
-import com.example.common.utils.respondError
 import com.example.common.exceptions.*
 import com.example.common.exceptions.NotFoundException
+import com.example.common.utils.*
 import io.github.smiley4.ktorswaggerui.dsl.routing.*
 import io.ktor.server.plugins.*
 import io.ktor.server.routing.post

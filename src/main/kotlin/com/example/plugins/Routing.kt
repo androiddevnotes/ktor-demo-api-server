@@ -1,7 +1,7 @@
 package com.example.plugins
 
+import com.example.common.utils.*
 import com.example.quotes.*
-import com.example.services.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
