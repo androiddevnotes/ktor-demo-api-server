@@ -54,7 +54,7 @@ object DatabaseConfig {
                     it[content] = "${contentPrefixes.random()} ${contentSuffixes.random()}"
                     it[author] = authors.random()
                     it[category] = categories.random()
-                    it[imageUrl] = null // Add this line if it's not already there
+                    it[imageUrl] = null 
                 }
             }
         }
