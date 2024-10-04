@@ -9,6 +9,8 @@
         <appender-ref ref="STDOUT" />
     </root>
 
-    <!-- Optional: Keep more detailed logging for your application code -->
     <logger name="com.example" level="DEBUG" />
+    
+    <!-- Add this line to show Exposed SQL logs -->
+    <logger name="Exposed" level="DEBUG" />
 </configuration>
