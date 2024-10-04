@@ -11,6 +11,7 @@ class QuoteRepository {
             it[content] = quote.content
             it[author] = quote.author
             it[imageUrl] = quote.imageUrl
+            it[category] = quote.category
         } get Quotes.id
         quote.copy(id = id)
     }
@@ -40,7 +41,8 @@ class QuoteRepository {
         val rowsUpdated = Quotes.update({ Quotes.id eq id }) {
             it[content] = quote.content
             it[author] = quote.author
-            it[imageUrl] = quote.imageUrl  
+            it[imageUrl] = quote.imageUrl
+            it[category] = quote.category
         }
         rowsUpdated > 0
     }
@@ -51,5 +53,24 @@ class QuoteRepository {
     }
 
     private fun toQuote(row: ResultRow): Quote =
-        Quote(row[Quotes.id], row[Quotes.content], row[Quotes.author], row[Quotes.imageUrl])
+        Quote(
+            id = row[Quotes.id],
+            content = row[Quotes.content],
+            author = row[Quotes.author],
+            imageUrl = row[Quotes.imageUrl],
+            category = row[Quotes.category]
+        )
+
+    // Add a new method to get quotes by category
+    fun getByCategory(category: String, page: Int, pageSize: Int): List<Quote> = transaction {
+        Quotes.select { Quotes.category eq category }
+            .orderBy(Quotes.id)
+            .limit(pageSize, offset = ((page - 1) * pageSize).toLong())
+            .map { toQuote(it) }
+    }
+
+    // Add a new method to count quotes by category
+    fun countByCategory(category: String): Long = transaction {
+        Quotes.select { Quotes.category eq category }.count()
+    }
 }

@@ -28,6 +28,7 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
                 var content: String? = null
                 var author: String? = null
                 var imageUrl: String? = null
+                var category: String? = null
 
                 multipart.forEachPart { part ->
                     when (part) {
@@ -35,6 +36,7 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
                             when (part.name) {
                                 "content" -> content = part.value
                                 "author" -> author = part.value
+                                "category" -> category = part.value
                             }
                         }
                         is PartData.FileItem -> {
@@ -46,7 +48,7 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
                 }
 
                 if (content != null && author != null) {
-                    val quote = Quote(0, content!!, author!!, imageUrl)
+                    val quote = Quote(0, content!!, author!!, imageUrl, category ?: "Uncategorized")
                     val createdQuote = quoteService.createQuote(quote)
                     call.respond(HttpStatusCode.Created, createdQuote)
                 } else {
@@ -199,5 +201,27 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
         }
     }
 
-    
+    get("/category/{category}", {
+        description = "Get quotes by category with pagination"
+    }) {
+        val category = call.parameters["category"] ?: throw IllegalArgumentException("Missing category")
+        val page = call.request.queryParameters["page"]?.toIntOrNull() ?: 1
+        val pageSize = call.request.queryParameters["pageSize"]?.toIntOrNull() ?: 10
+
+        val quotes = quoteService.getQuotesByCategory(category, page, pageSize)
+        val totalQuotes = quoteService.getTotalQuotesByCategory(category)
+        val totalPages = (totalQuotes + pageSize - 1) / pageSize
+
+        call.respond(
+            HttpStatusCode.OK,
+            mapOf(
+                "quotes" to quotes,
+                "page" to page,
+                "pageSize" to pageSize,
+                "totalQuotes" to totalQuotes,
+                "totalPages" to totalPages,
+                "category" to category
+            )
+        )
+    }
 }

@@ -19,6 +19,7 @@ fun Application.configureRouting(quoteService: QuoteService, imageUploadService:
             var content: String? = null
             var author: String? = null
             var imageUrl: String? = null
+            var category: String? = null
 
             multipart.forEachPart { part ->
                 when (part) {
@@ -26,6 +27,7 @@ fun Application.configureRouting(quoteService: QuoteService, imageUploadService:
                         when (part.name) {
                             "content" -> content = part.value
                             "author" -> author = part.value
+                            "category" -> category = part.value
                         }
                     }
                     is PartData.FileItem -> {
@@ -36,9 +38,8 @@ fun Application.configureRouting(quoteService: QuoteService, imageUploadService:
                 part.dispose()
             }
 
-
             if (content != null && author != null) {
-                val quote = Quote(0, content!!, author!!, imageUrl)
+                val quote = Quote(0, content!!, author!!, imageUrl, category ?: "Uncategorized")
                 val createdQuote = quoteService.createQuote(quote)
                 call.respond(HttpStatusCode.Created, createdQuote)
             } else {
@@ -98,7 +99,7 @@ fun Application.configureRouting(quoteService: QuoteService, imageUploadService:
         get("/db-content") {
             val content = transaction {
                 Quotes.selectAll().map {
-                    "ID: ${it[Quotes.id]}, Content: ${it[Quotes.content]}, Author: ${it[Quotes.author]}"
+                    "ID: ${it[Quotes.id]}, Content: ${it[Quotes.content]}, Author: ${it[Quotes.author]}, Category: ${it[Quotes.category]}"
                 }
             }
             call.respondText(content.joinToString("\n"))
