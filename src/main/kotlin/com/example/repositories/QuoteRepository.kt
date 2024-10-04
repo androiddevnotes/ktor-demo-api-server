@@ -58,7 +58,7 @@ class QuoteRepository {
             content = row[Quotes.content],
             author = row[Quotes.author],
             imageUrl = row[Quotes.imageUrl],
-            category = row[Quotes.category]
+            category = row[Quotes.category] // This will now be nullable
         )
 
     

@@ -48,7 +48,7 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
                 }
 
                 if (content != null && author != null) {
-                    val quote = Quote(0, content!!, author!!, imageUrl, category ?: "Uncategorized")
+                    val quote = Quote(0, content!!, author!!, imageUrl, category)
                     val createdQuote = quoteService.createQuote(quote)
                     call.respond(HttpStatusCode.Created, createdQuote)
                 } else {
