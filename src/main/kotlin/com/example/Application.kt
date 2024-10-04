@@ -1,36 +1,31 @@
 package com.example
 
+import com.auth0.jwt.exceptions.*
 import com.example.config.*
-import com.example.plugins.*
+import com.example.exceptions.*
+import com.example.exceptions.NotFoundException
 import com.example.repositories.*
 import com.example.routes.*
 import com.example.services.*
+import com.example.utils.*
+import io.github.smiley4.ktorswaggerui.*
+import io.github.smiley4.ktorswaggerui.routing.*
+import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
-import io.ktor.server.netty.*
-import io.ktor.server.routing.*
-import com.example.services.ImageUploadService
 import io.ktor.server.http.content.*
-import java.io.File
-import io.ktor.server.plugins.statuspages.*
-import com.example.utils.respondError
-import io.ktor.http.*
-import com.example.exceptions.*
-import io.ktor.server.auth.jwt.JWTPrincipal
-import io.ktor.server.auth.jwt.jwt
-import com.auth0.jwt.exceptions.JWTVerificationException
-import com.example.exceptions.NotFoundException
-import io.github.smiley4.ktorswaggerui.*
-import io.github.smiley4.ktorswaggerui.routing.*
-import io.ktor.serialization.kotlinx.json.*
+import io.ktor.server.netty.*
 import io.ktor.server.plugins.*
 import io.ktor.server.plugins.callloging.*
 import io.ktor.server.plugins.contentnegotiation.*
-import org.slf4j.event.*
+import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.request.*
-import io.ktor.util.pipeline.*
-import kotlinx.serialization.json.Json
+import io.ktor.server.routing.*
+import kotlinx.serialization.json.*
+import org.slf4j.event.*
+import java.io.*
 
 fun main(args: Array<String>) {
     EngineMain.main(args)
@@ -84,11 +79,13 @@ fun Application.module() {
                     cause.message ?: "Bad Request",
                     "BAD_REQUEST"
                 )
+
                 is NotFoundException -> call.respondError(
                     HttpStatusCode.NotFound,
                     cause.message ?: "Resource not found",
                     "NOT_FOUND"
                 )
+
                 is UnauthorizedException,
                 is JWTVerificationException,
                 is AuthenticationFailureException -> call.respondError(
@@ -96,16 +93,19 @@ fun Application.module() {
                     cause.message ?: "Unauthorized",
                     "UNAUTHORIZED"
                 )
+
                 is ForbiddenException -> call.respondError(
                     HttpStatusCode.Forbidden,
                     cause.message ?: "Forbidden",
                     "FORBIDDEN"
                 )
+
                 is ConflictException -> call.respondError(
                     HttpStatusCode.Conflict,
                     cause.message ?: "Conflict",
                     "CONFLICT"
                 )
+
                 else -> {
                     call.application.log.error("Unhandled exception", cause)
                     call.respondError(
@@ -154,16 +154,17 @@ fun Application.module() {
             val httpMethod = call.request.httpMethod.value
             val userAgent = call.request.headers["User-Agent"]
             val path = call.request.path()
-            val queryParams = call.request.queryParameters.entries().joinToString(", ") { "${it.key}=${it.value}" }
+            val queryParams = call.request.queryParameters.entries()
+                .joinToString(", ") { "${it.key}=${it.value}" }
             val duration = call.processingTimeMillis()
             val remoteHost = call.request.origin.remoteHost
             val coloredStatus = when {
-                status == null -> "\u001B[33mUNKNOWN\u001B[0m" 
-                status.value < 300 -> "\u001B[32m$status\u001B[0m" 
-                status.value < 400 -> "\u001B[33m$status\u001B[0m" 
-                else -> "\u001B[31m$status\u001B[0m" 
+                status == null -> "\u001B[33mUNKNOWN\u001B[0m"
+                status.value < 300 -> "\u001B[32m$status\u001B[0m"
+                status.value < 400 -> "\u001B[33m$status\u001B[0m"
+                else -> "\u001B[31m$status\u001B[0m"
             }
-            val coloredMethod = "\u001B[36m$httpMethod\u001B[0m" 
+            val coloredMethod = "\u001B[36m$httpMethod\u001B[0m"
             """
             |
             |------------------------ Request Details ------------------------
