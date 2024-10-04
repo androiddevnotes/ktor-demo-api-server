@@ -1,8 +1,5 @@
-package com.example.services
+package com.example.user
 
-import com.example.models.User
-import com.example.models.UserDTO
-import com.example.repositories.UserRepository
 import org.mindrot.jbcrypt.BCrypt
 
 class UserService(private val repository: UserRepository) {

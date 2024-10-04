@@ -1,8 +1,8 @@
 package com.example.common.config
 
 import com.example.dictionary.*
-import com.example.models.*
 import com.example.quotes.*
+import com.example.user.*
 import io.ktor.server.application.*
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.*

@@ -2,6 +2,7 @@ package com.example.common.config
 
 import com.auth0.jwt.*
 import com.auth0.jwt.algorithms.*
+import com.example.user.*
 import java.util.*
 
 object JwtConfig {
@@ -9,7 +10,7 @@ object JwtConfig {
     private const val ISSUER = "quote-app"
     private const val VALIDITY_IN_MS = 36_000_00 * 10
 
-    fun makeToken(user: com.example.models.User): String = JWT.create()
+    fun makeToken(user: User): String = JWT.create()
         .withSubject("Authentication")
         .withIssuer(ISSUER)
         .withClaim("id", user.id)

@@ -1,4 +1,4 @@
-package com.example.models
+package com.example.user
 
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.sql.Table

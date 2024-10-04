@@ -4,12 +4,11 @@ import com.auth0.jwt.exceptions.*
 import com.example.common.config.*
 import com.example.common.exceptions.*
 import com.example.common.exceptions.NotFoundException
-import com.example.repositories.*
-import com.example.routes.*
 import com.example.services.*
 import com.example.common.utils.*
 import com.example.dictionary.*
 import com.example.quotes.*
+import com.example.user.*
 import io.github.smiley4.ktorswaggerui.*
 import io.github.smiley4.ktorswaggerui.routing.*
 import io.ktor.http.*
