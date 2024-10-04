@@ -39,6 +39,8 @@ fun Application.module() {
     val quoteService = QuoteService(quoteRepository)
     val userRepository = UserRepository()
     val userService = UserService(userRepository)
+    val dictionaryRepository = DictionaryRepository()
+    val dictionaryService = DictionaryService(dictionaryRepository)
 
     val uploadDir = environment.config.property("upload.dir").getString()
     val imageUploadService = ImageUploadService(uploadDir)
@@ -171,10 +173,15 @@ fun Application.module() {
     install(SwaggerUI)
 
     configureSerialization()
-    configureRouting(quoteService, userService, imageUploadService)
+    configureRouting(quoteService, userService, imageUploadService, dictionaryService)
 }
 
-fun Application.configureRouting(quoteService: QuoteService, userService: UserService, imageUploadService: ImageUploadService) {
+fun Application.configureRouting(
+    quoteService: QuoteService,
+    userService: UserService,
+    imageUploadService: ImageUploadService,
+    dictionaryService: DictionaryService
+) {
     routing {
         route("swagger") {
             swaggerUI("/api.json")
@@ -184,6 +191,7 @@ fun Application.configureRouting(quoteService: QuoteService, userService: UserSe
         }
         authRoutes(userService)
         quoteRoutes(quoteService, imageUploadService)
+        dictionaryRoutes(dictionaryService)
         staticFiles("/images", File(environment?.config?.property("upload.dir")?.getString() ?: ""))
     }
 }

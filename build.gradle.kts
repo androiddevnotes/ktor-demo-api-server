@@ -40,6 +40,7 @@ dependencies {
     dokkaHtmlPlugin(libs.dokka.html.plugin)
     implementation(libs.ktor.swagger.ui)
     implementation(libs.ktor.server.call.logging)
+    implementation("org.jetbrains.exposed:exposed-java-time:0.55.0")
 }
 
 tasks.dokkaHtml {
