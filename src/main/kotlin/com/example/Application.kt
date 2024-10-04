@@ -1,7 +1,7 @@
 package com.example
 
 import com.auth0.jwt.exceptions.*
-import com.example.config.*
+import com.example.common.config.*
 import com.example.exceptions.*
 import com.example.exceptions.NotFoundException
 import com.example.repositories.*

@@ -1,4 +1,4 @@
-package com.example.config
+package com.example.common.config
 
 import com.auth0.jwt.*
 import com.auth0.jwt.algorithms.*

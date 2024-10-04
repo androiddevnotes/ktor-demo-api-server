@@ -1,6 +1,6 @@
 package com.example.routes
 
-import com.example.config.JwtConfig
+import com.example.common.config.JwtConfig
 import com.example.models.UserDTO
 import com.example.services.UserService
 import io.ktor.http.*

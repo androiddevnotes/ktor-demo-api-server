@@ -38,11 +38,12 @@ dependencies {
     implementation(libs.ktor.server.auth.jwt)
     implementation(libs.ktor.server.sessions)
     implementation(libs.ktor.server.status.pages)
-    implementation("org.mindrot:jbcrypt:0.4")
     dokkaHtmlPlugin(libs.dokka.html.plugin)
     implementation(libs.ktor.swagger.ui)
     implementation(libs.ktor.server.call.logging)
     implementation("org.jetbrains.exposed:exposed-java-time:0.55.0")
+    implementation("org.mindrot:jbcrypt:0.4")
+    
 }
 
 tasks.dokkaHtml {

@@ -1,12 +1,10 @@
-package com.example.config
+package com.example.common.config
 
 import com.example.models.*
 import io.ktor.server.application.*
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.*
 import org.mindrot.jbcrypt.BCrypt
-import kotlin.random.Random
-import java.time.LocalDateTime
 
 object DatabaseConfig {
     fun init(environment: ApplicationEnvironment) {
