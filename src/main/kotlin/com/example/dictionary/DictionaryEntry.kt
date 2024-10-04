@@ -51,6 +51,7 @@ object LocalDateTimeAsStringSerializer : KSerializer<LocalDateTime> {
     }
 }
 
+@Serializable
 data class DictionaryEntryDTO(
     val name: String,
     val definition: String,

@@ -125,7 +125,7 @@ curl -X GET "http://localhost:8080/quotes?page=1&pageSize=10"
 ## Get Quote by ID (now including category)
 
 curl -X GET http://localhost:8080/quotes/1 \
--H "Authorization: Bearer YOUR_JWT_TOKEN"
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwODYxNTV9.XJtzxKHLXkYjydkfCouw-wxUC-8VstRb6dFcBB22FhU"
 
 ## Create Quote with Image and Category
 
@@ -154,22 +154,22 @@ curl -X GET "http://localhost:8080/api/v1/dictionary/search?q=ALGORITHM"
 ## Create Dictionary Entry (requires authentication)
 
 curl -X POST "http://localhost:8080/api/v1/dictionary" \
--H "Authorization: Bearer YOUR_JWT_TOKEN" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwODYxNTV9.XJtzxKHLXkYjydkfCouw-wxUC-8VstRb6dFcBB22FhU" \
 -H "Content-Type: application/json" \
 -d '{
-  "name": "Algorithm",
-  "definition": "A step-by-step procedure or formula for solving a problem.",
-  "examples": ["Sorting algorithms", "Search algorithms"],
-  "relatedTerms": ["Data structure", "Complexity"],
-  "tags": ["Computer Science", "Programming"],
-  "category": "Computer Science",
-  "languages": ["General"]
+"name": "Algorithm",
+"definition": "A step-by-step procedure or formula for solving a problem.",
+"examples": ["Sorting algorithms", "Search algorithms"],
+"relatedTerms": ["Data structure", "Complexity"],
+"tags": ["Computer Science", "Programming"],
+"category": "Computer Science",
+"languages": ["General"]
 }'
 
 ## Update Dictionary Entry (requires authentication)
 
 curl -X PUT "http://localhost:8080/api/v1/dictionary/1" \
--H "Authorization: Bearer YOUR_JWT_TOKEN" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwODYxNTV9.XJtzxKHLXkYjydkfCouw-wxUC-8VstRb6dFcBB22FhU" \
 -H "Content-Type: application/json" \
 -d '{
   "name": "Updated Algorithm",
@@ -184,5 +184,5 @@ curl -X PUT "http://localhost:8080/api/v1/dictionary/1" \
 ## Delete Dictionary Entry (requires authentication)
 
 curl -X DELETE "http://localhost:8080/api/v1/dictionary/1" \
--H "Authorization: Bearer YOUR_JWT_TOKEN"
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwODYxNTV9.XJtzxKHLXkYjydkfCouw-wxUC-8VstRb6dFcBB22FhU"
 
