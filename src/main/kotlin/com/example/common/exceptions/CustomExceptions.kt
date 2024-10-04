@@ -1,4 +1,4 @@
-package com.example.exceptions
+package com.example.common.exceptions
 
 class NotFoundException(message: String) : RuntimeException(message)
 class UnauthorizedException(message: String) : RuntimeException(message)

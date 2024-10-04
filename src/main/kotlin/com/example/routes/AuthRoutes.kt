@@ -8,7 +8,7 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import com.example.utils.respondError
+import com.example.common.utils.respondError
 
 fun Route.authRoutes(userService: UserService) {
     route("/api/v1") {

@@ -10,15 +10,12 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.http.content.*
-import com.example.utils.respondError
-import com.example.exceptions.*
-import com.example.exceptions.NotFoundException
+import com.example.common.utils.respondError
+import com.example.common.exceptions.*
+import com.example.common.exceptions.NotFoundException
 import io.github.smiley4.ktorswaggerui.dsl.routing.*
 import io.ktor.server.plugins.*
-import io.ktor.server.routing.delete
-import io.ktor.server.routing.get
 import io.ktor.server.routing.post
-import io.ktor.server.routing.put
 
 fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploadService) {
     route("/api/v1") {

@@ -2,12 +2,12 @@ package com.example
 
 import com.auth0.jwt.exceptions.*
 import com.example.common.config.*
-import com.example.exceptions.*
-import com.example.exceptions.NotFoundException
+import com.example.common.exceptions.*
+import com.example.common.exceptions.NotFoundException
 import com.example.repositories.*
 import com.example.routes.*
 import com.example.services.*
-import com.example.utils.*
+import com.example.common.utils.*
 import io.github.smiley4.ktorswaggerui.*
 import io.github.smiley4.ktorswaggerui.routing.*
 import io.ktor.http.*
