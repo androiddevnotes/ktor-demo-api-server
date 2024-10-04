@@ -17,12 +17,13 @@ import io.ktor.server.plugins.statuspages.*
 import com.example.utils.respondError
 import io.ktor.http.*
 import com.example.exceptions.*
-import io.ktor.server.plugins.BadRequestException
 import io.ktor.server.auth.jwt.JWTPrincipal
 import io.ktor.server.auth.jwt.jwt
 import com.auth0.jwt.exceptions.JWTVerificationException
+import com.example.exceptions.NotFoundException
 import io.github.smiley4.ktorswaggerui.*
 import io.github.smiley4.ktorswaggerui.routing.*
+import io.ktor.server.plugins.*
 import io.ktor.server.plugins.callloging.*
 import org.slf4j.event.*
 import io.ktor.server.request.*
@@ -143,6 +144,7 @@ fun Application.module() {
             val path = call.request.path()
             val queryParams = call.request.queryParameters.entries().joinToString(", ") { "${it.key}=${it.value}" }
             val duration = call.processingTimeMillis()
+            val remoteHost = call.request.origin.remoteHost
             val coloredStatus = when {
                 status == null -> "\u001B[33mUNKNOWN\u001B[0m" // Yellow for unknown status
                 status.value < 300 -> "\u001B[32m$status\u001B[0m" // Green for success
@@ -157,8 +159,9 @@ fun Application.module() {
             |Method: $coloredMethod
             |Path: $path
             |Query Params: $queryParams
-            |Duration: ${duration}ms
+            |Remote Host: $remoteHost
             |User Agent: $userAgent
+            |Duration: ${duration}ms
             |------------------------------------------------------------------
             |
             """.trimMargin()
