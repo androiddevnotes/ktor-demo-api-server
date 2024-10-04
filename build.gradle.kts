@@ -37,4 +37,5 @@ dependencies {
     implementation(libs.ktor.server.status.pages)
     implementation("org.mindrot:jbcrypt:0.4")
     dokkaHtmlPlugin(libs.dokka.html.plugin)
+    implementation(libs.ktor.swagger.ui)
 }

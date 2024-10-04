@@ -4,7 +4,8 @@ kotlin-version = "2.0.20"
 logback-version = "1.4.14"
 exposed-version = "0.48.0"
 postgresql-version = "42.7.2"
-dokka-version = "1.9.20" 
+dokka-version = "1.9.20"
+ktor-swagger-ui-version = "3.4.0"
 
 [libraries]
 ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor-version" }
@@ -24,8 +25,9 @@ ktor-server-auth-jwt = { module = "io.ktor:ktor-server-auth-jwt", version.ref = 
 ktor-server-sessions = { module = "io.ktor:ktor-server-sessions", version.ref = "ktor-version" }
 ktor-server-status-pages = { module = "io.ktor:ktor-server-status-pages", version.ref = "ktor-version" }
 dokka-html-plugin = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka-version" }
+ktor-swagger-ui = { module = "io.github.smiley4:ktor-swagger-ui", version.ref = "ktor-swagger-ui-version" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-version" }
 ktor = { id = "io.ktor.plugin", version.ref = "ktor-version" }
-dokka = { id = "org.jetbrains.dokka", version.ref = "dokka-version" } 
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka-version" }
