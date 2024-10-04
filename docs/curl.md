@@ -137,3 +137,52 @@ curl -X POST http://localhost:8080/quotes \
 -F "category=Photography" \
 -F "image=@/path/to/your/image.jpg"
 
+## Dictionary API
+
+## Get All Dictionary Entries
+
+curl -X GET "http://localhost:8080/api/v1/dictionary"
+
+## Get Dictionary Entry by ID
+
+curl -X GET "http://localhost:8080/api/v1/dictionary/1"
+
+## Search Dictionary Entries
+
+curl -X GET "http://localhost:8080/api/v1/dictionary/search?q=variable"
+
+## Create Dictionary Entry (requires authentication)
+
+curl -X POST "http://localhost:8080/api/v1/dictionary" \
+-H "Authorization: Bearer YOUR_JWT_TOKEN" \
+-H "Content-Type: application/json" \
+-d '{
+  "name": "Algorithm",
+  "definition": "A step-by-step procedure or formula for solving a problem.",
+  "examples": ["Sorting algorithms", "Search algorithms"],
+  "relatedTerms": ["Data structure", "Complexity"],
+  "tags": ["Computer Science", "Programming"],
+  "category": "Computer Science",
+  "languages": ["General"]
+}'
+
+## Update Dictionary Entry (requires authentication)
+
+curl -X PUT "http://localhost:8080/api/v1/dictionary/1" \
+-H "Authorization: Bearer YOUR_JWT_TOKEN" \
+-H "Content-Type: application/json" \
+-d '{
+  "name": "Updated Algorithm",
+  "definition": "An updated step-by-step procedure or formula for solving a problem.",
+  "examples": ["Updated sorting algorithms", "Updated search algorithms"],
+  "relatedTerms": ["Updated data structure", "Updated complexity"],
+  "tags": ["Updated Computer Science", "Updated Programming"],
+  "category": "Updated Computer Science",
+  "languages": ["Updated General"]
+}'
+
+## Delete Dictionary Entry (requires authentication)
+
+curl -X DELETE "http://localhost:8080/api/v1/dictionary/1" \
+-H "Authorization: Bearer YOUR_JWT_TOKEN"
+
