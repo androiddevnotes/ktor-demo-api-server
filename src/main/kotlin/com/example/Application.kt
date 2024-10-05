@@ -37,7 +37,7 @@ fun Application.module() {
         ignoreIfMissing = true
     }
 
-    // Use dotenv to get environment variables
+    
     val databaseUrl = dotenv["DATABASE_URL"] ?: environment.config.property("database.jdbcURL").getString()
     val databaseUser = dotenv["DATABASE_USER"] ?: environment.config.property("database.user").getString()
     val databasePassword = dotenv["DATABASE_PASSWORD"] ?: environment.config.property("database.password").getString()
@@ -47,7 +47,7 @@ fun Application.module() {
     val jwtRealm = dotenv["JWT_REALM"] ?: environment.config.property("jwt.realm").getString()
     val uploadDir = dotenv["UPLOAD_DIR"] ?: environment.config.property("upload.dir").getString()
 
-    // Initialize database with new configuration
+    
     DatabaseConfig.init(databaseUrl, databaseUser, databasePassword)
 
     val quoteRepository = QuoteRepository()
@@ -58,7 +58,7 @@ fun Application.module() {
     val dictionaryService = DictionaryService(dictionaryRepository)
     val imageUploadService = ImageUploadService(uploadDir)
 
-    // Update JwtConfig with new values
+    
     JwtConfig.initialize(jwtSecret, jwtIssuer, jwtAudience)
 
     install(Authentication) {

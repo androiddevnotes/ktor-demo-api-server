@@ -14,7 +14,7 @@ object DatabaseConfig {
         transaction(database) {
             SchemaUtils.create(Quotes, Users, DictionaryEntries)
             
-            // Use the new seeder utility
+            
             DatabaseSeeder.seedIfEmpty()
         }
     }
