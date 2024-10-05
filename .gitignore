@@ -275,3 +275,6 @@ obj/
 uploads/*
 
 .kotlin/sessions/*
+
+# Ignore .env file
+.env

@@ -8,6 +8,7 @@ import com.example.common.utils.*
 import com.example.dictionary.*
 import com.example.quotes.*
 import com.example.user.*
+import io.github.cdimascio.dotenv.dotenv
 import io.github.smiley4.ktorswaggerui.*
 import io.github.smiley4.ktorswaggerui.routing.*
 import io.ktor.http.*
@@ -32,16 +33,33 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
-    DatabaseConfig.init(environment)
+    val dotenv = dotenv {
+        ignoreIfMissing = true
+    }
+
+    // Use dotenv to get environment variables
+    val databaseUrl = dotenv["DATABASE_URL"] ?: environment.config.property("database.jdbcURL").getString()
+    val databaseUser = dotenv["DATABASE_USER"] ?: environment.config.property("database.user").getString()
+    val databasePassword = dotenv["DATABASE_PASSWORD"] ?: environment.config.property("database.password").getString()
+    val jwtSecret = dotenv["JWT_SECRET"] ?: environment.config.property("jwt.secret").getString()
+    val jwtIssuer = dotenv["JWT_ISSUER"] ?: environment.config.property("jwt.issuer").getString()
+    val jwtAudience = dotenv["JWT_AUDIENCE"] ?: environment.config.property("jwt.audience").getString()
+    val jwtRealm = dotenv["JWT_REALM"] ?: environment.config.property("jwt.realm").getString()
+    val uploadDir = dotenv["UPLOAD_DIR"] ?: environment.config.property("upload.dir").getString()
+
+    // Initialize database with new configuration
+    DatabaseConfig.init(databaseUrl, databaseUser, databasePassword)
+
     val quoteRepository = QuoteRepository()
     val quoteService = QuoteService(quoteRepository)
     val userRepository = UserRepository()
     val userService = UserService(userRepository)
     val dictionaryRepository = DictionaryRepository()
     val dictionaryService = DictionaryService(dictionaryRepository)
-
-    val uploadDir = environment.config.property("upload.dir").getString()
     val imageUploadService = ImageUploadService(uploadDir)
+
+    // Update JwtConfig with new values
+    JwtConfig.initialize(jwtSecret, jwtIssuer, jwtAudience)
 
     install(Authentication) {
         jwt {
