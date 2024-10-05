@@ -17,7 +17,7 @@ import io.ktor.server.routing.*
 fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploadService) {
     route("/api/v1") {
         route("/quotes") {
-            // Move the post route for creating quotes outside of the authenticate block
+            
             post({
                 description = "Create a new quote"
             }) {
@@ -95,7 +95,7 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
             }
 
             authenticate {
-                // Remove the post route for creating quotes from here
+                
 
                 post({
                     description = "Create a new quote (admin only)"

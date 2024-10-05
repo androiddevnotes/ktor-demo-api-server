@@ -56,7 +56,7 @@ fun Application.module() {
     val jwtAudience = System.getenv("JWT_AUDIENCE") ?: dotenv["JWT_AUDIENCE"] ?: environment.config.property("jwt.audience").getString()
     val uploadDir = System.getenv("UPLOAD_DIR") ?: dotenv["UPLOAD_DIR"] ?: environment.config.propertyOrNull("upload.dir")?.getString() ?: "uploads"
 
-    // Use these variables to initialize your database and other services
+    
     DatabaseConfig.init(databaseUrl, databaseUser, databasePassword)
 
     val quoteRepository = QuoteRepository()
@@ -229,7 +229,6 @@ fun Application.configureRouting(
         quoteRoutes(quoteService, imageUploadService)
         dictionaryRoutes(dictionaryService)
         
-        // Use a default value if the property is not found
         val uploadDir = environment?.config?.propertyOrNull("upload.dir")?.getString() ?: "uploads"
         staticFiles("/images", File(uploadDir))
     }

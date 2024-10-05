@@ -36,7 +36,7 @@ object DatabaseConfig {
             SchemaUtils.create(Quotes, Users, DictionaryEntries)
             logger.info("Database schema created successfully")
             
-            // Seed the database if it's empty
+            
             DatabaseSeeder.seedIfEmpty()
             logger.info("Database seeded successfully")
         }
