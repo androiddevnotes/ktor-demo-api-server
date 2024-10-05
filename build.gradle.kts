@@ -9,7 +9,7 @@ group = "com.example"
 version = "0.0.1"
 
 application {
-    mainClass.set("io.ktor.server.netty.EngineMain")
+    mainClass.set("com.example.ApplicationKt")
 
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
@@ -33,4 +33,8 @@ dependencies {
 
 tasks.dokkaHtml {
     outputDirectory.set(layout.buildDirectory.dir("documentation/html"))
+}
+
+tasks {
+    create("stage").dependsOn("installDist")
 }

@@ -1,24 +1,26 @@
 package com.example.quotes
 
-import io.ktor.http.*
-import io.ktor.server.application.*
-import io.ktor.server.auth.*
-import io.ktor.server.auth.jwt.*
-import io.ktor.server.request.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
-import io.ktor.http.content.*
 import com.example.common.exceptions.*
 import com.example.common.exceptions.NotFoundException
 import com.example.common.utils.*
 import io.github.smiley4.ktorswaggerui.dsl.routing.*
+import io.ktor.http.*
+import io.ktor.http.content.*
+import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 import io.ktor.server.plugins.*
-import io.ktor.server.routing.post
+import io.ktor.server.request.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 
 fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploadService) {
     route("/api/v1") {
-        authenticate {
-            post("/quotes") {
+        route("/quotes") {
+            // Move the post route for creating quotes outside of the authenticate block
+            post({
+                description = "Create a new quote"
+            }) {
                 try {
                     val multipart = call.receiveMultipart()
                     var content: String? = null
@@ -35,9 +37,11 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
                                     "category" -> category = part.value
                                 }
                             }
+
                             is PartData.FileItem -> {
                                 imageUrl = imageUploadService.saveImage(part)
                             }
+
                             else -> {}
                         }
                         part.dispose()
@@ -52,7 +56,10 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
                             HttpStatusCode.BadRequest,
                             "Missing content or author",
                             "INVALID_INPUT",
-                            mapOf("content" to (content ?: "missing"), "author" to (author ?: "missing"))
+                            mapOf(
+                                "content" to (content ?: "missing"),
+                                "author" to (author ?: "missing")
+                            )
                         )
                     }
                 } catch (e: BadRequestException) {
@@ -63,33 +70,18 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
                     )
                 }
             }
-        }
 
-        route("/quotes") {
-            
             get({
                 description = "Get all quotes with pagination"
             }) {
                 val page = call.request.queryParameters["page"]?.toIntOrNull() ?: 1
                 val pageSize = call.request.queryParameters["pageSize"]?.toIntOrNull() ?: 10
 
-                val quotes = quoteService.getAllQuotes(page, pageSize)
-                val totalQuotes = quoteService.getTotalQuotes()
-                val totalPages = (totalQuotes + pageSize - 1) / pageSize
-
-                call.respond(
-                    HttpStatusCode.OK,
-                    mapOf(
-                        "quotes" to quotes,
-                        "page" to page,
-                        "pageSize" to pageSize,
-                        "totalQuotes" to totalQuotes,
-                        "totalPages" to totalPages
-                    )
-                )
+                val quotesResponse = quoteService.getAllQuotes(page, pageSize)
+                call.respond(HttpStatusCode.OK, quotesResponse)
             }
 
-            
+
             get("/{id}", {
                 description = "Get a specific quote by ID"
             }) {
@@ -103,7 +95,8 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
             }
 
             authenticate {
-                
+                // Remove the post route for creating quotes from here
+
                 post({
                     description = "Create a new quote (admin only)"
                 }) {
@@ -118,7 +111,7 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
                     call.respond(HttpStatusCode.Created, createdQuote)
                 }
 
-                
+
                 put("/{id}", {
                     description = "Update an existing quote (admin only)"
                 }) {
@@ -157,7 +150,7 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
                     }
                 }
 
-                
+
                 delete("/{id}", {
                     description = "Delete a quote (admin only)"
                 }) {
@@ -200,7 +193,8 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
         get("/category/{category}", {
             description = "Get quotes by category with pagination"
         }) {
-            val category = call.parameters["category"] ?: throw IllegalArgumentException("Missing category")
+            val category =
+                call.parameters["category"] ?: throw IllegalArgumentException("Missing category")
             val page = call.request.queryParameters["page"]?.toIntOrNull() ?: 1
             val pageSize = call.request.queryParameters["pageSize"]?.toIntOrNull() ?: 10
 

@@ -27,27 +27,36 @@ import io.ktor.server.routing.*
 import kotlinx.serialization.json.*
 import org.slf4j.event.*
 import java.io.*
+import io.ktor.server.engine.*
+import org.slf4j.LoggerFactory
 
-fun main(args: Array<String>) {
-    EngineMain.main(args)
+private val logger = LoggerFactory.getLogger("com.example.Application")
+
+fun main() {
+    logger.info("Starting application...")
+    val port = System.getenv("PORT")?.toInt() ?: 8080
+    logger.info("Using port: $port")
+    
+    embeddedServer(Netty, port = port, host = "0.0.0.0") {
+        module()
+    }.start(wait = true)
 }
 
 fun Application.module() {
+    logger.info("Configuring application module...")
     val dotenv = dotenv {
         ignoreIfMissing = true
     }
 
-    
-    val databaseUrl = dotenv["DATABASE_URL"] ?: environment.config.property("database.jdbcURL").getString()
-    val databaseUser = dotenv["DATABASE_USER"] ?: environment.config.property("database.user").getString()
-    val databasePassword = dotenv["DATABASE_PASSWORD"] ?: environment.config.property("database.password").getString()
-    val jwtSecret = dotenv["JWT_SECRET"] ?: environment.config.property("jwt.secret").getString()
-    val jwtIssuer = dotenv["JWT_ISSUER"] ?: environment.config.property("jwt.issuer").getString()
-    val jwtAudience = dotenv["JWT_AUDIENCE"] ?: environment.config.property("jwt.audience").getString()
-    val jwtRealm = dotenv["JWT_REALM"] ?: environment.config.property("jwt.realm").getString()
-    val uploadDir = dotenv["UPLOAD_DIR"] ?: environment.config.property("upload.dir").getString()
+    val databaseUrl = System.getenv("DATABASE_URL") ?: dotenv["DATABASE_URL"] ?: environment.config.property("database.jdbcURL").getString()
+    val databaseUser = System.getenv("DATABASE_USER") ?: dotenv["DATABASE_USER"] ?: environment.config.propertyOrNull("database.user")?.getString()
+    val databasePassword = System.getenv("DATABASE_PASSWORD") ?: dotenv["DATABASE_PASSWORD"] ?: environment.config.propertyOrNull("database.password")?.getString()
+    val jwtSecret = System.getenv("JWT_SECRET") ?: dotenv["JWT_SECRET"] ?: environment.config.property("jwt.secret").getString()
+    val jwtIssuer = System.getenv("JWT_ISSUER") ?: dotenv["JWT_ISSUER"] ?: environment.config.property("jwt.issuer").getString()
+    val jwtAudience = System.getenv("JWT_AUDIENCE") ?: dotenv["JWT_AUDIENCE"] ?: environment.config.property("jwt.audience").getString()
+    val uploadDir = System.getenv("UPLOAD_DIR") ?: dotenv["UPLOAD_DIR"] ?: environment.config.propertyOrNull("upload.dir")?.getString() ?: "uploads"
 
-    
+    // Use these variables to initialize your database and other services
     DatabaseConfig.init(databaseUrl, databaseUser, databasePassword)
 
     val quoteRepository = QuoteRepository()
@@ -58,7 +67,6 @@ fun Application.module() {
     val dictionaryService = DictionaryService(dictionaryRepository)
     val imageUploadService = ImageUploadService(uploadDir)
 
-    
     JwtConfig.initialize(jwtSecret, jwtIssuer, jwtAudience)
 
     install(Authentication) {
@@ -220,6 +228,9 @@ fun Application.configureRouting(
         authRoutes(userService)
         quoteRoutes(quoteService, imageUploadService)
         dictionaryRoutes(dictionaryService)
-        staticFiles("/images", File(environment?.config?.property("upload.dir")?.getString() ?: ""))
+        
+        // Use a default value if the property is not found
+        val uploadDir = environment?.config?.propertyOrNull("upload.dir")?.getString() ?: "uploads"
+        staticFiles("/images", File(uploadDir))
     }
 }

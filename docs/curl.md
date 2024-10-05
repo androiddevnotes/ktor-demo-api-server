@@ -25,7 +25,7 @@ curl -X POST http://localhost:8080/login \
 creating a quote (this should fail for a regular user):
 
 curl -X POST http://localhost:8080/quotes \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwODYxNTV9.XJtzxKHLXkYjydkfCouw-wxUC-8VstRb6dFcBB22FhU" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImF1ZCI6InF1b3RlLWFwcC11c2VycyIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgyMDQ5MjV9.uGQlVHPfo80TfmPkL_NSVwveeUin96ep32QPcNEm57k" \
 -H "Content-Type: application/json" \
 -d '{
 "content": "This is a test quote",
@@ -34,8 +34,8 @@ curl -X POST http://localhost:8080/quotes \
 
 ## Create Quote with Image
 path: /Users/ask/PROJECTS/ASSETS/IMAGE/image.jpg
-curl -X POST http://localhost:8080/quotes \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwODYxNTV9.XJtzxKHLXkYjydkfCouw-wxUC-8VstRb6dFcBB22FhU" \
+curl -X POST http://localhost:8080/api/v1/quotes \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImF1ZCI6InF1b3RlLWFwcC11c2VycyIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgyMDQ5MjV9.uGQlVHPfo80TfmPkL_NSVwveeUin96ep32QPcNEm57k" \
 -H "Content-Type: multipart/form-data" \
 -F "content=This is a test quote" \
 -F "author=Test Author" \
@@ -44,7 +44,7 @@ curl -X POST http://localhost:8080/quotes \
 ## Update Quote
 
 curl -X PUT http://localhost:8080/quotes/32007 \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwODYxNTV9.XJtzxKHLXkYjydkfCouw-wxUC-8VstRb6dFcBB22FhU" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImF1ZCI6InF1b3RlLWFwcC11c2VycyIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgyMDQ5MjV9.uGQlVHPfo80TfmPkL_NSVwveeUin96ep32QPcNEm57k" \
 -H "Content-Type: application/json" \
 -d '{
 "content": "This is an updated test quote",
@@ -64,11 +64,11 @@ curl -X GET "http://localhost:8080/quotes?page=1&pageSize=10"
 Requires auth:
 
 curl -X GET http://localhost:8080/quotes/2008 \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwODYxNTV9.XJtzxKHLXkYjydkfCouw-wxUC-8VstRb6dFcBB22FhU"
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImF1ZCI6InF1b3RlLWFwcC11c2VycyIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgyMDQ5MjV9.uGQlVHPfo80TfmPkL_NSVwveeUin96ep32QPcNEm57k"
 
 ## Login as an admin user
 
-curl -X POST http://localhost:8080/login \
+curl -X POST http://localhost:8080/api/v1login \
  -H "Content-Type: application/json" \
  -d '{
 "username": "admin",
@@ -77,7 +77,7 @@ curl -X POST http://localhost:8080/login \
 
 ## Login as a user
 
-curl -X POST http://localhost:8080/login \
+curl -X POST http://localhost:8080/api/v1/login \
  -H "Content-Type: application/json" \
  -d '{
 "username": "testuser",
@@ -101,7 +101,7 @@ curl -X GET "http://localhost:8080/category/Science?page=1&pageSize=10"
 ## Create Quote with Category
 
 curl -X POST http://localhost:8080/quotes \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwODYxNTV9.XJtzxKHLXkYjydkfCouw-wxUC-8VstRb6dFcBB22FhU" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImF1ZCI6InF1b3RlLWFwcC11c2VycyIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgyMDQ5MjV9.uGQlVHPfo80TfmPkL_NSVwveeUin96ep32QPcNEm57k" \
 -H "Content-Type: multipart/form-data" \
 -F "content=E = mc^2" \
 -F "author=Albert Einstein" \
@@ -110,7 +110,7 @@ curl -X POST http://localhost:8080/quotes \
 ## Update Quote with Category
 
 curl -X PUT http://localhost:8080/quotes/1 \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwODYxNTV9.XJtzxKHLXkYjydkfCouw-wxUC-8VstRb6dFcBB22FhU" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImF1ZCI6InF1b3RlLWFwcC11c2VycyIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgyMDQ5MjV9.uGQlVHPfo80TfmPkL_NSVwveeUin96ep32QPcNEm57k" \
 -H "Content-Type: application/json" \
 -d '{
 "content": "Updated quote content",
@@ -125,17 +125,17 @@ curl -X GET "http://localhost:8080/quotes?page=1&pageSize=10"
 ## Get Quote by ID (now including category)
 
 curl -X GET http://localhost:8080/quotes/1 \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwODYxNTV9.XJtzxKHLXkYjydkfCouw-wxUC-8VstRb6dFcBB22FhU"
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImF1ZCI6InF1b3RlLWFwcC11c2VycyIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgyMDQ5MjV9.uGQlVHPfo80TfmPkL_NSVwveeUin96ep32QPcNEm57k"
 
 ## Create Quote with Image and Category
 
-curl -X POST http://localhost:8080/quotes \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwODYxNTV9.XJtzxKHLXkYjydkfCouw-wxUC-8VstRb6dFcBB22FhU" \
+curl -X POST http://localhost:8080/api/v1/quotes \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImF1ZCI6InF1b3RlLWFwcC11c2VycyIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgyMDQ5MjV9.uGQlVHPfo80TfmPkL_NSVwveeUin96ep32QPcNEm57k" \
 -H "Content-Type: multipart/form-data" \
 -F "content=A picture is worth a thousand words" \
 -F "author=Unknown" \
 -F "category=Photography" \
--F "image=@/path/to/your/image.jpg"
+-F "image=@/Users/ask/PROJECTS/ASSETS/IMAGE/image.jpg"
 
 ## Dictionary API
 
@@ -154,7 +154,7 @@ curl -X GET "http://localhost:8080/api/v1/dictionary/search?q=ALGORITHM"
 ## Create Dictionary Entry (requires authentication)
 
 curl -X POST "http://localhost:8080/api/v1/dictionary" \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwODYxNTV9.XJtzxKHLXkYjydkfCouw-wxUC-8VstRb6dFcBB22FhU" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImF1ZCI6InF1b3RlLWFwcC11c2VycyIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgyMDQ5MjV9.uGQlVHPfo80TfmPkL_NSVwveeUin96ep32QPcNEm57k" \
 -H "Content-Type: application/json" \
 -d '{
 "name": "Algorithm",
@@ -169,7 +169,7 @@ curl -X POST "http://localhost:8080/api/v1/dictionary" \
 ## Update Dictionary Entry (requires authentication)
 
 curl -X PUT "http://localhost:8080/api/v1/dictionary/1" \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwODYxNTV9.XJtzxKHLXkYjydkfCouw-wxUC-8VstRb6dFcBB22FhU" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImF1ZCI6InF1b3RlLWFwcC11c2VycyIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgyMDQ5MjV9.uGQlVHPfo80TfmPkL_NSVwveeUin96ep32QPcNEm57k" \
 -H "Content-Type: application/json" \
 -d '{
   "name": "Updated Algorithm",
@@ -184,5 +184,5 @@ curl -X PUT "http://localhost:8080/api/v1/dictionary/1" \
 ## Delete Dictionary Entry (requires authentication)
 
 curl -X DELETE "http://localhost:8080/api/v1/dictionary/1" \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgwODYxNTV9.XJtzxKHLXkYjydkfCouw-wxUC-8VstRb6dFcBB22FhU"
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImF1ZCI6InF1b3RlLWFwcC11c2VycyIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgyMDQ5MjV9.uGQlVHPfo80TfmPkL_NSVwveeUin96ep32QPcNEm57k"
 
