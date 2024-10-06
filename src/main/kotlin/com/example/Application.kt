@@ -22,6 +22,7 @@ import io.ktor.server.plugins.*
 import io.ktor.server.plugins.callloging.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.plugins.statuspages.*
+import io.ktor.server.plugins.swagger.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -231,6 +232,11 @@ fun Application.module() {
     }
   }
 
+//  install(CORS) {
+//    anyHost()
+//    allowHeader(HttpHeaders.ContentType)
+//  }
+
   configureRouting(
     quoteService,
     userService,
@@ -268,6 +274,10 @@ fun Application.configureRouting(
 
     val uploadDir = environment?.config?.propertyOrNull("upload.dir")?.getString() ?: "uploads"
     staticFiles("/images", File(uploadDir))
+
+    swaggerUI(path = "swagger", swaggerFile = "openapi/documentation.yaml") {
+      version = "4.15.5"
+    }
   }
 }
 

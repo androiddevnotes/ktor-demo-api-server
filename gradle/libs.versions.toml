@@ -36,6 +36,7 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 exposed-java-time = { module = "org.jetbrains.exposed:exposed-java-time", version.ref = "exposed-java-time-version" }
 jbcrypt = { module = "org.mindrot:jbcrypt", version.ref = "jbcrypt-version" }
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway-version" }
+ktor-server-swagger = { module = "io.ktor:ktor-server-swagger", version.ref = "ktor-version" }
 
 [bundles]
 ktor = [
@@ -47,7 +48,8 @@ ktor = [
     "ktor-server-auth-jwt",
     "ktor-server-sessions",
     "ktor-server-status-pages",
-    "ktor-server-call-logging"
+    "ktor-server-call-logging",
+    "ktor-server-swagger"  # Add this line
 ]
 exposed = [
     "exposed-core",
