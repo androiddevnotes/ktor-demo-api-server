@@ -1,0 +1,587 @@
+openapi: "3.1.0"
+info:
+  title: "com_example_ktor_sample API"
+  description: "com_example_ktor_sample API"
+  version: "1.0.0"
+servers:
+- url: "https://com_example_ktor_sample"
+paths:
+  /api/v1/api-key:
+    post:
+      description: ""
+      responses:
+        "201":
+          description: "Created"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Map_String"
+        "200":
+          description: ""
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /api/v1/dictionary:
+    get:
+      description: ""
+      parameters:
+      - name: "page"
+        in: "query"
+        required: false
+        schema:
+          type: "integer"
+      - name: "pageSize"
+        in: "query"
+        required: false
+        schema:
+          type: "integer"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DictionaryResponse"
+    post:
+      description: ""
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DictionaryEntryDTO"
+        required: true
+      responses:
+        "201":
+          description: "Created"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DictionaryEntry"
+  /api/v1/dictionary/{id}:
+    delete:
+      description: ""
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "integer"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Invalid ID"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Entry deleted successfully"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Entry not found"
+    get:
+      description: ""
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "integer"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Invalid ID"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DictionaryEntry"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Entry not found"
+    put:
+      description: ""
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "integer"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DictionaryEntryDTO"
+        required: true
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Invalid ID"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Entry updated successfully"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Entry not found"
+  /api/v1/dictionary/search:
+    get:
+      description: ""
+      parameters:
+      - name: "q"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/DictionaryEntry"
+  /api/v1/login:
+    post:
+      description: ""
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserDTO"
+        required: true
+      responses:
+        "200":
+          description: ""
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /api/v1/quotes:
+    get:
+      description: ""
+      parameters:
+      - name: "page"
+        in: "query"
+        required: false
+        schema:
+          type: "integer"
+      - name: "pageSize"
+        in: "query"
+        required: false
+        schema:
+          type: "integer"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/QuotesResponse"
+    post:
+      description: ""
+      responses:
+        "201":
+          description: "Created"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Quote"
+        "200":
+          description: ""
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /api/v1/quotes/{id}:
+    delete:
+      description: ""
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "integer"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            text/plain:
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Invalid ID"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+    get:
+      description: ""
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "integer"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            text/plain:
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Invalid ID"
+        "404":
+          description: "Not Found"
+          content:
+            text/plain:
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Quote not found"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Quote"
+    put:
+      description: ""
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "integer"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Quote"
+        required: true
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            text/plain:
+              schema:
+                type: "string"
+              examples:
+                Example#1:
+                  value: "Invalid ID"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+  /api/v1/quotes/search:
+    get:
+      description: ""
+      parameters:
+      - name: "q"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Quote"
+  /api/v1/register:
+    post:
+      description: ""
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserDTO"
+        required: true
+      responses:
+        "201":
+          description: "Created"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/User"
+  /api/v1/terms:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/DictionaryEntry"
+components:
+  schemas:
+    ErrorResponse:
+      type: "object"
+      properties:
+        status:
+          type: "integer"
+          format: "int32"
+        message:
+          type: "string"
+        code:
+          type: "string"
+        details:
+          type: "string"
+      required:
+      - "message"
+      - "code"
+    Map:
+      type: "object"
+      properties: {}
+    Map_String:
+      type: "string"
+    DictionaryEntry:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        name:
+          type: "string"
+        definition:
+          type: "string"
+        examples:
+          type: "array"
+          items:
+            type: "string"
+        relatedTerms:
+          type: "array"
+          items:
+            type: "string"
+        tags:
+          type: "array"
+          items:
+            type: "string"
+        category:
+          type: "string"
+        languages:
+          type: "array"
+          items:
+            type: "string"
+        resources:
+          type: "array"
+          items:
+            type: "string"
+        createdAt:
+          type: "string"
+          format: "date-time"
+        updatedAt:
+          type: "string"
+          format: "date-time"
+      required:
+      - "name"
+      - "definition"
+      - "examples"
+      - "relatedTerms"
+      - "tags"
+      - "category"
+      - "languages"
+      - "resources"
+      - "createdAt"
+      - "updatedAt"
+    DictionaryResponse:
+      type: "object"
+      properties:
+        entries:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/DictionaryEntry"
+        page:
+          type: "integer"
+          format: "int32"
+        pageSize:
+          type: "integer"
+          format: "int32"
+        totalEntries:
+          type: "integer"
+          format: "int64"
+        totalPages:
+          type: "integer"
+          format: "int32"
+      required:
+      - "entries"
+    DictionaryEntryDTO:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+        definition:
+          type: "string"
+        examples:
+          type: "array"
+          items:
+            type: "string"
+        relatedTerms:
+          type: "array"
+          items:
+            type: "string"
+        tags:
+          type: "array"
+          items:
+            type: "string"
+        category:
+          type: "string"
+        languages:
+          type: "array"
+          items:
+            type: "string"
+        resources:
+          type: "array"
+          items:
+            type: "string"
+      required:
+      - "name"
+      - "definition"
+      - "examples"
+      - "relatedTerms"
+      - "tags"
+      - "category"
+      - "languages"
+      - "resources"
+    UserDTO:
+      type: "object"
+      properties:
+        username:
+          type: "string"
+        password:
+          type: "string"
+      required:
+      - "username"
+      - "password"
+    HashMap:
+      type: "object"
+      properties: {}
+    HashMap_String:
+      type: "string"
+    Quote:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        content:
+          type: "string"
+        author:
+          type: "string"
+        imageUrl:
+          type: "string"
+        category:
+          type: "string"
+      required:
+      - "content"
+      - "author"
+    QuotesResponse:
+      type: "object"
+      properties:
+        quotes:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Quote"
+        page:
+          type: "integer"
+          format: "int32"
+        pageSize:
+          type: "integer"
+          format: "int32"
+        totalQuotes:
+          type: "integer"
+          format: "int64"
+        totalPages:
+          type: "integer"
+          format: "int32"
+      required:
+      - "quotes"
+    User:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        username:
+          type: "string"
+        password:
+          type: "string"
+        role:
+          type: "string"
+      required:
+      - "username"
+      - "password"
+      - "role"
