@@ -38,7 +38,6 @@ The application follows a modular structure with the following main packages:
 - Search functionality for quotes
 - Categorization of quotes
 - Image upload functionality for quotes
-- Support for related quotes, tags, and additional resources
 
 ### 2. Dictionary Management
 
