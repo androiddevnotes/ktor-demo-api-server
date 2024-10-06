@@ -10,8 +10,9 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploadService) {
-    route("/api/v1/quotes") {  // Make sure this path is correct
+    route("/quotes") {
         get {
+            println("Received GET request for all quotes")
             val page = call.request.queryParameters["page"]?.toIntOrNull() ?: 1
             val pageSize = call.request.queryParameters["pageSize"]?.toIntOrNull() ?: 10
             val quotesResponse = quoteService.getAllQuotes(page, pageSize)
