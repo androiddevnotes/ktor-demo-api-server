@@ -29,6 +29,7 @@ dependencies {
     testImplementation(libs.bundles.testing)
     dokkaHtmlPlugin(libs.dokka.html.plugin)
     implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
+    implementation(libs.bundles.database)
 }
 
 tasks.dokkaHtml {

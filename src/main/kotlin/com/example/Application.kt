@@ -51,13 +51,14 @@ fun Application.module() {
     val databaseUrl = System.getenv("DATABASE_URL") ?: dotenv["DATABASE_URL"] ?: environment.config.property("database.jdbcURL").getString()
     val databaseUser = System.getenv("DATABASE_USER") ?: dotenv["DATABASE_USER"] ?: environment.config.propertyOrNull("database.user")?.getString()
     val databasePassword = System.getenv("DATABASE_PASSWORD") ?: dotenv["DATABASE_PASSWORD"] ?: environment.config.propertyOrNull("database.password")?.getString()
+    
+    // Initialize database and run Flyway migrations
+    DatabaseConfig.init(databaseUrl, databaseUser, databasePassword)
+
     val jwtSecret = System.getenv("JWT_SECRET") ?: dotenv["JWT_SECRET"] ?: environment.config.property("jwt.secret").getString()
     val jwtIssuer = System.getenv("JWT_ISSUER") ?: dotenv["JWT_ISSUER"] ?: environment.config.property("jwt.issuer").getString()
     val jwtAudience = System.getenv("JWT_AUDIENCE") ?: dotenv["JWT_AUDIENCE"] ?: environment.config.property("jwt.audience").getString()
     val uploadDir = System.getenv("UPLOAD_DIR") ?: dotenv["UPLOAD_DIR"] ?: environment.config.propertyOrNull("upload.dir")?.getString() ?: "uploads"
-
-    
-    DatabaseConfig.init(databaseUrl, databaseUser, databasePassword)
 
     val quoteRepository = QuoteRepository()
     val quoteService = QuoteService(quoteRepository)

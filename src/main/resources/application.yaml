@@ -12,6 +12,9 @@ database:
   user: "adn_user"
   password: "adn_password"
 
+flyway:
+  locations: "classpath:db/migration"
+
 jwt:
   secret: "your-secret-key-here"
   issuer: "quote-app"

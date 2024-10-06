@@ -10,6 +10,7 @@ jansi-version = "2.4.1"
 kotlinx-serialization-version = "1.6.3"
 exposed-java-time-version = "0.55.0"
 jbcrypt-version = "0.4"
+flyway-version = "9.16.0"
 
 [libraries]
 ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor-version" }
@@ -35,6 +36,7 @@ ktor-server-call-logging = { module = "io.ktor:ktor-server-call-logging", versio
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-version" }
 exposed-java-time = { module = "org.jetbrains.exposed:exposed-java-time", version.ref = "exposed-java-time-version" }
 jbcrypt = { module = "org.mindrot:jbcrypt", version.ref = "jbcrypt-version" }
+flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway-version" }
 
 [bundles]
 ktor = [
@@ -66,6 +68,14 @@ serialization = [
 testing = [
     "ktor-server-test-host",
     "kotlin-test-junit"
+]
+database = [
+    "exposed-core",
+    "exposed-dao",
+    "exposed-jdbc",
+    "exposed-java-time",
+    "postgresql",
+    "flyway-core"
 ]
 
 [plugins]

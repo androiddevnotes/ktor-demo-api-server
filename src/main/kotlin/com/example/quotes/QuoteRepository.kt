@@ -18,7 +18,7 @@ class QuoteRepository {
     fun getAll(page: Int, pageSize: Int): List<Quote> = transaction {
         Quotes.selectAll()
             .orderBy(Quotes.id)
-            .limit(pageSize, offset = ((page - 1) * pageSize).toLong())
+            .limit(pageSize).offset(start = ((page - 1) * pageSize).toLong())
             .map { toQuote(it) }
     }
 
@@ -64,7 +64,7 @@ class QuoteRepository {
     fun getByCategory(category: String, page: Int, pageSize: Int): List<Quote> = transaction {
         Quotes.selectAll().where { Quotes.category eq category }
             .orderBy(Quotes.id)
-            .limit(pageSize, offset = ((page - 1) * pageSize).toLong())
+            .limit(pageSize).offset(start = ((page - 1) * pageSize).toLong())
             .map { toQuote(it) }
     }
 
