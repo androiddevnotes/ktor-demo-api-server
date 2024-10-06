@@ -32,9 +32,7 @@ dependencies {
   implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
   implementation(libs.bundles.database)
   implementation("org.postgresql:postgresql:42.3.1")
-  implementation("org.flywaydb:flyway-core:9.8.1") // Add this line
-  // Remove the following line if it exists:
-  // implementation("io.github.smiley4:ktor-swagger-ui:1.0.1")
+  implementation("org.flywaydb:flyway-core:9.8.1")
 }
 
 tasks.dokkaHtml {

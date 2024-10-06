@@ -6,7 +6,6 @@ exposed-version = "0.48.0"
 postgresql-version = "42.7.2"
 dokka-version = "1.9.20"
 # Remove the following line if it exists:
-# ktor-swagger-ui-version = "3.4.0"
 jansi-version = "2.4.1"
 kotlinx-serialization-version = "1.6.3"
 exposed-java-time-version = "0.55.0"
@@ -32,8 +31,6 @@ ktor-server-auth-jwt = { module = "io.ktor:ktor-server-auth-jwt", version.ref = 
 ktor-server-sessions = { module = "io.ktor:ktor-server-sessions", version.ref = "ktor-version" }
 ktor-server-status-pages = { module = "io.ktor:ktor-server-status-pages", version.ref = "ktor-version" }
 dokka-html-plugin = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka-version" }
-# Remove the following line if it exists:
-# ktor-swagger-ui = { module = "io.github.smiley4:ktor-swagger-ui", version.ref = "ktor-swagger-ui-version" }
 ktor-server-call-logging = { module = "io.ktor:ktor-server-call-logging", version.ref = "ktor-version" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-version" }
 exposed-java-time = { module = "org.jetbrains.exposed:exposed-java-time", version.ref = "exposed-java-time-version" }

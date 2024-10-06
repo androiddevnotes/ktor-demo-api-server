@@ -248,16 +248,6 @@ fun Application.configureRouting(
   apiKeyRepository: ApiKeyRepository,
 ) {
   routing {
-    // Remove these routes
-        /*
-        route("swagger") {
-            swaggerUI("/api.json")
-        }
-        route("api.json") {
-            openApiSpec()
-        }
-         */
-
     authRoutes(userService, apiKeyRepository)
 
     authenticate("apiKeyAuth") {
