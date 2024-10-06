@@ -98,4 +98,16 @@ class QuoteRepository {
     transaction {
       Quotes.selectAll().where { Quotes.category eq category }.count()
     }
+
+  fun search(query: String): List<Quote> =
+    transaction {
+      val lowercaseQuery = query.lowercase()
+      Quotes
+        .selectAll()
+        .where {
+          (Quotes.content.lowerCase() like "%$lowercaseQuery%") or
+            (Quotes.author.lowerCase() like "%$lowercaseQuery%") or
+            (Quotes.category.lowerCase() like "%$lowercaseQuery%")
+        }.map { toQuote(it) }
+    }
 }

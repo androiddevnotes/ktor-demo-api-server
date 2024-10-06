@@ -85,6 +85,15 @@ The application exposes the following main API routes:
 - `PUT /api/v1/dictionary/{id}`: Update an existing dictionary entry (authenticated)
 - `DELETE /api/v1/dictionary/{id}`: Delete a dictionary entry (authenticated)
 
+### Quotes Routes
+
+- `GET /api/v1/quotes`: Retrieve all quotes with pagination
+- `GET /api/v1/quotes/{id}`: Retrieve a specific quote
+- `GET /api/v1/quotes/search`: Search quotes
+- `POST /api/v1/quotes`: Create a new quote (authenticated)
+- `PUT /api/v1/quotes/{id}`: Update an existing quote (authenticated)
+- `DELETE /api/v1/quotes/{id}`: Delete a quote (authenticated)
+
 ## Pagination
 
 Both the Quotes and Dictionary components now support pagination:
