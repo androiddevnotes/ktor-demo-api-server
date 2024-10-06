@@ -33,27 +33,22 @@ import org.slf4j.LoggerFactory
 private val logger = LoggerFactory.getLogger("com.example.Application")
 
 fun main() {
-    logger.info("Starting application...")
     val port = System.getenv("PORT")?.toInt() ?: 8080
-    logger.info("Using port: $port")
-    
-    embeddedServer(Netty, port = port, host = "0.0.0.0") {
-        module()
-    }.start(wait = true)
+    embeddedServer(Netty, port = port, host = "0.0.0.0", module = Application::module)
+        .start(wait = true)
 }
 
 fun Application.module() {
-    logger.info("Configuring application module...")
     val dotenv = dotenv {
         ignoreIfMissing = true
     }
 
-    val databaseUrl = System.getenv("DATABASE_URL") ?: dotenv["DATABASE_URL"] ?: environment.config.property("database.jdbcURL").getString()
-    val databaseUser = System.getenv("DATABASE_USER") ?: dotenv["DATABASE_USER"] ?: environment.config.propertyOrNull("database.user")?.getString()
-    val databasePassword = System.getenv("DATABASE_PASSWORD") ?: dotenv["DATABASE_PASSWORD"] ?: environment.config.propertyOrNull("database.password")?.getString()
-    
-    
-    DatabaseConfig.init(databaseUrl, databaseUser, databasePassword)
+    // Load environment variables from .env file
+    System.setProperty("DATABASE_URL", dotenv["DATABASE_URL"] ?: "")
+    System.setProperty("DATABASE_USER", dotenv["DATABASE_USER"] ?: "")
+    System.setProperty("DATABASE_PASSWORD", dotenv["DATABASE_PASSWORD"] ?: "")
+
+    DatabaseConfig.init()
 
     val jwtSecret = System.getenv("JWT_SECRET") ?: dotenv["JWT_SECRET"] ?: environment.config.property("jwt.secret").getString()
     val jwtIssuer = System.getenv("JWT_ISSUER") ?: dotenv["JWT_ISSUER"] ?: environment.config.property("jwt.issuer").getString()

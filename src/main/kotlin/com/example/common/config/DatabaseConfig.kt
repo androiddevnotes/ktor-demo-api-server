@@ -1,32 +1,23 @@
 package com.example.common.config
 
-import org.flywaydb.core.Flyway
-import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.transactions.*
-import org.slf4j.LoggerFactory
-
-private val logger = LoggerFactory.getLogger("com.example.common.config.DatabaseConfig")
+import org.jetbrains.exposed.sql.Database
+import io.github.cdimascio.dotenv.dotenv
 
 object DatabaseConfig {
-    fun init(databaseUrl: String, databaseUser: String?, databasePassword: String?) {
-        logger.info("Initializing database connection...")
-        
-        
-        if (databaseUser != null && databasePassword != null) {
-            Database.connect(databaseUrl, driver = "org.postgresql.Driver", user = databaseUser, password = databasePassword)
-        } else {
-            Database.connect(databaseUrl, driver = "org.postgresql.Driver")
+    fun init() {
+        val dotenv = dotenv {
+            ignoreIfMissing = true
         }
 
-        
-        val flyway = Flyway.configure()
-            .dataSource(databaseUrl, databaseUser, databasePassword)
-            .locations("classpath:db/migration")
-            .baselineOnMigrate(true)  
-            .load()
+        val dbUrl = System.getenv("DATABASE_URL") ?: dotenv["DATABASE_URL"] ?: throw IllegalStateException("DATABASE_URL must be set")
+        val dbUser = System.getenv("DATABASE_USER") ?: dotenv["DATABASE_USER"] ?: throw IllegalStateException("DATABASE_USER must be set")
+        val dbPassword = System.getenv("DATABASE_PASSWORD") ?: dotenv["DATABASE_PASSWORD"] ?: throw IllegalStateException("DATABASE_PASSWORD must be set")
 
-        flyway.migrate()
-
-        logger.info("Flyway migration completed.")
+        Database.connect(
+            url = dbUrl,
+            driver = "org.postgresql.Driver",
+            user = dbUser,
+            password = dbPassword
+        )
     }
 }
