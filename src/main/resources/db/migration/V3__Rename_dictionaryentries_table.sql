@@ -1,0 +1,1 @@
+ALTER TABLE dictionaryentries RENAME TO dictionary_entries;

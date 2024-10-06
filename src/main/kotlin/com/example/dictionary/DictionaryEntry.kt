@@ -7,7 +7,7 @@ import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.javatime.*
 import java.time.LocalDateTime
 
-object DictionaryEntries : Table("dictionaryentries") {
+object DictionaryEntries : Table("dictionary_entries") {
     val id = integer("id").autoIncrement()
     val name = varchar("name", 255)
     val definition = text("definition")
@@ -16,7 +16,7 @@ object DictionaryEntries : Table("dictionaryentries") {
     val tags = text("tags")
     val category = varchar("category", 100)
     val languages = text("languages")
-    val resources = text("resources").nullable() // Add this line
+    val resources = text("resources").nullable()
     val createdAt = datetime("created_at")
     val updatedAt = datetime("updated_at")
 
