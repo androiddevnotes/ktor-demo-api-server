@@ -33,6 +33,7 @@ object DatabaseConfig {
         val flyway = Flyway.configure()
             .dataSource(jdbcUrl, dbUser, dbPassword)
             .locations("classpath:db/migration")
+            .baselineOnMigrate(true)  // Add this line
             .load()
 
         // Run the migrations
