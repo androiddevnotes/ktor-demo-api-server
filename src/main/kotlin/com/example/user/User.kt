@@ -1,7 +1,7 @@
 package com.example.user
 
-import kotlinx.serialization.Serializable
-import org.jetbrains.exposed.sql.Table
+import kotlinx.serialization.*
+import org.jetbrains.exposed.sql.*
 
 object Users : Table() {
     val id = integer("id").autoIncrement()

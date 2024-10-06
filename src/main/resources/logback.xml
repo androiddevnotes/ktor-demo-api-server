@@ -1,7 +1,8 @@
 <configuration>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>%d{MM-dd} %highlight(%-5level) [%blue(%thread)] %yellow(%logger{36}) - %msg%n</pattern>
+            <pattern>%d{MM-dd} %highlight(%-5level) [%blue(%thread)] %yellow(%logger{36}) - %msg%n
+            </pattern>
         </encoder>
     </appender>
 
@@ -10,7 +11,7 @@
     </root>
 
     <logger name="com.example" level="DEBUG" />
-    
+
     <!-- Add this line to show Exposed SQL logs -->
     <logger name="Exposed" level="DEBUG" />
 </configuration>

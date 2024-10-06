@@ -3,9 +3,9 @@ package com.example.dictionary
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
-import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.javatime.*
-import java.time.LocalDateTime
+import java.time.*
 
 object DictionaryEntries : Table("dictionary_entries") {
     val id = integer("id").autoIncrement()
@@ -33,7 +33,7 @@ data class DictionaryEntry(
     val tags: List<String>,
     val category: String,
     val languages: List<String>,
-    val resources: List<String>, 
+    val resources: List<String>,
     @Serializable(with = LocalDateTimeAsStringSerializer::class)
     val createdAt: LocalDateTime = LocalDateTime.now(),
     @Serializable(with = LocalDateTimeAsStringSerializer::class)
@@ -41,7 +41,8 @@ data class DictionaryEntry(
 )
 
 object LocalDateTimeAsStringSerializer : KSerializer<LocalDateTime> {
-    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("LocalDateTime", PrimitiveKind.STRING)
+    override val descriptor: SerialDescriptor =
+        PrimitiveSerialDescriptor("LocalDateTime", PrimitiveKind.STRING)
 
 
     override fun serialize(encoder: Encoder, value: LocalDateTime) {
@@ -62,5 +63,5 @@ data class DictionaryEntryDTO(
     val tags: List<String>,
     val category: String,
     val languages: List<String>,
-    val resources: List<String> 
+    val resources: List<String>
 )

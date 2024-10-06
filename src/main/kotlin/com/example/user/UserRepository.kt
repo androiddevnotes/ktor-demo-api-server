@@ -1,15 +1,15 @@
 package com.example.user
 
 import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.transactions.transaction
-import org.mindrot.jbcrypt.BCrypt
+import org.jetbrains.exposed.sql.transactions.*
+import org.mindrot.jbcrypt.*
 
 class UserRepository {
     fun createUser(user: UserDTO): User = transaction {
         val id = Users.insert {
             it[username] = user.username
             it[password] = BCrypt.hashpw(user.password, BCrypt.gensalt())
-            it[role] = "USER" 
+            it[role] = "USER"
         } get Users.id
         User(id, user.username, "", "USER")
     }

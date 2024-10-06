@@ -3,7 +3,7 @@ package com.example.common.utils
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
-import kotlinx.serialization.Serializable
+import kotlinx.serialization.*
 
 @Serializable
 data class ErrorResponse(

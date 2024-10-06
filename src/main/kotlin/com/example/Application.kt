@@ -1,6 +1,7 @@
 package com.example
 
 import com.auth0.jwt.exceptions.*
+import com.example.apikey.*
 import com.example.common.config.*
 import com.example.common.exceptions.*
 import com.example.common.exceptions.NotFoundException
@@ -8,7 +9,7 @@ import com.example.common.utils.*
 import com.example.dictionary.*
 import com.example.quotes.*
 import com.example.user.*
-import io.github.cdimascio.dotenv.dotenv
+import io.github.cdimascio.dotenv.*
 import io.github.smiley4.ktorswaggerui.*
 import io.github.smiley4.ktorswaggerui.routing.*
 import io.ktor.http.*
@@ -16,6 +17,7 @@ import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
+import io.ktor.server.engine.*
 import io.ktor.server.http.content.*
 import io.ktor.server.netty.*
 import io.ktor.server.plugins.*
@@ -23,14 +25,12 @@ import io.ktor.server.plugins.callloging.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.request.*
+import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.serialization.json.*
+import org.slf4j.*
 import org.slf4j.event.*
 import java.io.*
-import io.ktor.server.engine.*
-import org.slf4j.LoggerFactory
-import com.example.apikey.ApiKeyRepository
-import io.ktor.server.response.*
 
 private val logger = LoggerFactory.getLogger("com.example.Application")
 
@@ -45,17 +45,21 @@ fun Application.module() {
         ignoreIfMissing = true
     }
 
-    
+
     System.setProperty("DATABASE_URL", dotenv["DATABASE_URL"] ?: "")
     System.setProperty("DATABASE_USER", dotenv["DATABASE_USER"] ?: "")
     System.setProperty("DATABASE_PASSWORD", dotenv["DATABASE_PASSWORD"] ?: "")
 
     DatabaseConfig.init()
 
-    val jwtSecret = System.getenv("JWT_SECRET") ?: dotenv["JWT_SECRET"] ?: environment.config.property("jwt.secret").getString()
-    val jwtIssuer = System.getenv("JWT_ISSUER") ?: dotenv["JWT_ISSUER"] ?: environment.config.property("jwt.issuer").getString()
-    val jwtAudience = System.getenv("JWT_AUDIENCE") ?: dotenv["JWT_AUDIENCE"] ?: environment.config.property("jwt.audience").getString()
-    val uploadDir = System.getenv("UPLOAD_DIR") ?: dotenv["UPLOAD_DIR"] ?: environment.config.propertyOrNull("upload.dir")?.getString() ?: "uploads"
+    val jwtSecret = System.getenv("JWT_SECRET") ?: dotenv["JWT_SECRET"]
+    ?: environment.config.property("jwt.secret").getString()
+    val jwtIssuer = System.getenv("JWT_ISSUER") ?: dotenv["JWT_ISSUER"]
+    ?: environment.config.property("jwt.issuer").getString()
+    val jwtAudience = System.getenv("JWT_AUDIENCE") ?: dotenv["JWT_AUDIENCE"]
+    ?: environment.config.property("jwt.audience").getString()
+    val uploadDir = System.getenv("UPLOAD_DIR") ?: dotenv["UPLOAD_DIR"]
+    ?: environment.config.propertyOrNull("upload.dir")?.getString() ?: "uploads"
 
     val quoteRepository = QuoteRepository()
     val quoteService = QuoteService(quoteRepository)
@@ -215,7 +219,13 @@ fun Application.module() {
 
     install(SwaggerUI)
 
-    configureRouting(quoteService, userService, imageUploadService, dictionaryService, apiKeyRepository)
+    configureRouting(
+        quoteService,
+        userService,
+        imageUploadService,
+        dictionaryService,
+        apiKeyRepository
+    )
 }
 
 fun Application.configureRouting(
@@ -237,32 +247,35 @@ fun Application.configureRouting(
         authenticate("apiKeyAuth") {
             route("/api/v1") {
                 quoteRoutes(quoteService, imageUploadService)
-                
+
                 route("/terms") {
                     get {
                         call.respond(dictionaryService.getAllEntries())
                     }
-                    
+
                 }
             }
         }
-        
-        
+
+
         dictionaryRoutes(dictionaryService)
-        
+
         val uploadDir = environment?.config?.propertyOrNull("upload.dir")?.getString() ?: "uploads"
         staticFiles("/images", File(uploadDir))
     }
 }
 
 fun AuthenticationConfig.apiKeyAuth(name: String, validate: suspend (String) -> Principal?) {
-    register(object : AuthenticationProvider(object : AuthenticationProvider.Config(name) {}) {
+    register(object : AuthenticationProvider(object : Config(name) {}) {
         override suspend fun onAuthenticate(context: AuthenticationContext) {
             val call = context.call
             val apiKey = call.request.headers["X-API-Key"]
                 ?: call.request.queryParameters["api_key"]
             if (apiKey == null) {
-                context.challenge("APIKey", AuthenticationFailedCause.NoCredentials) { challenge, call ->
+                context.challenge(
+                    "APIKey",
+                    AuthenticationFailedCause.NoCredentials
+                ) { challenge, call ->
                     call.respondError(
                         HttpStatusCode.Unauthorized,
                         "Missing API Key",
@@ -276,7 +289,10 @@ fun AuthenticationConfig.apiKeyAuth(name: String, validate: suspend (String) -> 
             if (principal != null) {
                 context.principal(principal)
             } else {
-                context.challenge("APIKey", AuthenticationFailedCause.InvalidCredentials) { challenge, call ->
+                context.challenge(
+                    "APIKey",
+                    AuthenticationFailedCause.InvalidCredentials
+                ) { challenge, call ->
                     call.respondError(
                         HttpStatusCode.Unauthorized,
                         "Invalid API Key",

@@ -1,9 +1,9 @@
 package com.example.common.utils
 
-import java.io.File
-import io.ktor.http.content.*
 import io.ktor.http.*
+import io.ktor.http.content.*
 import io.ktor.server.plugins.*
+import java.io.*
 import java.util.*
 
 class ImageUploadService(private val uploadDir: String) {
@@ -59,6 +59,6 @@ class ImageUploadService(private val uploadDir: String) {
 
     private fun sanitizeFileName(fileName: String): String {
         return fileName.replace(Regex("[^a-zA-Z0-9.-]"), "_")
-            .take(50) 
+            .take(50)
     }
 }

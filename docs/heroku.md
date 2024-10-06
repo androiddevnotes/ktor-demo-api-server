@@ -58,7 +58,8 @@ This guide will walk you through the process of deploying your Ktor application 
    ```
    heroku run ./gradlew flywayMigrate
    ```
-   Note: This step assumes you're using Flyway for database migrations. Adjust as necessary for your setup.
+   Note: This step assumes you're using Flyway for database migrations. Adjust as necessary for your
+   setup.
 
 7. **Open the application**
 
@@ -74,7 +75,8 @@ This guide will walk you through the process of deploying your Ktor application 
   heroku logs --tail
   ```
 
-- If the application is taking too long to start, consider optimizing your initialization process, especially database operations.
+- If the application is taking too long to start, consider optimizing your initialization process,
+  especially database operations.
 
 - Ensure that your `Procfile` is correctly configured and in the root directory of your project:
   ```
@@ -82,13 +84,15 @@ This guide will walk you through the process of deploying your Ktor application 
   ```
   Replace `com.example.ktor-sample` with your actual project name if different.
 
-- If the issue persists, you might need to increase the dyno's memory. You can do this by changing to a larger dyno type:
+- If the issue persists, you might need to increase the dyno's memory. You can do this by changing
+  to a larger dyno type:
   ```
   heroku ps:resize web=standard-1x
   ```
   Note that this will increase your Heroku bill.
 
-- Make sure your `application.conf` or `application.yaml` file is correctly reading environment variables for database configuration and other sensitive information.
+- Make sure your `application.conf` or `application.yaml` file is correctly reading environment
+  variables for database configuration and other sensitive information.
 
 ## Scaling
 

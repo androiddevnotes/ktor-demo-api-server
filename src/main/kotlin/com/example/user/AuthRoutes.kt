@@ -1,15 +1,15 @@
 package com.example.user
 
-import com.example.common.config.JwtConfig
+import com.example.apikey.*
+import com.example.common.config.*
+import com.example.common.utils.*
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import com.example.common.utils.respondError
-import com.example.apikey.ApiKeyRepository
-import io.ktor.server.auth.*
-import io.ktor.server.auth.jwt.*
 
 fun Route.authRoutes(userService: UserService, apiKeyRepository: ApiKeyRepository) {
     route("/api/v1") {

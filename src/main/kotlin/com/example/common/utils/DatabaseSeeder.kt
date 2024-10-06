@@ -4,9 +4,9 @@ import com.example.dictionary.*
 import com.example.quotes.*
 import com.example.user.*
 import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.transactions.transaction
-import org.mindrot.jbcrypt.BCrypt
-import java.time.LocalDateTime
+import org.jetbrains.exposed.sql.transactions.*
+import org.mindrot.jbcrypt.*
+import java.time.*
 
 object DatabaseSeeder {
     fun seedAll() {
@@ -46,17 +46,35 @@ object DatabaseSeeder {
     }
 
     private fun seedQuotes() {
-        val authors = listOf("Albert Einstein", "Isaac Newton", "Nikola Tesla", "Marie Curie", "Stephen Hawking")
-        val contentPrefixes = listOf("The secret of", "I believe in", "The most important aspect of", "Never underestimate", "The key to success is")
-        val contentSuffixes = listOf("is perseverance", "lies in curiosity", "can be found in simplicity", "requires dedication", "is continuous learning")
+        val authors = listOf(
+            "Albert Einstein",
+            "Isaac Newton",
+            "Nikola Tesla",
+            "Marie Curie",
+            "Stephen Hawking"
+        )
+        val contentPrefixes = listOf(
+            "The secret of",
+            "I believe in",
+            "The most important aspect of",
+            "Never underestimate",
+            "The key to success is"
+        )
+        val contentSuffixes = listOf(
+            "is perseverance",
+            "lies in curiosity",
+            "can be found in simplicity",
+            "requires dedication",
+            "is continuous learning"
+        )
         val categories = listOf("Science", "Philosophy", "Motivation", "Life", "Success")
 
-        repeat(1000) { 
+        repeat(1000) {
             Quotes.insert {
                 it[content] = "${contentPrefixes.random()} ${contentSuffixes.random()}"
                 it[author] = authors.random()
                 it[category] = categories.random()
-                it[imageUrl] = null 
+                it[imageUrl] = null
             }
         }
         println("Database seeded with 1000 dummy quotes including categories.")
@@ -80,7 +98,10 @@ object DatabaseSeeder {
             DictionaryEntry(
                 name = "Function",
                 definition = "A block of organized, reusable code that performs a specific task.",
-                examples = listOf("def greet(name):\n    print(f\"Hello, {name}!\")", "int add(int a, int b) {\n    return a + b;\n}"),
+                examples = listOf(
+                    "def greet(name):\n    print(f\"Hello, {name}!\")",
+                    "int add(int a, int b) {\n    return a + b;\n}"
+                ),
                 relatedTerms = listOf("Method", "Procedure", "Subroutine"),
                 tags = listOf("Basic", "Programming Fundamentals"),
                 category = "Programming Concepts",

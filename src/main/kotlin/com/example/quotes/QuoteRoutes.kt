@@ -1,14 +1,9 @@
 package com.example.quotes
 
-import com.example.common.exceptions.*
-import com.example.common.exceptions.NotFoundException
 import com.example.common.utils.*
-import io.github.smiley4.ktorswaggerui.dsl.routing.*
 import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.server.application.*
-import io.ktor.server.auth.*
-import io.ktor.server.auth.jwt.*
 import io.ktor.server.plugins.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
@@ -54,9 +49,11 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
                                 "category" -> category = part.value
                             }
                         }
+
                         is PartData.FileItem -> {
                             imageUrl = imageUploadService.saveImage(part)
                         }
+
                         else -> {}
                     }
                     part.dispose()
@@ -85,7 +82,5 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
                 )
             }
         }
-
-        
     }
 }

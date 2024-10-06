@@ -1,6 +1,6 @@
 package com.example.user
 
-import org.mindrot.jbcrypt.BCrypt
+import org.mindrot.jbcrypt.*
 
 class UserService(private val repository: UserRepository) {
     fun registerUser(user: UserDTO): User = repository.createUser(user)

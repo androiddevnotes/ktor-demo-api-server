@@ -2,8 +2,8 @@ package com.example.dictionary
 
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.transactions.transaction
-import java.time.LocalDateTime
+import org.jetbrains.exposed.sql.transactions.*
+import java.time.*
 
 class DictionaryRepository {
     fun create(entry: DictionaryEntry): DictionaryEntry = transaction {
@@ -55,9 +55,9 @@ class DictionaryRepository {
         val lowercaseQuery = query.lowercase()
         DictionaryEntries.selectAll().where {
             (DictionaryEntries.name.lowerCase() like "%$lowercaseQuery%") or
-            (DictionaryEntries.definition.lowerCase() like "%$lowercaseQuery%") or
-            (DictionaryEntries.tags.lowerCase() like "%$lowercaseQuery%") or
-            (DictionaryEntries.category.lowerCase() like "%$lowercaseQuery%")
+                    (DictionaryEntries.definition.lowerCase() like "%$lowercaseQuery%") or
+                    (DictionaryEntries.tags.lowerCase() like "%$lowercaseQuery%") or
+                    (DictionaryEntries.category.lowerCase() like "%$lowercaseQuery%")
         }.map { toDictionaryEntry(it) }
     }
 

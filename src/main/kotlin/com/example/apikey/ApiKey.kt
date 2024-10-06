@@ -5,7 +5,7 @@ import kotlinx.serialization.*
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.javatime.*
 
-object ApiKeys : Table("api_keys") {  
+object ApiKeys : Table("api_keys") {
     val id = integer("id").autoIncrement()
     val key = varchar("key", 255).uniqueIndex()
     val userId = integer("user_id").references(Users.id)

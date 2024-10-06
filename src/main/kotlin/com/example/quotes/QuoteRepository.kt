@@ -60,7 +60,7 @@ class QuoteRepository {
             category = row[Quotes.category]
         )
 
-    
+
     fun getByCategory(category: String, page: Int, pageSize: Int): List<Quote> = transaction {
         Quotes.selectAll().where { Quotes.category eq category }
             .orderBy(Quotes.id)
@@ -68,7 +68,7 @@ class QuoteRepository {
             .map { toQuote(it) }
     }
 
-    
+
     fun countByCategory(category: String): Long = transaction {
         Quotes.selectAll().where { Quotes.category eq category }.count()
     }
