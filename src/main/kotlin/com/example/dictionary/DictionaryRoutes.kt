@@ -8,7 +8,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Route.dictionaryRoutes(dictionaryService: DictionaryService) {
-    route("/api/v1/dictionary") {
+    route("/dictionary") {
         get {
             call.respond(dictionaryService.getAllEntries())
         }

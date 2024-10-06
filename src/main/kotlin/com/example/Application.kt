@@ -257,8 +257,9 @@ fun Application.configureRouting(
             }
         }
 
-
-        dictionaryRoutes(dictionaryService)
+        route("/api/v1") {
+            dictionaryRoutes(dictionaryService)
+        }
 
         val uploadDir = environment?.config?.propertyOrNull("upload.dir")?.getString() ?: "uploads"
         staticFiles("/images", File(uploadDir))
