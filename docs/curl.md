@@ -2,7 +2,7 @@
 
 ## Register
 
-curl -X POST http://localhost:8080/register \
+curl -X POST http://localhost:8080/api/v1/register \
  -H "Content-Type: application/json" \
  -d '{
 "username": "testuser",
@@ -11,7 +11,7 @@ curl -X POST http://localhost:8080/register \
 
 ## Login
 
-curl -X POST http://localhost:8080/login \
+curl -X POST http://localhost:8080/api/v1/login \
  -H "Content-Type: application/json" \
  -d '{
 "username": "testuser",
@@ -24,7 +24,7 @@ curl -X POST http://localhost:8080/login \
 
 creating a quote (this should fail for a regular user):
 
-curl -X POST http://localhost:8080/quotes \
+curl -X POST http://localhost:8080/api/v1/quotes \
 -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImF1ZCI6InF1b3RlLWFwcC11c2VycyIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgyMDQ5MjV9.uGQlVHPfo80TfmPkL_NSVwveeUin96ep32QPcNEm57k" \
 -H "Content-Type: application/json" \
 -d '{
@@ -43,7 +43,7 @@ curl -X POST http://localhost:8080/api/v1/quotes \
 
 ## Update Quote
 
-curl -X PUT http://localhost:8080/quotes/32007 \
+curl -X PUT http://localhost:8080/api/v1/quotes/32007 \
 -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImF1ZCI6InF1b3RlLWFwcC11c2VycyIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgyMDQ5MjV9.uGQlVHPfo80TfmPkL_NSVwveeUin96ep32QPcNEm57k" \
 -H "Content-Type: application/json" \
 -d '{
@@ -52,23 +52,23 @@ curl -X PUT http://localhost:8080/quotes/32007 \
 }'
 
 ## Get Quotes
-c
-curl -X GET http://localhost:8080/quotes
+
+curl -X GET http://localhost:8080/api/v1/quotes
 
 # Get Quotes with pagination
 
-curl -X GET "http://localhost:8080/quotes?page=1&pageSize=10"
+curl -X GET "http://localhost:8080/api/v1/quotes?page=1&pageSize=10"
 
 ## Get Quote by ID
 
 Requires auth:
 
-curl -X GET http://localhost:8080/quotes/2008 \
+curl -X GET http://localhost:8080/api/v1/quotes/2008 \
 -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImF1ZCI6InF1b3RlLWFwcC11c2VycyIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgyMDQ5MjV9.uGQlVHPfo80TfmPkL_NSVwveeUin96ep32QPcNEm57k"
 
 ## Login as an admin user
 
-curl -X POST http://localhost:8080/api/v1login \
+curl -X POST http://localhost:8080/api/v1/login \
  -H "Content-Type: application/json" \
  -d '{
 "username": "admin",
@@ -86,7 +86,7 @@ curl -X POST http://localhost:8080/api/v1/login \
 
 ## Create Quote as an admin user
 
-curl -X POST http://localhost:8080/quotes \
+curl -X POST http://localhost:8080/api/v1/quotes \
 -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImlkIjoxLCJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6IkFETUlOIiwiZXhwIjoxNzI4MDE3MDg4fQ.xK85OBOuS-8J9S3rsmStojEczlBeqD6IGQaoGJnVKmU" \
 -H "Content-Type: application/json" \
 -d '{
@@ -96,11 +96,11 @@ curl -X POST http://localhost:8080/quotes \
 
 ## Get Quotes by Category
 
-curl -X GET "http://localhost:8080/category/Science?page=1&pageSize=10"
+curl -X GET "http://localhost:8080/api/v1/category/Science?page=1&pageSize=10"
 
 ## Create Quote with Category
 
-curl -X POST http://localhost:8080/quotes \
+curl -X POST http://localhost:8080/api/v1/quotes \
 -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImF1ZCI6InF1b3RlLWFwcC11c2VycyIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgyMDQ5MjV9.uGQlVHPfo80TfmPkL_NSVwveeUin96ep32QPcNEm57k" \
 -H "Content-Type: multipart/form-data" \
 -F "content=E = mc^2" \
@@ -109,7 +109,7 @@ curl -X POST http://localhost:8080/quotes \
 
 ## Update Quote with Category
 
-curl -X PUT http://localhost:8080/quotes/1 \
+curl -X PUT http://localhost:8080/api/v1/quotes/1 \
 -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImF1ZCI6InF1b3RlLWFwcC11c2VycyIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgyMDQ5MjV9.uGQlVHPfo80TfmPkL_NSVwveeUin96ep32QPcNEm57k" \
 -H "Content-Type: application/json" \
 -d '{
@@ -120,11 +120,11 @@ curl -X PUT http://localhost:8080/quotes/1 \
 
 ## Get All Quotes (now including category)
 
-curl -X GET "http://localhost:8080/quotes?page=1&pageSize=10"
+curl -X GET "http://localhost:8080/api/v1/quotes?page=1&pageSize=10"
 
 ## Get Quote by ID (now including category)
 
-curl -X GET http://localhost:8080/quotes/1 \
+curl -X GET http://localhost:8080/api/v1/quotes/1 \
 -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImF1ZCI6InF1b3RlLWFwcC11c2VycyIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgyMDQ5MjV9.uGQlVHPfo80TfmPkL_NSVwveeUin96ep32QPcNEm57k"
 
 ## Create Quote with Image and Category
@@ -184,5 +184,4 @@ curl -X PUT "http://localhost:8080/api/v1/dictionary/1" \
 ## Delete Dictionary Entry (requires authentication)
 
 curl -X DELETE "http://localhost:8080/api/v1/dictionary/1" \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImF1ZCI6InF1b3RlLWFwcC11c2VycyIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgyMDQ5MjV9.uGQlVHPfo80TfmPkL_NSVwveeUin96ep32QPcNEm57k"
-
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImF1ZCI6InF1b3RlLWFwcC11c2VrcyIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgyMDQ5MjV9.uGQlVHPfo80TfmPkL_NSVwveeUin96ep32QPcNEm57k"
