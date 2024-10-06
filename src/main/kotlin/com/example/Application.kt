@@ -235,16 +235,19 @@ fun Application.configureRouting(
         authRoutes(userService, apiKeyRepository)
 
         authenticate("apiKeyAuth") {
-            route("/api/v1/terms") {
-                get {
-                    // Handle authenticated requests for terms
-                    call.respond(dictionaryService.getAllEntries())
+            route("/api/v1") {
+                quoteRoutes(quoteService, imageUploadService)
+                
+                route("/terms") {
+                    get {
+                        call.respond(dictionaryService.getAllEntries())
+                    }
+                    // Other secured dictionary endpoints
                 }
-                // Other secured dictionary endpoints
             }
         }
-
-        quoteRoutes(quoteService, imageUploadService)
+        
+        // Keep dictionary routes outside of API key auth if you want them to remain public
         dictionaryRoutes(dictionaryService)
         
         val uploadDir = environment?.config?.propertyOrNull("upload.dir")?.getString() ?: "uploads"
