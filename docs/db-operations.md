@@ -186,4 +186,4 @@ Let's compare the process of renaming the `dictionaryentries` table to `dictiona
 - **Rollback**: Flyway can automatically handle rollbacks to previous versions. Without Flyway, rollbacks must be planned and executed manually.
 - **Team Coordination**: Flyway reduces the need for team coordination around database changes. Without Flyway, more communication is required to ensure all team members apply changes correctly.
 
-Using Flyway significantly simplifies the process of managing database schema changes, reducing the potential for errors and inconsistencies across different environments.
+Using Flyway significantly simplifies the process of managing database schema changes, reducing the potential for errors and inconsistencies across different environments ...
