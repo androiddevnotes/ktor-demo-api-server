@@ -7,8 +7,11 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import com.example.common.utils.respondError
+import com.example.apikey.ApiKeyRepository
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 
-fun Route.authRoutes(userService: UserService) {
+fun Route.authRoutes(userService: UserService, apiKeyRepository: ApiKeyRepository) {
     route("/api/v1") {
         post("/register") {
             val user = call.receive<UserDTO>()
@@ -28,6 +31,23 @@ fun Route.authRoutes(userService: UserService) {
                     "Invalid credentials",
                     "INVALID_CREDENTIALS"
                 )
+            }
+        }
+
+        authenticate {
+            post("/api-key") {
+                val principal = call.principal<JWTPrincipal>()
+                val userId = principal?.getClaim("id", Int::class)
+                if (userId != null) {
+                    val apiKey = apiKeyRepository.createApiKey(userId)
+                    call.respond(HttpStatusCode.Created, mapOf("apiKey" to apiKey.key))
+                } else {
+                    call.respondError(
+                        HttpStatusCode.Unauthorized,
+                        "Invalid user",
+                        "INVALID_USER"
+                    )
+                }
             }
         }
     }

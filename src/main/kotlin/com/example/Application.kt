@@ -29,6 +29,8 @@ import org.slf4j.event.*
 import java.io.*
 import io.ktor.server.engine.*
 import org.slf4j.LoggerFactory
+import com.example.apikey.ApiKeyRepository
+import io.ktor.server.response.*
 
 private val logger = LoggerFactory.getLogger("com.example.Application")
 
@@ -65,6 +67,8 @@ fun Application.module() {
 
     JwtConfig.initialize(jwtSecret, jwtIssuer, jwtAudience)
 
+    val apiKeyRepository = ApiKeyRepository()
+
     install(Authentication) {
         jwt {
             verifier(JwtConfig.verifier())
@@ -81,6 +85,12 @@ fun Application.module() {
             }
             challenge { _, _ ->
                 throw AuthenticationFailureException("Authentication failed")
+            }
+        }
+        apiKeyAuth("apiKeyAuth") { apiKey ->
+            apiKeyRepository.findByKey(apiKey)?.let { foundKey ->
+                apiKeyRepository.updateLastUsed(foundKey.id)
+                UserIdPrincipal(foundKey.userId.toString())
             }
         }
     }
@@ -205,14 +215,15 @@ fun Application.module() {
 
     install(SwaggerUI)
 
-    configureRouting(quoteService, userService, imageUploadService, dictionaryService)
+    configureRouting(quoteService, userService, imageUploadService, dictionaryService, apiKeyRepository)
 }
 
 fun Application.configureRouting(
     quoteService: QuoteService,
     userService: UserService,
     imageUploadService: ImageUploadService,
-    dictionaryService: DictionaryService
+    dictionaryService: DictionaryService,
+    apiKeyRepository: ApiKeyRepository
 ) {
     routing {
         route("swagger") {
@@ -221,11 +232,56 @@ fun Application.configureRouting(
         route("api.json") {
             openApiSpec()
         }
-        authRoutes(userService)
+        authRoutes(userService, apiKeyRepository)
+
+        authenticate("apiKeyAuth") {
+            route("/api/v1/terms") {
+                get {
+                    // Handle authenticated requests for terms
+                    call.respond(dictionaryService.getAllEntries())
+                }
+                // Other secured dictionary endpoints
+            }
+        }
+
         quoteRoutes(quoteService, imageUploadService)
         dictionaryRoutes(dictionaryService)
         
         val uploadDir = environment?.config?.propertyOrNull("upload.dir")?.getString() ?: "uploads"
         staticFiles("/images", File(uploadDir))
     }
+}
+
+fun AuthenticationConfig.apiKeyAuth(name: String, validate: suspend (String) -> Principal?) {
+    register(object : AuthenticationProvider(object : AuthenticationProvider.Config(name) {}) {
+        override suspend fun onAuthenticate(context: AuthenticationContext) {
+            val call = context.call
+            val apiKey = call.request.headers["X-API-Key"]
+                ?: call.request.queryParameters["api_key"]
+            if (apiKey == null) {
+                context.challenge("APIKey", AuthenticationFailedCause.NoCredentials) { challenge, call ->
+                    call.respondError(
+                        HttpStatusCode.Unauthorized,
+                        "Missing API Key",
+                        "MISSING_API_KEY"
+                    )
+                    challenge.complete()
+                }
+                return
+            }
+            val principal = validate(apiKey)
+            if (principal != null) {
+                context.principal(principal)
+            } else {
+                context.challenge("APIKey", AuthenticationFailedCause.InvalidCredentials) { challenge, call ->
+                    call.respondError(
+                        HttpStatusCode.Unauthorized,
+                        "Invalid API Key",
+                        "INVALID_API_KEY"
+                    )
+                    challenge.complete()
+                }
+            }
+        }
+    })
 }

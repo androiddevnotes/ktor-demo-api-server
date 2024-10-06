@@ -1,0 +1,7 @@
+CREATE TABLE api_keys (
+    id SERIAL PRIMARY KEY,
+    key VARCHAR(255) NOT NULL UNIQUE,
+    user_id INTEGER NOT NULL REFERENCES users(id),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    last_used_at TIMESTAMP
+);
