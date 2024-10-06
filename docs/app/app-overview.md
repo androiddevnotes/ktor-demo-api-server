@@ -46,8 +46,7 @@ The application follows a modular structure with the following main packages:
 - Pagination support for retrieving dictionary entries
 - Search functionality for dictionary entries
 - Categorization of dictionary entries
-- Image upload functionality for dictionary entries
-- Support for examples, related terms, tags, and additional resources
+- Support for examples, related terms, tags, languages, and additional resources
 
 ### 3. User Authentication
 
@@ -77,6 +76,22 @@ The application exposes the following main API routes:
 2. Quote routes (`/api/v1/quotes`)
 3. Dictionary routes (`/api/v1/dictionary`)
 4. API key generation route (`/api/v1/api-key`)
+
+### Dictionary Routes
+
+- `GET /api/v1/dictionary`: Retrieve all dictionary entries with pagination
+- `GET /api/v1/dictionary/{id}`: Retrieve a specific dictionary entry
+- `GET /api/v1/dictionary/search`: Search dictionary entries
+- `POST /api/v1/dictionary`: Create a new dictionary entry (authenticated)
+- `PUT /api/v1/dictionary/{id}`: Update an existing dictionary entry (authenticated)
+- `DELETE /api/v1/dictionary/{id}`: Delete a dictionary entry (authenticated)
+
+## Pagination
+
+Both the Quotes and Dictionary components now support pagination:
+
+- Clients can specify `page` and `pageSize` parameters in GET requests
+- Responses include metadata about the current page, total entries, and total pages
 
 ## Configuration
 
