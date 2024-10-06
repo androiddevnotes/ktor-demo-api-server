@@ -1,10 +1,10 @@
 package com.example.common.utils
 
 import java.io.File
-import java.util.UUID
 import io.ktor.http.content.*
 import io.ktor.http.*
 import io.ktor.server.plugins.*
+import java.util.*
 
 class ImageUploadService(private val uploadDir: String) {
     private val allowedExtensions = listOf("jpg", "jpeg", "png", "gif")
@@ -19,21 +19,35 @@ class ImageUploadService(private val uploadDir: String) {
     }
 
     fun saveImage(part: PartData.FileItem): String {
-        val originalFileName = part.originalFileName ?: throw BadRequestException("Original file name is missing")
-        val fileExtension = originalFileName.substringAfterLast('.', "").toLowerCase()
+        val originalFileName =
+            part.originalFileName ?: throw BadRequestException("Original file name is missing")
+        val fileExtension =
+            originalFileName.substringAfterLast('.', "").lowercase(Locale.getDefault())
 
         if (fileExtension !in allowedExtensions) {
-            throw BadRequestException("File type not allowed. Allowed types are: ${allowedExtensions.joinToString(", ")}")
+            throw BadRequestException(
+                "File type not allowed. Allowed types are: ${
+                    allowedExtensions.joinToString(
+                        ", "
+                    )
+                }"
+            )
         }
 
         if (part.contentType !in allowedContentTypes) {
-            throw BadRequestException("Content type not allowed. Allowed types are: ${allowedContentTypes.joinToString(", ")}")
+            throw BadRequestException(
+                "Content type not allowed. Allowed types are: ${
+                    allowedContentTypes.joinToString(
+                        ", "
+                    )
+                }"
+            )
         }
 
         val sanitizedFileName = sanitizeFileName(originalFileName.substringBeforeLast('.'))
         val uniqueId = UUID.randomUUID().toString().take(8)
         val fileName = "${sanitizedFileName}_${uniqueId}.$fileExtension"
-        
+
         val file = File("$uploadDir/$fileName")
         part.streamProvider().use { input ->
             file.outputStream().buffered().use { output ->
