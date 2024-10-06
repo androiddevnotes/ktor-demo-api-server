@@ -280,9 +280,7 @@ fun Application.configureRouting(
     val uploadDir = environment?.config?.propertyOrNull("upload.dir")?.getString() ?: "uploads"
     staticFiles("/images", File(uploadDir))
 
-    swaggerUI(path = "swagger", swaggerFile = "openapi/documentation.yaml") {
-      version = "4.15.5"
-    }
+    swaggerUI(path = "swagger", swaggerFile = "openapi/documentation.yaml")
   }
 }
 
