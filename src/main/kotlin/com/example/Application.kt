@@ -52,7 +52,7 @@ fun Application.module() {
     val databaseUser = System.getenv("DATABASE_USER") ?: dotenv["DATABASE_USER"] ?: environment.config.propertyOrNull("database.user")?.getString()
     val databasePassword = System.getenv("DATABASE_PASSWORD") ?: dotenv["DATABASE_PASSWORD"] ?: environment.config.propertyOrNull("database.password")?.getString()
     
-    // Initialize database and run Flyway migrations
+    
     DatabaseConfig.init(databaseUrl, databaseUser, databasePassword)
 
     val jwtSecret = System.getenv("JWT_SECRET") ?: dotenv["JWT_SECRET"] ?: environment.config.property("jwt.secret").getString()

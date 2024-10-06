@@ -11,18 +11,18 @@ object DatabaseConfig {
     fun init(databaseUrl: String, databaseUser: String?, databasePassword: String?) {
         logger.info("Initializing database connection...")
         
-        // Database connection
+        
         if (databaseUser != null && databasePassword != null) {
             Database.connect(databaseUrl, driver = "org.postgresql.Driver", user = databaseUser, password = databasePassword)
         } else {
             Database.connect(databaseUrl, driver = "org.postgresql.Driver")
         }
 
-        // Flyway migration
+        
         val flyway = Flyway.configure()
             .dataSource(databaseUrl, databaseUser, databasePassword)
             .locations("classpath:db/migration")
-            .baselineOnMigrate(true)  // This will create the schema history table if it doesn't exist
+            .baselineOnMigrate(true)  
             .load()
 
         flyway.migrate()

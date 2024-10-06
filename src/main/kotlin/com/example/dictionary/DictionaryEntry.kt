@@ -33,7 +33,7 @@ data class DictionaryEntry(
     val tags: List<String>,
     val category: String,
     val languages: List<String>,
-    val resources: List<String>, // New field
+    val resources: List<String>, 
     @Serializable(with = LocalDateTimeAsStringSerializer::class)
     val createdAt: LocalDateTime = LocalDateTime.now(),
     @Serializable(with = LocalDateTimeAsStringSerializer::class)
@@ -62,5 +62,5 @@ data class DictionaryEntryDTO(
     val tags: List<String>,
     val category: String,
     val languages: List<String>,
-    val resources: List<String> // Add this line
+    val resources: List<String> 
 )

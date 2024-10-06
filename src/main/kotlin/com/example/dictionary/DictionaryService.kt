@@ -10,7 +10,7 @@ class DictionaryService(private val repository: DictionaryRepository) {
             tags = entryDTO.tags,
             category = entryDTO.category,
             languages = entryDTO.languages,
-            resources = entryDTO.resources // Add this line
+            resources = entryDTO.resources 
         )
         return repository.create(entry)
     }
@@ -29,7 +29,7 @@ class DictionaryService(private val repository: DictionaryRepository) {
             tags = entryDTO.tags,
             category = entryDTO.category,
             languages = entryDTO.languages,
-            resources = entryDTO.resources // Add this line
+            resources = entryDTO.resources 
         )
         return repository.update(id, entry)
     }
