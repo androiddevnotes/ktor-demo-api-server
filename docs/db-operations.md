@@ -114,3 +114,76 @@ Remember to update your application logic, API endpoints, and any related fronte
 ## Conclusion
 
 By using Flyway, we ensure that our database schema evolves consistently with our application code. Always create a new migration script for each database change, and let Flyway handle the application of these changes across all environments.
+
+## Manual Database Schema Management (With vs Without Flyway)
+
+Let's compare the process of renaming the `dictionaryentries` table to `dictionary_entries` with and without Flyway:
+
+### With Flyway
+
+1. **Create a Migration Script**:
+   Create a new file in `src/main/resources/db/migration/` named `V3__Rename_dictionaryentries_table.sql`:
+   ```sql
+   ALTER TABLE dictionaryentries RENAME TO dictionary_entries;
+   ```
+
+2. **Run the Application**:
+   Simply start your application:
+   ```
+   ./gradlew run
+   ```
+   Flyway will automatically detect and apply the new migration.
+
+3. **Update Application Code**:
+   Update the Kotlin code to reflect the new table name (e.g., in `DictionaryEntry.kt`).
+
+4. **Version Control**:
+   Commit the new migration script and code changes to your version control system.
+
+### Without Flyway
+
+1. **Create a SQL Script**:
+   Create a SQL script with the rename operation:
+   ```sql
+   ALTER TABLE dictionaryentries RENAME TO dictionary_entries;
+   ```
+
+2. **Manual Execution**:
+   - Connect to each database environment (development, staging, production) using a tool like psql:
+     ```
+     psql -U adn_user -d quotes_app_db
+     ```
+   - Manually run the SQL command in each environment:
+     ```sql
+     ALTER TABLE dictionaryentries RENAME TO dictionary_entries;
+     ```
+
+3. **Update Application Code**:
+   Update the Kotlin code to reflect the new table name.
+
+4. **Version Control**:
+   - Manually track which scripts have been run on which environments.
+   - Consider keeping a log file or spreadsheet of applied changes.
+   - Add comments to the scripts indicating when and where they were applied.
+
+5. **Coordination**:
+   Ensure all team members are aware of the change and update their local databases.
+
+6. **Deployment Process**:
+   Include database update steps in the deployment process for each environment.
+
+7. **Rollback Plan**:
+   Prepare and document how to revert the change if needed:
+   ```sql
+   ALTER TABLE dictionary_entries RENAME TO dictionaryentries;
+   ```
+
+### Comparison
+
+- **Consistency**: Flyway ensures the change is applied consistently across all environments. Without Flyway, there's a risk of inconsistency if the manual process is not followed exactly in each environment.
+- **Automation**: With Flyway, the migration is applied automatically when the application starts. Without Flyway, each environment requires manual intervention.
+- **Version Control**: Flyway provides built-in versioning for database changes. Without Flyway, version control for database changes must be managed manually.
+- **Rollback**: Flyway can automatically handle rollbacks to previous versions. Without Flyway, rollbacks must be planned and executed manually.
+- **Team Coordination**: Flyway reduces the need for team coordination around database changes. Without Flyway, more communication is required to ensure all team members apply changes correctly.
+
+Using Flyway significantly simplifies the process of managing database schema changes, reducing the potential for errors and inconsistencies across different environments.
