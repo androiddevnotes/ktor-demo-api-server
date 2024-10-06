@@ -9,7 +9,8 @@ class DictionaryService(private val repository: DictionaryRepository) {
             relatedTerms = entryDTO.relatedTerms,
             tags = entryDTO.tags,
             category = entryDTO.category,
-            languages = entryDTO.languages
+            languages = entryDTO.languages,
+            resources = entryDTO.resources // Add this line
         )
         return repository.create(entry)
     }
@@ -27,7 +28,8 @@ class DictionaryService(private val repository: DictionaryRepository) {
             relatedTerms = entryDTO.relatedTerms,
             tags = entryDTO.tags,
             category = entryDTO.category,
-            languages = entryDTO.languages
+            languages = entryDTO.languages,
+            resources = entryDTO.resources // Add this line
         )
         return repository.update(id, entry)
     }

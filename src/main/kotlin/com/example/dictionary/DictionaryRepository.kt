@@ -17,6 +17,7 @@ class DictionaryRepository {
             it[languages] = entry.languages.joinToString("|")
             it[createdAt] = LocalDateTime.now()
             it[updatedAt] = LocalDateTime.now()
+            it[resources] = entry.resources.joinToString("|")
         } get DictionaryEntries.id
         entry.copy(id = id)
     }
@@ -71,6 +72,7 @@ class DictionaryRepository {
             category = row[DictionaryEntries.category],
             languages = row[DictionaryEntries.languages].split("|"),
             createdAt = row[DictionaryEntries.createdAt],
-            updatedAt = row[DictionaryEntries.updatedAt]
+            updatedAt = row[DictionaryEntries.updatedAt],
+            resources = row[DictionaryEntries.resources]?.split("|") ?: emptyList()
         )
 }

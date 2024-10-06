@@ -7,7 +7,7 @@ import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.javatime.*
 import java.time.LocalDateTime
 
-object DictionaryEntries : Table() {
+object DictionaryEntries : Table("dictionaryentries") {
     val id = integer("id").autoIncrement()
     val name = varchar("name", 255)
     val definition = text("definition")
@@ -16,6 +16,7 @@ object DictionaryEntries : Table() {
     val tags = text("tags")
     val category = varchar("category", 100)
     val languages = text("languages")
+    val resources = text("resources").nullable() // Add this line
     val createdAt = datetime("created_at")
     val updatedAt = datetime("updated_at")
 
@@ -32,6 +33,7 @@ data class DictionaryEntry(
     val tags: List<String>,
     val category: String,
     val languages: List<String>,
+    val resources: List<String>, // New field
     @Serializable(with = LocalDateTimeAsStringSerializer::class)
     val createdAt: LocalDateTime = LocalDateTime.now(),
     @Serializable(with = LocalDateTimeAsStringSerializer::class)
@@ -59,5 +61,6 @@ data class DictionaryEntryDTO(
     val relatedTerms: List<String>,
     val tags: List<String>,
     val category: String,
-    val languages: List<String>
+    val languages: List<String>,
+    val resources: List<String> // Add this line
 )

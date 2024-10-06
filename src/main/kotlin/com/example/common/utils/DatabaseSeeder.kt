@@ -71,7 +71,11 @@ object DatabaseSeeder {
                 relatedTerms = listOf("Constant", "Data Type"),
                 tags = listOf("Basic", "Programming Fundamentals"),
                 category = "Programming Concepts",
-                languages = listOf("Java", "Python", "C++")
+                languages = listOf("Java", "Python", "C++"),
+                resources = listOf(
+                    "https://www.w3schools.com/java/java_variables.asp",
+                    "https://docs.python.org/3/tutorial/introduction.html#variables"
+                )
             ),
             DictionaryEntry(
                 name = "Function",
@@ -80,7 +84,11 @@ object DatabaseSeeder {
                 relatedTerms = listOf("Method", "Procedure", "Subroutine"),
                 tags = listOf("Basic", "Programming Fundamentals"),
                 category = "Programming Concepts",
-                languages = listOf("Python", "Java", "JavaScript")
+                languages = listOf("Python", "Java", "JavaScript"),
+                resources = listOf(
+                    "https://www.w3schools.com/python/python_functions.asp",
+                    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions"
+                )
             )
         )
 
@@ -93,10 +101,11 @@ object DatabaseSeeder {
                 it[tags] = entry.tags.joinToString("|")
                 it[category] = entry.category
                 it[languages] = entry.languages.joinToString("|")
+                it[resources] = entry.resources.joinToString("|")
                 it[createdAt] = LocalDateTime.now()
                 it[updatedAt] = LocalDateTime.now()
             }
         }
-        println("Dictionary seeded with initial entries.")
+        println("Dictionary seeded with initial entries including resources.")
     }
 }

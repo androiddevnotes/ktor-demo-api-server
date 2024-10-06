@@ -72,6 +72,45 @@ While Flyway handles most database operations automatically, you might occasiona
 
 Remember, manual operations should be used sparingly, as Flyway is designed to handle migrations automatically and consistently.
 
+## Recent Changes
+
+### Adding Resources to Dictionary Entries
+
+We've added a new field `resources` to the `dictionary_entries` table. This field stores URLs or references to additional resources related to each dictionary entry.
+
+To add this new field, we created a new migration script:
+
+1. Created `V2__Add_resources_to_dictionary_entries.sql` in `src/main/resources/db/migration/`:
+
+   ```sql
+   ALTER TABLE dictionary_entries ADD COLUMN resources TEXT;
+   ```
+
+2. Updated the `DictionaryEntry` data class and related repository operations to include the new field.
+
+3. When adding new dictionary entries or updating existing ones, you can now include resource links:
+
+   ```kotlin
+   val newEntry = DictionaryEntry(
+       name = "API",
+       definition = "Application Programming Interface",
+       // ... other fields ...
+       resources = listOf(
+           "https://en.wikipedia.org/wiki/API",
+           "https://www.mulesoft.com/resources/api/what-is-an-api"
+       )
+   )
+   ```
+
+4. When retrieving dictionary entries, the `resources` field will now be available:
+
+   ```kotlin
+   val entry = dictionaryRepository.getById(1)
+   println(entry.resources) // List of resource URLs
+   ```
+
+Remember to update your application logic, API endpoints, and any related frontend components to make use of this new field.
+
 ## Conclusion
 
 By using Flyway, we ensure that our database schema evolves consistently with our application code. Always create a new migration script for each database change, and let Flyway handle the application of these changes across all environments.
