@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.ktor)
     alias(libs.plugins.dokka)
     alias(libs.plugins.kotlinx.serialization)
+    id("org.flywaydb.flyway") version "9.8.1"  // Add this line
 }
 
 group = "com.example"
@@ -31,6 +32,7 @@ dependencies {
     implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
     implementation(libs.bundles.database)
     implementation("org.postgresql:postgresql:42.3.1")
+    implementation("org.flywaydb:flyway-core:9.8.1")  // Add this line
 }
 
 tasks.dokkaHtml {
