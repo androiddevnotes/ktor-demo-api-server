@@ -35,14 +35,19 @@ The application follows a modular structure with the following main packages:
 
 - CRUD operations for quotes
 - Pagination support for retrieving quotes
-- Image upload functionality for quotes
+- Search functionality for quotes
 - Categorization of quotes
+- Image upload functionality for quotes
+- Support for related quotes, tags, and additional resources
 
 ### 2. Dictionary Management
 
 - CRUD operations for dictionary entries
+- Pagination support for retrieving dictionary entries
 - Search functionality for dictionary entries
-- Support for examples, related terms, tags, and resources for each entry
+- Categorization of dictionary entries
+- Image upload functionality for dictionary entries
+- Support for examples, related terms, tags, and additional resources
 
 ### 3. User Authentication
 
