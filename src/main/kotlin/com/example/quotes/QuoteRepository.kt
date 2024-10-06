@@ -26,7 +26,7 @@ class QuoteRepository {
         .selectAll()
         .orderBy(Quotes.id)
         .limit(pageSize)
-        .offset(start = ((page - 1) * pageSize).toLong())
+        .offset(((page - 1) * pageSize).toLong())
         .map { toQuote(it) }
     }
 
