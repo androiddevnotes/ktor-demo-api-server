@@ -42,3 +42,9 @@ tasks.dokkaHtml {
 tasks {
     create("stage").dependsOn("installDist")
 }
+
+flyway {
+    url = System.getenv("DATABASE_URL") ?: "jdbc:postgresql://localhost:5432/quotes_app_db"
+    user = System.getenv("DATABASE_USER") ?: "adn_user"
+    password = System.getenv("DATABASE_PASSWORD") ?: "adn_password"
+}
