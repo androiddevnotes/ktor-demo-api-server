@@ -45,7 +45,7 @@ fun Application.module() {
         ignoreIfMissing = true
     }
 
-    // Load environment variables from .env file
+    
     System.setProperty("DATABASE_URL", dotenv["DATABASE_URL"] ?: "")
     System.setProperty("DATABASE_USER", dotenv["DATABASE_USER"] ?: "")
     System.setProperty("DATABASE_PASSWORD", dotenv["DATABASE_PASSWORD"] ?: "")
@@ -242,12 +242,12 @@ fun Application.configureRouting(
                     get {
                         call.respond(dictionaryService.getAllEntries())
                     }
-                    // Other secured dictionary endpoints
+                    
                 }
             }
         }
         
-        // Keep dictionary routes outside of API key auth if you want them to remain public
+        
         dictionaryRoutes(dictionaryService)
         
         val uploadDir = environment?.config?.propertyOrNull("upload.dir")?.getString() ?: "uploads"

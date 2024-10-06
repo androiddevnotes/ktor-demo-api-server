@@ -86,6 +86,6 @@ fun Route.quoteRoutes(quoteService: QuoteService, imageUploadService: ImageUploa
             }
         }
 
-        // ... other routes (put, delete) ...
+        
     }
 }
