@@ -33,7 +33,7 @@ dependencies {
   implementation(libs.bundles.database)
   implementation("org.postgresql:postgresql:42.3.1")
   implementation("org.flywaydb:flyway-core:9.8.1")
-  // The Swagger dependency is now included in the ktor bundle
+  // The Swagger and CORS dependencies are now included in the ktor bundle
 }
 
 tasks.dokkaHtml {

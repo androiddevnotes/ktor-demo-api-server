@@ -37,6 +37,7 @@ exposed-java-time = { module = "org.jetbrains.exposed:exposed-java-time", versio
 jbcrypt = { module = "org.mindrot:jbcrypt", version.ref = "jbcrypt-version" }
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway-version" }
 ktor-server-swagger = { module = "io.ktor:ktor-server-swagger", version.ref = "ktor-version" }
+ktor-server-cors = { module = "io.ktor:ktor-server-cors", version.ref = "ktor-version" }
 
 [bundles]
 ktor = [
@@ -49,7 +50,8 @@ ktor = [
     "ktor-server-sessions",
     "ktor-server-status-pages",
     "ktor-server-call-logging",
-    "ktor-server-swagger"  # Add this line
+    "ktor-server-swagger",
+    "ktor-server-cors"  # Add this line
 ]
 exposed = [
     "exposed-core",
