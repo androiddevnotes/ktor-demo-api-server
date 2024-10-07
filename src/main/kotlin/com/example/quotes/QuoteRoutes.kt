@@ -39,32 +39,9 @@ fun Route.quoteRoutes(
     post {
       println("Received POST request for creating a quote")
       try {
-        val multipart = call.receiveMultipart()
-        var content: String? = null
-        var author: String? = null
-        var category: String? = null
-        var imageUrl: String? = null
+        val quoteData = receiveQuoteMultipart(call, imageUploadService)
 
-        multipart.forEachPart { part ->
-          when (part) {
-            is PartData.FormItem -> {
-              when (part.name) {
-                "content" -> content = part.value
-                "author" -> author = part.value
-                "category" -> category = part.value
-              }
-            }
-            is PartData.FileItem -> {
-              if (part.name == "image") {
-                imageUrl = imageUploadService.saveImage(part)
-              }
-            }
-            else -> {}
-          }
-          part.dispose()
-        }
-
-        if (content == null || author == null) {
+        if (quoteData.content == null || quoteData.author == null) {
           call.respondError(HttpStatusCode.BadRequest, "Missing required fields", "MISSING_FIELDS")
           return@post
         }
@@ -72,10 +49,10 @@ fun Route.quoteRoutes(
         val quote =
           Quote(
             id = 0,
-            content = content!!,
-            author = author!!,
-            imageUrl = imageUrl,
-            category = category,
+            content = quoteData.content,
+            author = quoteData.author,
+            imageUrl = quoteData.imageUrl,
+            category = quoteData.category,
           )
         val createdQuote = quoteService.createQuote(quote)
         println("Created quote: $createdQuote")
@@ -133,6 +110,45 @@ fun Route.quoteRoutes(
     }
   }
 }
+
+private suspend fun receiveQuoteMultipart(
+  call: ApplicationCall,
+  imageUploadService: ImageUploadService,
+): QuoteMultipartData {
+  val multipart = call.receiveMultipart()
+  var content: String? = null
+  var author: String? = null
+  var category: String? = null
+  var imageUrl: String? = null
+
+  multipart.forEachPart { part ->
+    when (part) {
+      is PartData.FormItem -> {
+        when (part.name) {
+          "content" -> content = part.value
+          "author" -> author = part.value
+          "category" -> category = part.value
+        }
+      }
+      is PartData.FileItem -> {
+        if (part.name == "image") {
+          imageUrl = imageUploadService.saveImage(part)
+        }
+      }
+      else -> {}
+    }
+    part.dispose()
+  }
+
+  return QuoteMultipartData(content, author, category, imageUrl)
+}
+
+data class QuoteMultipartData(
+  val content: String?,
+  val author: String?,
+  val category: String?,
+  val imageUrl: String?,
+)
 
 @Serializable
 data class QuoteDTO(
