@@ -2,19 +2,13 @@ package com.example.quotes
 
 import com.example.common.utils.*
 import io.ktor.http.*
-import io.ktor.http.content.*
-import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
-import io.ktor.server.plugins.*
-import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.serialization.Serializable
 
-fun Route.quoteRoutes(
-  quoteService: QuoteService,
-  imageUploadService: ImageUploadService,
-) {
+fun Route.quoteRoutes(quoteService: QuoteService) {
   route("/quotes") {
     get {
       println("Received GET request for all quotes")
@@ -41,14 +35,14 @@ fun Route.quoteRoutes(
     post {
       println("Received POST request for creating a quote")
       try {
-        val quoteRequest = call.receive<QuoteRequest>()
+        val quoteDTO = call.receive<QuoteDTO>()
         val quote =
           Quote(
             id = 0,
-            content = quoteRequest.content,
-            author = quoteRequest.author,
-            imageUrl = quoteRequest.imageUrl,
-            category = quoteRequest.category,
+            content = quoteDTO.content,
+            author = quoteDTO.author,
+            imageUrl = quoteDTO.imageUrl,
+            category = quoteDTO.category,
           )
         val createdQuote = quoteService.createQuote(quote)
         println("Created quote: $createdQuote")
@@ -70,7 +64,15 @@ fun Route.quoteRoutes(
           "Invalid ID",
           status = HttpStatusCode.BadRequest,
         )
-      val quote = call.receive<Quote>()
+      val quoteDTO = call.receive<QuoteDTO>()
+      val quote =
+        Quote(
+          id = id,
+          content = quoteDTO.content,
+          author = quoteDTO.author,
+          imageUrl = quoteDTO.imageUrl,
+          category = quoteDTO.category,
+        )
       if (quoteService.updateQuote(id, quote)) {
         call.respond(HttpStatusCode.OK)
       } else {
@@ -100,7 +102,7 @@ fun Route.quoteRoutes(
 }
 
 @Serializable
-data class QuoteRequest(
+data class QuoteDTO(
   val content: String,
   val author: String,
   val imageUrl: String? = null,

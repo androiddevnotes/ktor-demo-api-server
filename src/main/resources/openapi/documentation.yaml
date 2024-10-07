@@ -231,7 +231,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/QuoteRequest"
+              $ref: "#/components/schemas/QuoteDTO"
         required: true
       responses:
         "201":
@@ -575,7 +575,7 @@ components:
           format: "int32"
       required:
       - "quotes"
-    QuoteRequest:
+    QuoteDTO:
       type: "object"
       properties:
         content:

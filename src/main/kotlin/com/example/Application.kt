@@ -240,7 +240,6 @@ fun Application.module() {
   configureRouting(
     quoteService,
     userService,
-    imageUploadService,
     dictionaryService,
     apiKeyRepository,
   )
@@ -249,7 +248,6 @@ fun Application.module() {
 fun Application.configureRouting(
   quoteService: QuoteService,
   userService: UserService,
-  imageUploadService: ImageUploadService,
   dictionaryService: DictionaryService,
   apiKeyRepository: ApiKeyRepository,
 ) {
@@ -258,7 +256,7 @@ fun Application.configureRouting(
 
     authenticate("apiKeyAuth") {
       route("/api/v1") {
-        quoteRoutes(quoteService, imageUploadService)
+        quoteRoutes(quoteService)
         dictionaryRoutes(dictionaryService)
 
         route("/terms") {
