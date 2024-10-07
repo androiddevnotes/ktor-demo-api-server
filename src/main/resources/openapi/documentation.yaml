@@ -227,25 +227,19 @@ paths:
                 $ref: "#/components/schemas/QuotesResponse"
     post:
       description: ""
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/QuoteDTO"
-        required: true
       responses:
-        "201":
-          description: "Created"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/Quote"
         "200":
           description: ""
           content:
             '*/*':
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+        "201":
+          description: "Created"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Quote"
   /api/v1/quotes/{id}:
     delete:
       description: ""
@@ -322,7 +316,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Quote"
+              $ref: "#/components/schemas/QuoteDTO"
         required: true
       responses:
         "400":

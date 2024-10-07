@@ -242,6 +242,7 @@ fun Application.module() {
     userService,
     dictionaryService,
     apiKeyRepository,
+    imageUploadService,
   )
 }
 
@@ -250,13 +251,14 @@ fun Application.configureRouting(
   userService: UserService,
   dictionaryService: DictionaryService,
   apiKeyRepository: ApiKeyRepository,
+  imageUploadService: ImageUploadService,
 ) {
   routing {
     authRoutes(userService, apiKeyRepository)
 
     authenticate("apiKeyAuth") {
       route("/api/v1") {
-        quoteRoutes(quoteService)
+        quoteRoutes(quoteService, imageUploadService)
         dictionaryRoutes(dictionaryService)
 
         route("/terms") {

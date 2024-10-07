@@ -2,13 +2,17 @@ package com.example.quotes
 
 import com.example.common.utils.*
 import io.ktor.http.*
+import io.ktor.http.content.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.serialization.Serializable
 
-fun Route.quoteRoutes(quoteService: QuoteService) {
+fun Route.quoteRoutes(
+  quoteService: QuoteService,
+  imageUploadService: ImageUploadService,
+) {
   route("/quotes") {
     get {
       println("Received GET request for all quotes")
@@ -35,14 +39,43 @@ fun Route.quoteRoutes(quoteService: QuoteService) {
     post {
       println("Received POST request for creating a quote")
       try {
-        val quoteDTO = call.receive<QuoteDTO>()
+        val multipart = call.receiveMultipart()
+        var content: String? = null
+        var author: String? = null
+        var category: String? = null
+        var imageUrl: String? = null
+
+        multipart.forEachPart { part ->
+          when (part) {
+            is PartData.FormItem -> {
+              when (part.name) {
+                "content" -> content = part.value
+                "author" -> author = part.value
+                "category" -> category = part.value
+              }
+            }
+            is PartData.FileItem -> {
+              if (part.name == "image") {
+                imageUrl = imageUploadService.saveImage(part)
+              }
+            }
+            else -> {}
+          }
+          part.dispose()
+        }
+
+        if (content == null || author == null) {
+          call.respondError(HttpStatusCode.BadRequest, "Missing required fields", "MISSING_FIELDS")
+          return@post
+        }
+
         val quote =
           Quote(
             id = 0,
-            content = quoteDTO.content,
-            author = quoteDTO.author,
-            imageUrl = quoteDTO.imageUrl,
-            category = quoteDTO.category,
+            content = content!!,
+            author = author!!,
+            imageUrl = imageUrl,
+            category = category,
           )
         val createdQuote = quoteService.createQuote(quote)
         println("Created quote: $createdQuote")
