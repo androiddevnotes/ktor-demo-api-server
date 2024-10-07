@@ -3,8 +3,10 @@ package com.example.quotes
 import com.example.common.utils.*
 import io.ktor.http.*
 import io.ktor.http.content.*
+import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.*
+import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -39,51 +41,18 @@ fun Route.quoteRoutes(
     post {
       println("Received POST request for creating a quote")
       try {
-        val multipart = call.receiveMultipart()
-        var content: String? = null
-        var author: String? = null
-        var category: String? = null
-        var imageUrl: String? = null
-
-        multipart.forEachPart { part ->
-          when (part) {
-            is PartData.FormItem -> {
-              println("Received form item: ${part.name} = ${part.value}")
-              when (part.name) {
-                "content" -> content = part.value
-                "author" -> author = part.value
-                "category" -> category = part.value
-              }
-            }
-            is PartData.FileItem -> {
-              println("Received file item: ${part.name}")
-              if (part.name == "image") {
-                imageUrl = imageUploadService.saveImage(part)
-                println("Saved image, URL: $imageUrl")
-              }
-            }
-            else -> println("Received unknown part: ${part::class.simpleName}")
-          }
-          part.dispose()
-        }
-
-        if (content != null && author != null) {
-          val quote = Quote(0, content!!, author!!, imageUrl, category)
-          val createdQuote = quoteService.createQuote(quote)
-          println("Created quote: $createdQuote")
-          call.respond(HttpStatusCode.Created, createdQuote)
-        } else {
-          println("Missing content or author")
-          call.respondError(
-            HttpStatusCode.BadRequest,
-            "Missing content or author",
-            "INVALID_INPUT",
-            mapOf(
-              "content" to (content ?: "missing"),
-              "author" to (author ?: "missing"),
-            ),
+        val quoteRequest = call.receive<QuoteRequest>()
+        val quote =
+          Quote(
+            id = 0,
+            content = quoteRequest.content,
+            author = quoteRequest.author,
+            imageUrl = quoteRequest.imageUrl,
+            category = quoteRequest.category,
           )
-        }
+        val createdQuote = quoteService.createQuote(quote)
+        println("Created quote: $createdQuote")
+        call.respond(HttpStatusCode.Created, createdQuote)
       } catch (e: Exception) {
         println("Error creating quote: ${e.message}")
         e.printStackTrace()
@@ -129,3 +98,11 @@ fun Route.quoteRoutes(
     }
   }
 }
+
+@Serializable
+data class QuoteRequest(
+  val content: String,
+  val author: String,
+  val imageUrl: String? = null,
+  val category: String? = null,
+)

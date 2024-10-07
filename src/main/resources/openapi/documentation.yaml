@@ -227,6 +227,12 @@ paths:
                 $ref: "#/components/schemas/QuotesResponse"
     post:
       description: ""
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QuoteRequest"
+        required: true
       responses:
         "201":
           description: "Created"
@@ -569,6 +575,20 @@ components:
           format: "int32"
       required:
       - "quotes"
+    QuoteRequest:
+      type: "object"
+      properties:
+        content:
+          type: "string"
+        author:
+          type: "string"
+        imageUrl:
+          type: "string"
+        category:
+          type: "string"
+      required:
+      - "content"
+      - "author"
     User:
       type: "object"
       properties:
