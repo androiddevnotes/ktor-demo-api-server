@@ -37,8 +37,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF
 
 path: /Users/ask/PROJECTS/ASSETS/IMAGE/image.jpg
 curl -X POST http://localhost:8080/api/v1/quotes \
--H "Authorization: Bearer
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImF1ZCI6InF1b3RlLWFwcC11c2VycyIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgyMDQ5MjV9.uGQlVHPfo80TfmPkL_NSVwveeUin96ep32QPcNEm57k" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InF1b3RlLWFwcCIsImF1ZCI6InF1b3RlLWFwcC11c2VycyIsImlkIjozLCJ1c2VybmFtZSI6InRlc3R1c2VyIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3MjgyMDQ5MjV9.uGQlVHPfo80TfmPkL_NSVwveeUin96ep32QPcNEm57k" \
 -H "X-API-Key: GYatWWwnXL0iVwNLdniBs_fom24HuOyeZ_KwnGdSPOk" \
 -H "Content-Type: multipart/form-data" \
 -F "content=This is a test quote" \
