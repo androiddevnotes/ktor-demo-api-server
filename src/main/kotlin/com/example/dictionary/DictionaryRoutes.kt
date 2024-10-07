@@ -2,7 +2,6 @@ package com.example.dictionary
 
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.auth.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -36,40 +35,38 @@ fun Route.dictionaryRoutes(dictionaryService: DictionaryService) {
       call.respond(dictionaryService.searchEntries(query))
     }
 
-    authenticate {
-      post {
-        val entryDTO = call.receive<DictionaryEntryDTO>()
-        val createdEntry = dictionaryService.createEntry(entryDTO)
-        call.respond(HttpStatusCode.Created, createdEntry)
+    post {
+      val entryDTO = call.receive<DictionaryEntryDTO>()
+      val createdEntry = dictionaryService.createEntry(entryDTO)
+      call.respond(HttpStatusCode.Created, createdEntry)
+    }
+
+    put("/{id}") {
+      val id = call.parameters["id"]?.toIntOrNull()
+      if (id == null) {
+        call.respond(HttpStatusCode.BadRequest, "Invalid ID")
+        return@put
       }
 
-      put("/{id}") {
-        val id = call.parameters["id"]?.toIntOrNull()
-        if (id == null) {
-          call.respond(HttpStatusCode.BadRequest, "Invalid ID")
-          return@put
-        }
+      val entryDTO = call.receive<DictionaryEntryDTO>()
+      if (dictionaryService.updateEntry(id, entryDTO)) {
+        call.respond(HttpStatusCode.OK, "Entry updated successfully")
+      } else {
+        call.respond(HttpStatusCode.NotFound, "Entry not found")
+      }
+    }
 
-        val entryDTO = call.receive<DictionaryEntryDTO>()
-        if (dictionaryService.updateEntry(id, entryDTO)) {
-          call.respond(HttpStatusCode.OK, "Entry updated successfully")
-        } else {
-          call.respond(HttpStatusCode.NotFound, "Entry not found")
-        }
+    delete("/{id}") {
+      val id = call.parameters["id"]?.toIntOrNull()
+      if (id == null) {
+        call.respond(HttpStatusCode.BadRequest, "Invalid ID")
+        return@delete
       }
 
-      delete("/{id}") {
-        val id = call.parameters["id"]?.toIntOrNull()
-        if (id == null) {
-          call.respond(HttpStatusCode.BadRequest, "Invalid ID")
-          return@delete
-        }
-
-        if (dictionaryService.deleteEntry(id)) {
-          call.respond(HttpStatusCode.OK, "Entry deleted successfully")
-        } else {
-          call.respond(HttpStatusCode.NotFound, "Entry not found")
-        }
+      if (dictionaryService.deleteEntry(id)) {
+        call.respond(HttpStatusCode.OK, "Entry deleted successfully")
+      } else {
+        call.respond(HttpStatusCode.NotFound, "Entry not found")
       }
     }
   }

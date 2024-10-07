@@ -237,11 +237,6 @@ fun Application.module() {
     }
   }
 
-//  install(CORS) {
-//    anyHost()
-//    allowHeader(HttpHeaders.ContentType)
-//  }
-
   configureRouting(
     quoteService,
     userService,
@@ -264,6 +259,7 @@ fun Application.configureRouting(
     authenticate("apiKeyAuth") {
       route("/api/v1") {
         quoteRoutes(quoteService, imageUploadService)
+        dictionaryRoutes(dictionaryService)
 
         route("/terms") {
           get {
@@ -271,10 +267,6 @@ fun Application.configureRouting(
           }
         }
       }
-    }
-
-    route("/api/v1") {
-      dictionaryRoutes(dictionaryService)
     }
 
     val uploadDir = environment?.config?.propertyOrNull("upload.dir")?.getString() ?: "uploads"
