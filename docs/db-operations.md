@@ -208,3 +208,41 @@ without Flyway:
 
 Using Flyway significantly simplifies the process of managing database schema changes, reducing the
 potential for errors and inconsistencies across different environments ...
+
+### Flyway Migration Process
+
+#### Naming Convention
+Flyway uses a specific naming convention for migration files:
+- Pattern: `V<version>__<description>.sql`
+- Examples:
+  - `V1__Create_users_table.sql`
+  - `V2__Add_email_column_to_users.sql`
+
+#### Version Order
+- Flyway executes migration files in order based on their version numbers.
+- It starts with the lowest version and moves up sequentially.
+
+#### Schema History Table
+- Flyway maintains a table (usually called `flyway_schema_history`) in your database.
+- This table tracks which migrations have been applied.
+
+#### Execution Process
+When you run Flyway, it follows these steps:
+1. Checks the `flyway_schema_history` table for applied migrations.
+2. Looks at all migration files in the configured migrations directory.
+3. Applies any migrations that haven't been run yet, in version order.
+
+#### Using V1, V2, or Both
+- Empty database with V1 and V2 migrations: Flyway runs both in order.
+- Existing database with V1 applied: Flyway only runs V2.
+- Once applied, Flyway never runs a migration again (unless explicitly told, not recommended for production).
+
+#### Scenarios
+1. **New Database**: Flyway runs V1, then V2.
+2. **Existing Database with V1 applied**: Flyway only runs V2.
+3. **All migrations applied**: Flyway won't run any migrations.
+
+#### Important Notes
+- Check applied migrations in the `flyway_schema_history` table.
+- Never modify a migration that has already been applied to a database.
+- For changes, create a new migration with a higher version number.
