@@ -29,8 +29,6 @@ class DictionaryService(
     return repository.create(entry)
   }
 
-  fun getAllEntries(): List<DictionaryEntry> = repository.getAll()
-
   fun getEntryById(id: Int): DictionaryEntry? = repository.getById(id)
 
   fun updateEntry(

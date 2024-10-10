@@ -7,7 +7,6 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.serialization.Serializable
 
 fun Route.quoteRoutes(
   quoteService: QuoteService,
@@ -130,11 +129,13 @@ private suspend fun receiveQuoteMultipart(
           "category" -> category = part.value
         }
       }
+
       is PartData.FileItem -> {
         if (part.name == "image") {
           imageUrl = imageUploadService.saveImage(part)
         }
       }
+
       else -> {}
     }
     part.dispose()
@@ -148,12 +149,4 @@ data class QuoteMultipartData(
   val author: String?,
   val category: String?,
   val imageUrl: String?,
-)
-
-@Serializable
-data class QuoteDTO(
-  val content: String,
-  val author: String,
-  val imageUrl: String? = null,
-  val category: String? = null,
 )

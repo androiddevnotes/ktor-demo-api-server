@@ -15,7 +15,6 @@ class QuoteService(
   private val repository: QuoteRepository,
 ) {
   fun createQuote(quote: Quote): Quote {
-    // Ensure the category is set, defaulting to "Uncategorized" if null
     val quoteWithCategory = quote.copy(category = quote.category ?: "Uncategorized")
     return repository.create(quoteWithCategory)
   }
@@ -42,20 +41,11 @@ class QuoteService(
     id: Int,
     quote: Quote,
   ): Boolean {
-    // Ensure the category is set, defaulting to "Uncategorized" if null
     val quoteWithCategory = quote.copy(category = quote.category ?: "Uncategorized")
     return repository.update(id, quoteWithCategory)
   }
 
   fun deleteQuote(id: Int): Boolean = repository.delete(id)
-
-  fun getQuotesByCategory(
-    category: String,
-    page: Int,
-    pageSize: Int,
-  ): List<Quote> = repository.getByCategory(category, page, pageSize)
-
-  fun getTotalQuotesByCategory(category: String): Long = repository.countByCategory(category)
 
   fun searchQuotes(query: String): List<Quote> = repository.search(query)
 }

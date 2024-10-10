@@ -25,7 +25,6 @@ import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.plugins.swagger.*
 import io.ktor.server.request.*
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.serialization.json.*
 import org.slf4j.*
@@ -260,12 +259,6 @@ fun Application.configureRouting(
       route("/api/v1") {
         quoteRoutes(quoteService, imageUploadService)
         dictionaryRoutes(dictionaryService)
-
-        route("/terms") {
-          get {
-            call.respond(dictionaryService.getAllEntries())
-          }
-        }
       }
     }
 
