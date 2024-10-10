@@ -11,7 +11,7 @@
 git clone https://github.com/androiddevnotes/ktor-demo-app
 ```
 
-Note: some installation instructions are for mac, for windows/linux please install accordindly.
+Note: some installation instructions are for mac, for windows/linux please install accordingly.
 
 ## Postgres Setup
 
