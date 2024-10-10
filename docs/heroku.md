@@ -72,7 +72,7 @@ This guide will walk you through the process of deploying your Ktor application 
 
 - If you encounter boot timeout issues, check the Heroku logs:
   ```
-  heroku logs --tail
+  heroku logs --tail --app your-app-name
   ```
 
 - If the application is taking too long to start, consider optimizing your initialization process,
@@ -94,6 +94,4 @@ This guide will walk you through the process of deploying your Ktor application 
 - Make sure your `application.conf` or `application.yaml` file is correctly reading environment
   variables for database configuration and other sensitive information.
 
-## Scaling
 
-To scale your application, you can use:

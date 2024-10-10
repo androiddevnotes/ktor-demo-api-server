@@ -35,7 +35,3 @@
 - Check Heroku logs: `heroku logs --tail`
 - Ensure `Procfile` is correctly configured
 - Verify database connection string in `application.yaml`
-
-## Scaling
-
-To scale your application on Heroku:
