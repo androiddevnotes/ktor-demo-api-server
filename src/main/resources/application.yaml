@@ -6,12 +6,6 @@ ktor:
     port: ${PORT:8080}
   development: false
 
-#database:
-#  driverClassName: "org.postgresql.Driver"
-#  jdbcURL: "jdbc:postgresql://localhost:5432/quotes_app_db"
-#  user: "adn_user"
-#  password: "adn_password"
-
 flyway:
   locations: "classpath:db/migration"
 
