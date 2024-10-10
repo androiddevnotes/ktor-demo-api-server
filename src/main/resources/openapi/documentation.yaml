@@ -374,18 +374,6 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/User"
-  /api/v1/terms:
-    get:
-      description: ""
-      responses:
-        "200":
-          description: "OK"
-          content:
-            '*/*':
-              schema:
-                type: "array"
-                items:
-                  $ref: "#/components/schemas/DictionaryEntry"
 components:
   schemas:
     ErrorResponse:

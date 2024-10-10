@@ -1,0 +1,87 @@
+2024-10-10 20:53:32.903 studio[87959:630172] allVms required 1.8*,1.8+
+2024-10-10 20:53:32.904 studio[87959:630189] Current Directory: /Users/ask/PROJECTS/KMP/ktor/ktor-demo-app
+2024-10-10 20:53:32.904 studio[87959:630189] parseVMOptions: STUDIO_VM_OPTIONS = (null)
+2024-10-10 20:53:32.904 studio[87959:630189] fullFileName is: /Applications/Android Studio.app/Contents/bin/studio.vmoptions
+2024-10-10 20:53:32.904 studio[87959:630189] fullFileName exists: /Applications/Android Studio.app/Contents/bin/studio.vmoptions
+2024-10-10 20:53:32.904 studio[87959:630189] parseVMOptions: /Applications/Android Studio.app/Contents/bin/studio.vmoptions
+2024-10-10 20:53:32.905 studio[87959:630189] parseVMOptions: /Applications/Android Studio.app.vmoptions
+2024-10-10 20:53:32.908 studio[87959:630189] parseVMOptions: /Users/ask/Library/Application Support/Google/AndroidStudio2024.1/studio.vmoptions
+2024-10-10 20:53:32.908 studio[87959:630189] parseVMOptions: platform=18 user=4 file=/Users/ask/Library/Application Support/Google/AndroidStudio2024.1/studio.vmoptions
+CompileCommand: exclude com/intellij/openapi/vfs/impl/FilePartNodeRoot.trieDescend bool exclude = true
+2024-10-10 20:53:33.437 studio[87959:630172] WARNING: Secure coding is not enabled for restorable state! Enable secure coding by implementing NSApplicationDelegate.applicationSupportsSecureRestorableState: and returning YES.
+2024-10-10 20:53:33,468 [    142]   WARN - #c.i.i.p.PluginManager - Problems found loading plugins:
+  The Fig (id=io.fig.jetbrains, path=~/Library/Application Support/Google/AndroidStudio2024.1/plugins/jetbrains-extension-2.0.0, version=2.0.0) plugin Plugin 'Fig' (version 2.0.0) was explicitly marked as incompatible with the current version of the IDE
+2024-10-10 20:53:33,763 [    437]   WARN - #c.i.s.ComponentManagerImpl - com.android.tools.idea.flags.StudioFlags <clinit> requests com.android.tools.idea.flags.StudioFlagSettings instance. Class initialization must not depend on services. Consider using instance of the service on-demand instead.
+2024-10-10 20:53:34,380 [   1054]   WARN - #c.i.o.a.ActionStub - ActionGroup should be registered using <group> tag: id="MakeTypeSelectionGroup" class="com.android.tools.idea.gradle.actions.MakeTypeSelectionGroupAction"
+2024-10-10 20:53:34,425 [   1099]   WARN - #c.i.o.a.ActionStub - ActionGroup should be registered using <group> tag: id="Android.CreateResourcesActionGroup" class="org.jetbrains.android.actions.CreateResourceFileActionGroup"
+2024-10-10 20:53:34,562 [   1236]   WARN - #c.i.u.j.JBCefApp - JCefAppConfig.class is not from a JBR module, url: jar:file:/Applications/Android%20Studio.app/Contents/lib/lib.jar!/com/jetbrains/cef/JCefAppConfig.class (Use JBR bundled with the IDE)
+2024-10-10 20:53:35,044 [   1718]   WARN - #c.i.s.ComponentManagerImpl - org.jetbrains.kotlin.idea.gradleJava.scripting.roots.GradleBuildRootDataSerializer <clinit> requests com.intellij.util.gist.storage.GistStorage instance. Class initialization must not depend on services. Consider using instance of the service on-demand instead.
+2024-10-10 20:53:35,702 [   2376]   WARN - #c.i.i.s.i.StartupManagerImpl - Migrate com.supermaven.intellij.listeners.StartupListener to ProjectActivity [Plugin: com.supermaven.intellij]
+com.intellij.diagnostic.PluginException: Migrate com.supermaven.intellij.listeners.StartupListener to ProjectActivity [Plugin: com.supermaven.intellij]
+	at com.intellij.ide.startup.impl.StartupManagerImpl.runPostStartupActivities(StartupManagerImpl.kt:276)
+	at com.intellij.ide.startup.impl.StartupManagerImpl.access$runPostStartupActivities(StartupManagerImpl.kt:68)
+	at com.intellij.ide.startup.impl.StartupManagerImpl$runPostStartupActivities$3$2.invokeSuspend(StartupManagerImpl.kt:191)
+	at com.intellij.ide.startup.impl.StartupManagerImpl$runPostStartupActivities$3$2.invoke(StartupManagerImpl.kt)
+	at com.intellij.ide.startup.impl.StartupManagerImpl$runPostStartupActivities$3$2.invoke(StartupManagerImpl.kt)
+	at kotlinx.coroutines.intrinsics.UndispatchedKt.startUndispatchedOrReturn(Undispatched.kt:78)
+	at kotlinx.coroutines.BuildersKt__Builders_commonKt.withContext(Builders.common.kt:167)
+	at kotlinx.coroutines.BuildersKt.withContext(Unknown Source)
+	at com.intellij.ide.startup.impl.StartupManagerImpl$runPostStartupActivities$3.invokeSuspend(StartupManagerImpl.kt:190)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:108)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:584)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:793)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:697)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:684)
+2024-10-10 20:53:35,758 [   2432]   WARN - #com.android.tools.ndk.HotfixForOCInitialTablesBuildingActivity - Overriding OCInitialTablesBuildingActivity with HotfixForOCInitialTablesBuildingActivity
+2024-10-10 20:53:36,101 [   2775]   WARN - #c.i.i.s.i.StartupManagerImpl - Migrate io.flutter.FlutterInitializer to ProjectActivity [Plugin: io.flutter]
+com.intellij.diagnostic.PluginException: Migrate io.flutter.FlutterInitializer to ProjectActivity [Plugin: io.flutter]
+	at com.intellij.ide.startup.impl.StartupManagerImpl.runPostStartupActivities(StartupManagerImpl.kt:276)
+	at com.intellij.ide.startup.impl.StartupManagerImpl.access$runPostStartupActivities(StartupManagerImpl.kt:68)
+	at com.intellij.ide.startup.impl.StartupManagerImpl$runPostStartupActivities$3$2.invokeSuspend(StartupManagerImpl.kt:191)
+	at com.intellij.ide.startup.impl.StartupManagerImpl$runPostStartupActivities$3$2.invoke(StartupManagerImpl.kt)
+	at com.intellij.ide.startup.impl.StartupManagerImpl$runPostStartupActivities$3$2.invoke(StartupManagerImpl.kt)
+	at kotlinx.coroutines.intrinsics.UndispatchedKt.startUndispatchedOrReturn(Undispatched.kt:78)
+	at kotlinx.coroutines.BuildersKt__Builders_commonKt.withContext(Builders.common.kt:167)
+	at kotlinx.coroutines.BuildersKt.withContext(Unknown Source)
+	at com.intellij.ide.startup.impl.StartupManagerImpl$runPostStartupActivities$3.invokeSuspend(StartupManagerImpl.kt:190)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:108)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:584)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:793)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:697)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:684)
+2024-10-10 20:53:36,102 [   2776]   WARN - #c.i.i.s.i.StartupManagerImpl - Migrate io.flutter.FlutterStudioStartupActivity to ProjectActivity [Plugin: io.flutter]
+com.intellij.diagnostic.PluginException: Migrate io.flutter.FlutterStudioStartupActivity to ProjectActivity [Plugin: io.flutter]
+	at com.intellij.ide.startup.impl.StartupManagerImpl.runPostStartupActivities(StartupManagerImpl.kt:276)
+	at com.intellij.ide.startup.impl.StartupManagerImpl.access$runPostStartupActivities(StartupManagerImpl.kt:68)
+	at com.intellij.ide.startup.impl.StartupManagerImpl$runPostStartupActivities$3$2.invokeSuspend(StartupManagerImpl.kt:191)
+	at com.intellij.ide.startup.impl.StartupManagerImpl$runPostStartupActivities$3$2.invoke(StartupManagerImpl.kt)
+	at com.intellij.ide.startup.impl.StartupManagerImpl$runPostStartupActivities$3$2.invoke(StartupManagerImpl.kt)
+	at kotlinx.coroutines.intrinsics.UndispatchedKt.startUndispatchedOrReturn(Undispatched.kt:78)
+	at kotlinx.coroutines.BuildersKt__Builders_commonKt.withContext(Builders.common.kt:167)
+	at kotlinx.coroutines.BuildersKt.withContext(Unknown Source)
+	at com.intellij.ide.startup.impl.StartupManagerImpl$runPostStartupActivities$3.invokeSuspend(StartupManagerImpl.kt:190)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:108)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:584)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:793)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:697)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:684)
+2024-10-10 20:53:36,299 [   2973]   WARN - #com.android.ddmlib - * daemon not running; starting now at tcp:5037
+2024-10-10 20:53:39,316 [   5990]   WARN - #com.android.ddmlib - * daemon started successfully
+2024-10-10 20:53:41,533 [   8207]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project ktor-demo-app
+2024-10-10 20:53:42,748 [   9422]   WARN - #c.i.o.v.ExternallyAddedFilesProcessorImpl - Cannot find project config directory for non-default and non-directory based project ktor-demo-app
+2024-10-10 20:53:47,677 [  14351]   WARN - #c.i.u.x.Binding - No accessors for org.jetbrains.kotlin.cli.common.arguments.InternalArgument. This means that state class cannot be serialized properly. Please see https://jb.gg/ij-psoc
+2024-10-10 20:54:09,351 [  36025] SEVERE - com.jediterm.terminal.model.TerminalTextBuffer - Attempt to get line out of bounds: 27 >= 27
+2024-10-10 20:54:09,351 [  36025] SEVERE - com.jediterm.terminal.model.TerminalTextBuffer - Attempt to get line out of bounds: 27 >= 27
+Popup message: We don't have an active payment method on file for your account. To use Supermaven Pro, please add a payment method.
+2024-10-10 20:54:33,697 [  60371]   WARN - #c.i.u.x.Binding - No accessors for com.intellij.toolWindow.ToolWindowLayoutStorageManagerState. This means that state class cannot be serialized properly. Please see https://jb.gg/ij-psoc
+2024-10-10 20:54:33,698 [  60372]   WARN - #c.i.u.x.Binding - No accessors for com.intellij.platform.feedback.impl.state.DontShowAgainFeedbackState. This means that state class cannot be serialized properly. Please see https://jb.gg/ij-psoc
+2024-10-10 20:54:33,698 [  60372]   WARN - #c.i.u.x.Binding - No accessors for com.intellij.platform.feedback.impl.state.CommonFeedbackSurveysState. This means that state class cannot be serialized properly. Please see https://jb.gg/ij-psoc
+2024-10-10 20:54:42,932 [  69606]   WARN - #c.i.i.a.CopyTBXReferenceAction - Cannot find TBX tool for IDE: AndroidStudio
+2024-10-10 20:54:50,785 [  77459]   WARN - #c.i.i.a.CopyTBXReferenceAction - Cannot find TBX tool for IDE: AndroidStudio
+2024-10-10 20:56:33,431 [ 180105] SEVERE - com.jediterm.terminal.model.TerminalTextBuffer - Attempt to get line out of bounds: 27 >= 27
+2024-10-10 20:56:33,438 [ 180112] SEVERE - com.jediterm.terminal.model.TerminalTextBuffer - Attempt to get line out of bounds: 27 >= 27
+2024-10-10 20:58:34,050 [ 300724]   WARN - #com.android.tools.idea.analytics.SystemInfoStatsMonitor - CpuInfoFlags.fromExitCode(): unknown flag values '0x80'
+project closed

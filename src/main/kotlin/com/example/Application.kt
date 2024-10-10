@@ -255,11 +255,11 @@ fun Application.configureRouting(
   routing {
     authRoutes(userService, apiKeyRepository)
 
-    authenticate("apiKeyAuth") {
-      route("/api/v1") {
+    route("/api/v1") {
         quoteRoutes(quoteService, imageUploadService)
-        dictionaryRoutes(dictionaryService)
-      }
+        authenticate("apiKeyAuth") {
+            dictionaryRoutes(dictionaryService)
+        }
     }
 
     val uploadDir = environment?.config?.propertyOrNull("upload.dir")?.getString() ?: "uploads"
