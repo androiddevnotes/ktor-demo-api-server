@@ -195,4 +195,10 @@ The application is designed to be deployed on platforms like Heroku:
 2. Use the JWT token to make a POST request to `/api/v1/api-key` to generate an API key
 3. Use the API key in subsequent requests by including it in the `X-API-Key` header
 
+## Recent Updates
+
+- Added three new dictionary entries: Algorithm, API, and Machine Learning.
+- Created a new Flyway migration script (V5) to insert these entries into the database.
+- Updated the process for populating the dictionary using the API and user's API key.
+
 For more detailed information on specific components, please refer to the individual documentation files in the `docs` directory.
