@@ -1,4 +1,4 @@
-# Steps to Run - Ktor Demo App
+# Steps to Run - Ktor Demo Api Server
 
 ## Ktor
 
